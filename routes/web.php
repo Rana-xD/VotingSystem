@@ -44,4 +44,4 @@ Route::post('user/meeting', 'SubmitvoteController@index');
 
 Route::get('dashboard', function(){
 	return view('admin.dashboard');
-});
+})->middleware('auth');
