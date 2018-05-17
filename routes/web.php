@@ -12,25 +12,24 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user.login');
 });
 
-Auth::routes();
+Route::group(['prefix' => 'admin'], function () {
+    Auth::routes();
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 //== Managing generate account user route  =========
 
-Route::get('user/login', function(){
-	return view('user.login');
-});
+// Route::get('user/login', function(){
+// 	return view('user.login');
+// });
 
 Route::post('user/login', 'UserController@index' );
 
-Route::get('user/login', function(){
-	return view('user.login');
-});
 
 Route::get('user/meeting', function(){
 	return view('user.meetingdetail');
@@ -42,6 +41,4 @@ Route::post('user/meeting', 'SubmitvoteController@index');
 
 //== Managing generate account Admin dashboard  =========
 
-Route::get('dashboard', function(){
-	return view('admin.dashboard');
-});
+Route::get('dashboard', 'Admin@index')->middleware('admin');
