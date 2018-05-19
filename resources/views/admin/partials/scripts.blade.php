@@ -2,7 +2,7 @@
 <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 
 <!--   Core JS Files   -->
-<script src="{{ asset('js/core/jquery.min.js') }}" ></script>
+<!-- <script src="{{ asset('js/core/jquery.min.js') }}" ></script> -->
 <script src="{{ asset('js/core/popper.min.js') }}" ></script>
 <script src="{{ asset('js/bootstrap-material-design.js') }}" ></script>
 <script src="{{ asset('js/plugins/perfect-scrollbar.jquery.min.js') }}" ></script>
@@ -20,7 +20,7 @@
 <script src="{{ asset('js/material-dashboard.js?v=2.0.0') }}" ></script>
 
 <!-- demo init -->
-<script src="{{ asset('js/plugins/demo.js') }}" ></script>
+<!-- <script src="{{ asset('js/plugins/demo.js') }}" ></script> -->
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -30,9 +30,9 @@
         // demo.initMaterialWizard();
 
         // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
+        // demo.initDashboardPageCharts();
 
-        demo.initCharts();
+        // demo.initCharts();
 
     });
 </script>

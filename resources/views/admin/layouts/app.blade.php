@@ -12,13 +12,10 @@
 	<!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-	<script src="{{ asset('js/app.js') }}" defer></script>
-
-<!-- 	@section('head')
+	
+	@section('head')
         @include('admin/partials/head')
-    @show -->
-
-    @yield('style')
+    @show
     
 </head>
 <body class="">
@@ -38,6 +35,8 @@
 		</main>
 
 	</div>
+	
+	<script src="{{ asset('js/app.js') }}" defer></script>
 
 	@include('admin/partials/scripts')
 

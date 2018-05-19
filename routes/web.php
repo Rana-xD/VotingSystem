@@ -12,31 +12,34 @@
 */
 
 Route::get('/', function () {
-    return view('user.login');
+	return view('user.login');
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    Auth::routes();
+	Auth::routes();
 });
 
-Route::get('user/meeting', function(){
-	return view('user.meetingdetail');
+
+Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
+	
+	Route::get('dashboard', 'Admin@index');
+
+	Route::get('meeting', 'Admin@meeting');
+
+	Route::get('meeting/add', function(){
+		return view('admin.createmeeting');
+	});
+
+	Route::post('meeting/create', function(){
+		return view('admin.meeting');
+	});
+
 });
+
+
 
 Route::post('user/meeting', 'SubmitvoteController@index');
 
-
-
-Route::group(['middleware' => ['admin']], function () {
-    
-Route::get('/dashboard', 'Admin@index');
-Route::get('admin/meeting', 'Admin@meeting');
-
-Route::get('admin/meeting/create', function(){
-	return view('admin.createmeeting');
-    });
-
-Route::post('admin/meeting/create', function(){
-	return view('admin.meeting');
-    });
+Route::get('user/meeting', function(){
+	return view('user.meetingdetail');
 });
