@@ -13,19 +13,20 @@ class CreateMeetingMastersTable extends Migration
      */
     public function up()
     {
-        Schema::create('meeting__masters', function (Blueprint $table) {
+        Schema::create('meeting_masters', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('meeting_id')->unique();
+            $table->string('meeting_uuid')->unique();
             $table->string('title')->nullable();
             $table->string('logo')->nullable();
             $table->dateTime('date_of_meeting')->nullable();
             $table->string('location')->nullable();
-            $table->time('time')->nullable();
-            $table->date('expired_date')->nullable();
+            $table->dateTime('expired_date')->nullable();
             $table->json('document')->nullable();
-            $table->text('content')->nullable();
-            $table->boolean('isExpired')->nullable();
+            $table->longText('content')->nullable();
+            $table->boolean('isExpired')->default(false);
             $table->timestamps();
+
+            $table->index('meeting_uuid');
         });
     }
 

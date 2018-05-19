@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Vote_master extends Model
+class MeetingUser extends Model
 {
-    //
+    
 }

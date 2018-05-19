@@ -15,12 +15,24 @@ class CreateVotesTable extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('vote_id');
-            $table->string('username');
+            $table->unsignedInteger('vote_master_id');
+            $table->string('username')->nullable();
             $table->boolean('isAppointed')->nullable();
             $table->string('proxy')->nullable();
             $table->json('vote')->nullable();
             $table->timestamps();
+
+            $table->foreign('vote_master_id')
+            ->references('id')
+            ->on('vote_masters')
+            ->onDelete('CASCADE')
+            ->onUpdate('CASCADE');
+
+            $table->foreign('username')
+            ->references('username')
+            ->on('users')
+            ->onDelete('CASCADE')
+            ->onUpdate('CASCADE');
         });
     }
 
