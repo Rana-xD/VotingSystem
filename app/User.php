@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable
 {
+	use Notifiable, SoftDeletes;
 
-	use Notifiable;
 	protected $keyType = 'string';
 	protected $primaryKey = 'username';
 	/**
@@ -50,5 +50,8 @@ class User extends Authenticatable
 		return $this->belongsTo('App\MeetingMaster', 'meeting_uuid', 'meeting_uuid');
 	}
 
+	public function accountInfo() {
+		return $this->hasOne('App\VoterInfo', 'username');
+	}
 
 }
