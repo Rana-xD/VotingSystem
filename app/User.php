@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+
 	use Notifiable;
 	protected $keyType = 'string';
 	protected $primaryKey = 'username';
@@ -48,5 +49,6 @@ class User extends Authenticatable
 	public function forMeeting() {
 		return $this->belongsTo('App\MeetingMaster', 'meeting_uuid', 'meeting_uuid');
 	}
+
 
 }

@@ -7,7 +7,7 @@
             </a>
         </li>
         <li class="nav-item ">
-            <a class="nav-link" href="{{ url('test/meeting') }}">
+            <a class="nav-link" href="{{ url('admin/meeting') }}">
                 <i class="material-icons">content_paste</i>
                 <p>Create Meeting</p>
             </a>
