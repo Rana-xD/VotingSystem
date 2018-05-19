@@ -27,7 +27,7 @@
                             <label for="username" class="col-sm-4 col-form-label text-md-right">{{ __('HIN/SRN') }}</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required autofocus>
+                                <input id="username" type="text" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required autofocus>
 
                                 @if ($errors->has('username'))
                                     <span class="invalid-feedback">
@@ -41,7 +41,7 @@
                             <label for="meetingid" class="col-md-4 col-form-label text-md-right">{{ __('MeetingID') }}</label>
 
                             <div class="col-md-6">
-                                <input id="meetingid" type="meetingid" class="form-control{{ $errors->has('meetingid') ? ' is-invalid' : '' }}" name="meetingid" required>
+                                <input id="meetingid" type="meetingid" class="form-control{{ $errors->has('meetingid') ? ' is-invalid' : '' }}" name="meetingid">
 
                                 @if ($errors->has('meetingid'))
                                     <span class="invalid-feedback">

@@ -19,52 +19,24 @@ Route::group(['prefix' => 'admin'], function () {
     Auth::routes();
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-
-//== Managing generate account user route  =========
-
-// Route::get('user/login', function(){
-// 	return view('user.login');
-// });
-
-Route::post('user/login', 'UserController@index' );
-
-
 Route::get('user/meeting', function(){
 	return view('user.meetingdetail');
 });
 
 Route::post('user/meeting', 'SubmitvoteController@index');
 
-// =================================================
 
-//== Managing generate account Admin dashboard  =========
 
-Route::get('dashboard', 'Admin@index');
-// ->middleware('admin');
+Route::group(['middleware' => ['admin']], function () {
+    
+Route::get('/dashboard', 'Admin@index');
+Route::get('admin/meeting', 'Admin@meeting');
 
-//=========== test ==============
-Route::get('test/dashboard', function(){
-	return view('admin.dashboard');
-});
-
-Route::get('test/meeting', function(){
-	return view('admin.meeting');
-});
-
-Route::get('test/meeting/create', function(){
+Route::get('admin/meeting/create', function(){
 	return view('admin.createmeeting');
-});
+    });
 
-Route::post('test/meeting/create', function(){
+Route::post('admin/meeting/create', function(){
 	return view('admin.meeting');
+    });
 });
-
-Route::get('test/user', function(){
-	return view('admin.users');
-});
-
-
-//==================================
-

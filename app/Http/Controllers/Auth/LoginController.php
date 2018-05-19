@@ -41,4 +41,9 @@ class LoginController extends Controller
     {
         return 'username';
     }
+
+    protected function redirectTo()
+    {
+    return '/dashboard';
+    }
 }

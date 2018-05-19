@@ -13,6 +13,12 @@ class Admin extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+        
+            return view('admin.dashboard');
+    }
+
+    public function meeting()
+    {
+        return view('admin.meeting');
     }
 }
