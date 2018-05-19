@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable
 {
 	use Notifiable, SoftDeletes;
+
 	protected $keyType = 'string';
 	protected $primaryKey = 'username';
 	/**
@@ -52,4 +53,5 @@ class User extends Authenticatable
 	public function accountInfo() {
 		return $this->hasOne('App\VoterInfo', 'username');
 	}
+
 }
