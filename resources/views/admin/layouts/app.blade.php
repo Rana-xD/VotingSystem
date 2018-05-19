@@ -12,6 +12,8 @@
 	<!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+	<script src="{{ asset('js/app.js') }}" defer></script>
+
 <!-- 	@section('head')
         @include('admin/partials/head')
     @show -->
@@ -27,16 +29,15 @@
 			
 			@yield('sidebar')
 
-		</div>
+		</div>	
 		
-		<div class="app">
+
 		<main class="main-panel py-4">
 			@yield('mainpanel')
+			
 		</main>
-		</div>
-	
-	</div>
 
+	</div>
 
 	@include('admin/partials/scripts')
 

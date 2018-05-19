@@ -1,13 +1,15 @@
 @extends('admin.layouts.app')
 
-
+@section('style')
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+@endsection
 
 @section('head')
 	@parent
 @endsection
 
 @section('mainpanel')
-
+	
 	<div class="msf-container">
 		<div class="container">
 			<div class="row">

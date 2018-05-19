@@ -41,7 +41,8 @@ Route::post('user/meeting', 'SubmitvoteController@index');
 
 //== Managing generate account Admin dashboard  =========
 
-Route::get('dashboard', 'Admin@index')->middleware('admin');
+Route::get('dashboard', 'Admin@index');
+// ->middleware('admin');
 
 //=========== test ==============
 Route::get('test/dashboard', function(){
