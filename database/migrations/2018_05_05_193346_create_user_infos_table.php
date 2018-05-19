@@ -13,13 +13,19 @@ class CreateUserInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_infos', function (Blueprint $table) {
+        Schema::create('voter_infos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('username');
             $table->json('address')->nullable();
             $table->integer('number_of_share')->nullable();
             $table->string('postal_code')->nullable();
             $table->timestamps();
+
+            $table->foreign('username')
+            ->references('username')
+            ->on('users')
+            ->onDelete('CASCADE')
+            ->onUpdate('CASCADE');
         });
     }
 

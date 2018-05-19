@@ -15,10 +15,16 @@ class CreateVoteMastersTable extends Migration
     {
         Schema::create('vote_masters', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('meeting_id');
-            $table->json('vote')->nullable();
-            $table->string('role')->nullable();
+            $table->string('meeting_uuid')->nullable();
+            $table->json('vote_setting')->nullable();
+            $table->enum('voter_role', ['NOMINEE', 'SHARE_HOLDER'])->nullable();
             $table->timestamps();
+
+            $table->foreign('meeting_uuid')
+            ->references('meeting_uuid')
+            ->on('meeting_masters')
+            ->onDelete('CASCADE')
+            ->onUpdate('CASCADE');
         });
     }
 
