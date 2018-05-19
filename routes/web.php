@@ -43,5 +43,27 @@ Route::post('user/meeting', 'SubmitvoteController@index');
 
 Route::get('dashboard', 'Admin@index')->middleware('admin');
 
+//=========== test ==============
+Route::get('test/dashboard', function(){
+	return view('admin.dashboard');
+});
 
+Route::get('test/meeting', function(){
+	return view('admin.meeting');
+});
+
+Route::get('test/meeting/create', function(){
+	return view('admin.createmeeting');
+});
+
+Route::post('test/meeting/create', function(){
+	return view('admin.meeting');
+});
+
+Route::get('test/user', function(){
+	return view('admin.users');
+});
+
+
+//==================================
 

@@ -22,7 +22,6 @@
 <!-- demo init -->
 <script src="{{ asset('js/plugins/demo.js') }}" ></script>
 
-
 <script type="text/javascript">
     $(document).ready(function() {
 
