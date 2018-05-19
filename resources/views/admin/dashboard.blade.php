@@ -1,3 +1,7 @@
 @extends('admin.layouts.app')
 
-@yield('title', 'Dashboard')
+@section('sidebar')
+
+	@include('admin/partials/sidebar')
+	
+@endsection
