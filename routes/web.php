@@ -19,21 +19,17 @@ Route::group(['prefix' => 'admin'], function () {
 	Auth::routes();
 });
 
-
-Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
+//['middleware' => ['admin'],
+Route::group( ['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	
 	Route::get('dashboard', 'Admin@index');
 
-	Route::get('meeting', 'Admin@meeting');
-
-	Route::get('meeting/add', function(){
-		return view('admin.createmeeting');
-	});
-
-	Route::post('meeting/create', function(){
-		return view('admin.meeting');
-	});
-
+	Route::get('meeting', 'Admin@meeting')->name('meetings');
+	Route::get('meeting/add', 'Admin\MeetingController@showCreateForm')->name('meetings.add.form');
+	Route::post('meeting/add', 'Admin\MeetingController@addMeeting')->name('meeting.add.submit');
+	Route::get('meeting/edit/{uuid}', 'Admin\MeetingController@showEditForm')->name('meetings.edit.form');
+	Route::post('meeting/edit/{uuid}', 'Admin\MeetingController@editMeeting')->name('meeting.edit.submit');
+	Route::delete('meeting/delete', 'Admin\MeetingController@deleteMeeting')->name('meeting.delete');
 });
 
 

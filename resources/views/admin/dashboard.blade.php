@@ -1,7 +1,9 @@
 @extends('admin.layouts.app')
 
-@section('sidebar')
-
-	@include('admin/partials/sidebar')
-	
+@section('mainpanel')
+<div class="container">
+	<div class="row">
+		
+	</div>
+</div>
 @endsection

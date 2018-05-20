@@ -17,12 +17,11 @@ class MeetingMaster extends Model
  		'logo',
  		'date_of_meeting',
  		'location',
- 		'time',
  		'document',
  		'content',
  	];
 
- 	$protected $dates = [
+ 	protected $dates = [
  		'date_of_meeting',
  		'created_at',
  		'updated_at',
@@ -58,7 +57,7 @@ class MeetingMaster extends Model
  			'meeting_uuid',
  			'vote_master_id',
  			'meeting_uuid',
- 			'id',
+ 			'id'
  		);
  	}
 

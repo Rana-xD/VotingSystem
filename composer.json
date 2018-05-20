@@ -9,10 +9,6 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0"
-<<<<<<< HEAD
-=======
-
->>>>>>> 93b5d7af67838e469f610a5cc921b7b9f4e115e9
     },
     "require-dev": {
         "filp/whoops": "^2.0",
