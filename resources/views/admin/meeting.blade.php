@@ -7,7 +7,6 @@
 @section('mainpanel')
 
 @include('admin/partials/navpanel')
-
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
@@ -63,10 +62,7 @@
 		</div>
 	</div>
 </div>
-
-
 @endsection
-
 @section('sidebar')
 @include('admin/partials/sidebar')
 @endsection

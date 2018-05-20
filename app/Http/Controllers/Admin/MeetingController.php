@@ -12,6 +12,20 @@ use Session;
 
 class MeetingController extends Controller
 {
+	protected $paginate_num = 20;
+	/**
+	 * Show list of registered meeting.
+	 * @param  Illuminate\Http\Request $request
+	 * @return \View
+	 */
+	public function showMeetingLists(Request $request) {
+		$meetings = MeetingMaster::orderBy('created_at', 'asc')
+								->paginate($this->paginate_num);
+		return view('admin.meeting.list_entries')->with([
+			'meetings' => $meetings,
+		]);
+	}
+
     public function showCreateForm(Request $request) {
     	return view('admin.meeting.create');
     }
