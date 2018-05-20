@@ -30,10 +30,21 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 		return view('admin.createmeeting');
 	});
 
-	Route::post('meeting/create', function(){
+	Route::post('meeting/add', function(){
 		return view('admin.meeting');
 	});
 
+	Route::get('voter', function(){
+		return view('admin.voter');
+	});
+
+	Route::get('voter/add', function(){
+		return view('admin.createvoter');
+	});
+
+	// Route::post('voter/add', function(){
+	// 	return view('admin.meeting');
+	// });
 });
 
 

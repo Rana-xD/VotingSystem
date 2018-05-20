@@ -1,7 +1,7 @@
 <div class="sidebar-wrapper">
     <ul class="nav">
         <li class="nav-item active ">
-            <a class="nav-link" href="{{ url('test/dashboard') }}">
+            <a class="nav-link" href="{{ url('admin/dashboard') }}">
                 <i class="material-icons">dashboard</i>
                 <p>Dashboard</p>
             </a>
@@ -13,7 +13,7 @@
             </a>
         </li>
         <li class="nav-item ">
-            <a class="nav-link" href="{{ url('test/user') }}">
+            <a class="nav-link" href="{{ url('admin/voter') }}">
                 <i class="material-icons">person</i>
                 <p>Shareholder/Nominee</p>
             </a>
