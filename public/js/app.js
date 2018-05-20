@@ -11170,7 +11170,17 @@ __webpack_require__(11);
 
 
 window._ = __webpack_require__(12);
-
+/**
+ * Format string
+ */
+if (!String.prototype.format) {
+  String.prototype.format = function () {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function (match, number) {
+      return typeof args[number] != 'undefined' ? args[number] : match;
+    });
+  };
+}
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -11180,6 +11190,8 @@ window._ = __webpack_require__(12);
 try {
   window.$ = window.jQuery = __webpack_require__(3);
   __webpack_require__(14);
+  window.Moment = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"moment\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+  __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"selectize\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 } catch (e) {}
 
 /**
@@ -11202,6 +11214,11 @@ var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-Token': token.content
+    }
+  });
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }

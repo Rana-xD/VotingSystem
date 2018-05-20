@@ -20,5 +20,10 @@
         "lodash": "^4.17.4",
         "popper.js": "^1.12",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "moment": "^2.22.1",
+        "selectize": "^0.12.4",
+        "sweetalert": "^2.1.0"
     }
 }

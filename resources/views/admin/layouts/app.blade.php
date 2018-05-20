@@ -1,44 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@yield('title')</title>
-	
-	<!-- CSRF Token -->
-	<meta name="csrf-token" content="{{ csrf_token() }}">
-
-	<!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
-	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-	
-	@section('head')
-        @include('admin/partials/head')
-    @show
-    
+  @includeIf('admin/partials/head')
 </head>
 <body class="">
-	
+	<div class="spinner-wrapper">
+		<div class="spinner">
+	  	<div class="bounce1"></div>
+	  	<div class="bounce2"></div>
+	  	<div class="bounce3"></div>
+		</div>
+	</div>
 	<div class="wrapper">
-
 		<div class="sidebar" data-color="purple">
-			
-			@yield('sidebar')
-
+			@includeIf('admin/partials/sidebar')
 		</div>	
-		
-
 		<main class="main-panel py-4">
 			@yield('mainpanel')
-			
 		</main>
-
 	</div>
-	
-	<script src="{{ asset('js/app.js') }}" defer></script>
-
-	@include('admin/partials/scripts')
-
+	<script src="{{ asset('js/app.js') }}"></script>
+	@includeIf('admin/partials/scripts')
+	<script type="text/javascript">
+		$(document).ready(function(e) {
+			$('input').addClass('form-control')
+		});
+	</script>
 </body>
 </html>
