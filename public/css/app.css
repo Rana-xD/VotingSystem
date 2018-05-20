@@ -10500,3 +10500,20 @@ a.text-dark:focus {
   }
 }
 
+.form-control:focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.invalid-form-validation {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #f44336;
+}
+
+.AddMeeting .bmd-form-group .bmd-label-static {
+  top: 0.6125rem;
+}
+

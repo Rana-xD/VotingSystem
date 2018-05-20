@@ -14,8 +14,10 @@ class MeetingMaster extends Model
  	protected $fillable = [
  		'meeting_uuid',
  		'title',
+ 		'company_name',
  		'logo',
  		'date_of_meeting',
+ 		'expired_date',
  		'location',
  		'document',
  		'content',

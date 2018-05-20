@@ -24,8 +24,25 @@
 										<div class="col-md-12">
 											<div data-error-for="title" class="AddMeeting__status-message status-message error">
 												@if ($errors->has('title'))
-												<span class="invalid-feedback uk-text-small">
+												<span class="invalid-form-validation text-small">
 													{{ $errors->first('title') }}
+												</span>
+												@endif
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="AddMeeting__label">Company Name</label>
+												<input type="text" name="company_name" class="AddMeeting__input text form-control">
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div data-error-for="company_name" class="AddMeeting__status-message status-message error">
+												@if ($errors->has('company_name'))
+												<span class="invalid-form-validation text-small">
+													{{ $errors->first('company_name') }}
 												</span>
 												@endif
 											</div>
@@ -47,7 +64,7 @@
 										<div class="col-md-12">
 											<div data-error-for="date_of_meeting" class="AddMeeting__status-message status-message error">
 												@if ($errors->has('date_of_meeting'))
-												<span class="invalid-feedback uk-text-small">
+												<span class="invalid-form-validation text-small">
 													{{ $errors->first('date_of_meeting') }}
 												</span>
 												@endif
@@ -70,7 +87,7 @@
 										<div class="col-md-12">
 											<div data-error-for="expired_date" class="AddMeeting__status-message status-message error">
 												@if ($errors->has('expired_date'))
-												<span class="invalid-feedback uk-text-small">
+												<span class="invalid-form-validation text-small">
 													{{ $errors->first('expired_date') }}
 												</span>
 												@endif
@@ -87,7 +104,7 @@
 										<div class="col-md-12">
 											<div data-error-for="location" class="AddMeeting__status-message status-message error">
 												@if ($errors->has('location'))
-												<span class="invalid-feedback uk-text-small">
+												<span class="invalid-form-validation text-small">
 													{{ $errors->first('location') }}
 												</span>
 												@endif
@@ -111,7 +128,7 @@
 										<div class="col-md-12">
 											<div data-error-for="logo" class="AddMeeting__status-message status-message error">
 												@if ($errors->has('logo'))
-												<span class="invalid-feedback uk-text-small">
+												<span class="invalid-form-validation text-small">
 													{{ $errors->first('logo') }}
 												</span>
 												@endif

@@ -25,6 +25,7 @@ class StoreMeetingRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:5|max:255',
+            'company_name' => 'string|min:5,max:255|nullable',
             'logo' => 'string|nullable',
             'date_of_meeting' => 'date|nullable',
             'expired_date' => 'date|different:date_of_meeting|nullable',

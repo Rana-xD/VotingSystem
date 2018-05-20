@@ -23,7 +23,6 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group( ['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	
 	Route::get('dashboard', 'Admin@index');
-
 	Route::get('voter', function(){
 		return view('admin.voter');
 	});
@@ -36,7 +35,7 @@ Route::group( ['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	// 	return view('admin.meeting');
 	// });
 
-	Route::get('meeting', 'Admin@meeting')->name('meetings');
+	Route::get('meeting', 'Admin\MeetingController@showMeetingLists')->name('meetings');
 	Route::get('meeting/add', 'Admin\MeetingController@showCreateForm')->name('meetings.add.form');
 	Route::post('meeting/add', 'Admin\MeetingController@addMeeting')->name('meeting.add.submit');
 	Route::get('meeting/edit/{uuid}', 'Admin\MeetingController@showEditForm')->name('meetings.edit.form');
