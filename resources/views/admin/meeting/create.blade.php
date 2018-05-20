@@ -167,6 +167,121 @@
 		</div>
 	</div>
 </div>
+
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Add Voter</h4>
+                    </div>
+                    <div class="card-body">
+                        <form ">
+                            <div class="row">
+                            	<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >HIN/SRN</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >Shareholder Name</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >Security</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >Postal Code</label>
+                                        <input type='text' class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >Address 1</label>
+                                        <input type='text' class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >Address 2</label>
+                                        <input type='text' class="form-control" />
+                                    </div>
+                                </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label >Type</label>
+                                        <select class="form-control">
+                                            <option selected>Unknown</option>
+                                            <option>NOMINEE</option>
+                                            <option>SHAREHOLDER</option>
+                                          </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <br/><br/>
+
+                            <button type="submit" class="btn btn-danger pull-right">Save &#38; Close</button>
+                            <button type="submit" class="btn btn-warning pull-right">Save &#38; New</button>
+                            
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>	
+
+
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Add Resolution</h4>
+                        <p>Voting resolution questions</p>
+                    </div>
+                    <div class="card-body">
+                        <form ">
+                            <div class="row" id="resolutionQuestionEntry">
+                            	<div class="col-md-12 resolutionParent">
+                                    <div class="form-group">
+                                        <label >Resolution</label>
+                                        <input type="text" class="form-control resolutionQuestionInput">
+                                    </div>
+                                </div>
+                            </div>
+							
+
+                            <br/><br/>
+                            <div class="row">
+                            	<div class="col">
+                            		<button type="submit" class="btn btn-danger pull-right">Save</button>
+                            		<button id="btnAddResolution" type="button" class="btn btn-primary pull-right">Add more</button>
+                            	</div>
+                            </div>
+                            
+                            
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>	
+
 @includeIf('admin.partials.filemanager_dialog')	
 @endsection
 @section('execute_script')
@@ -246,6 +361,10 @@
   	}
   	jQuery(document).ready(function($) {
   		$('#AddMeeting__form').on('submit', DP.main.addMeetingFormSubmitHandler);
+  		// Add Resolution handler
+  		$('#btnAddResolution').on('click', DP.main.addResolutionQuestion);
   	});
+
+
 </script>
 @endsection

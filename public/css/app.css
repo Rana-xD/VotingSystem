@@ -10517,3 +10517,13 @@ a.text-dark:focus {
   top: 0.6125rem;
 }
 
+.noChildEventPointer > * {
+  pointer-events: none;
+}
+
+.resolutionParent .close {
+  position: absolute;
+  right: 0px;
+  top: 0;
+}
+

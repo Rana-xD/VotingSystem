@@ -231,6 +231,25 @@ if(!DP.main) DP.main = {};
 		$('.uploadFile').on('click', DP.main.handleFilemanagerUploadBtn);
 	}
 
+	func.addResolutionQuestion = function(e) {
+		e.preventDefault();
+		console.log('resolutionQuestionEntry Clicked');
+		// Upoad file dialog
+		$('#resolutionQuestionEntry').append(`
+			<div class="col-md-12 resolutionParent">
+	            <div class="form-group ">
+	                <label >Resolution</label>
+	                <input type="text" class="form-control resolutionQuestionInput">
+	                <button type="button" class="close noChildEventPointer" aria-label="Close" onclick="DP.utils.removeSelfParentDOM(event, '.resolutionParent')">
+	                	  <span aria-hidden="true">&times;</span>
+	                </button>
+	            </div>
+	        </div>
+		`);
+	}
+
+	
+
 })(jQuery);
 
 jQuery(document).ready(function($) {
@@ -310,6 +329,14 @@ if(!DP.utils) DP.utils = {};
 		e.preventDefault();
 		console.log("clicked");
 		$("#fileManagerModal").modal('hide');
+	}
+
+	func.removeSelfParentDOM = function(e, parentSelector) {
+		e.preventDefault();
+		var $parent = $(e.target).parents(parentSelector)[0]
+		if($parent){
+			$parent.remove();
+		}
 	}
 	
 })(jQuery);

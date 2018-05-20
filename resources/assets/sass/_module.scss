@@ -86,3 +86,15 @@
 		}
 	}
 }
+
+.noChildEventPointer{
+	>*{
+		pointer-events: none;
+	}
+}
+
+.resolutionParent .close{
+	position: absolute;
+    right: 0px;
+    top: 0;
+}

@@ -73,5 +73,13 @@ if(!DP.utils) DP.utils = {};
 		console.log("clicked");
 		$("#fileManagerModal").modal('hide');
 	}
+
+	func.removeSelfParentDOM = function(e, parentSelector) {
+		e.preventDefault();
+		var $parent = $(e.target).parents(parentSelector)[0]
+		if($parent){
+			$parent.remove();
+		}
+	}
 	
 })(jQuery);
