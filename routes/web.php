@@ -23,6 +23,17 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group( ['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	
 	Route::get('dashboard', 'Admin@index');
+	Route::get('voter', function(){
+		return view('admin.voter');
+	});
+
+	Route::get('voter/add', function(){
+		return view('admin.createvoter');
+	});
+
+	// Route::post('voter/add', function(){
+	// 	return view('admin.meeting');
+	// });
 
 	Route::get('meeting', 'Admin\MeetingController@showMeetingLists')->name('meetings');
 	Route::get('meeting/add', 'Admin\MeetingController@showCreateForm')->name('meetings.add.form');
