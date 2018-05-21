@@ -32,18 +32,18 @@
  *
  * ========================================================= */
 
-(function() {
-    isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
+// (function($) {
+//     isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 
-    if (isWindows && !$('body').hasClass('sidebar-mini')) {
-        // if we are on windows OS we activate the perfectScrollbar function
-        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+//     if (isWindows && !$('body').hasClass('sidebar-mini')) {
+//         // if we are on windows OS we activate the perfectScrollbar function
+//         $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
 
-        $('html').addClass('perfect-scrollbar-on');
-    } else {
-        $('html').addClass('perfect-scrollbar-off');
-    }
-})();
+//         $('html').addClass('perfect-scrollbar-on');
+//     } else {
+//         $('html').addClass('perfect-scrollbar-off');
+//     }
+// })(jQuery);
 
 var breakCards = true;
 
@@ -212,10 +212,6 @@ $(window).resize(function() {
 
     // reset the seq for charts drawing animations
     seq = seq2 = 0;
-
-    setTimeout(function() {
-        demo.initDashboardPageCharts();
-    }, 500);
 });
 
 md = {

@@ -1,7 +1,7 @@
 <div class="sidebar-wrapper">
     <ul class="nav">
         <li class="nav-item active ">
-            <a class="nav-link" href="{{ url('test/dashboard') }}">
+            <a class="nav-link" href="{{ url('admin/dashboard') }}">
                 <i class="material-icons">dashboard</i>
                 <p>Dashboard</p>
             </a>
@@ -9,11 +9,17 @@
         <li class="nav-item ">
             <a class="nav-link" href="{{ url('admin/meeting') }}">
                 <i class="material-icons">content_paste</i>
+                <p>Meeting Entry</p>
+            </a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link" href="{{ url('admin/meeting/add') }}">
+                <i class="material-icons">content_paste</i>
                 <p>Create Meeting</p>
             </a>
         </li>
         <li class="nav-item ">
-            <a class="nav-link" href="{{ url('test/user') }}">
+            <a class="nav-link" href="{{ url('admin/voter') }}">
                 <i class="material-icons">person</i>
                 <p>Shareholder/Nominee</p>
             </a>
