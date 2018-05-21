@@ -47,9 +47,7 @@ class User extends Authenticatable
 		return $this->role === self::SHAREHOLDER_TYPE;
 	}
 
-	public function forMeeting() {
-		return $this->belongsTo('App\MeetingMaster', 'meeting_uuid', 'meeting_uuid');
-	}
+
 
 	public function accountInfo() {
 		return $this->hasOne('App\VoterInfo', 'username');

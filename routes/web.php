@@ -19,13 +19,9 @@ Route::group(['prefix' => 'admin'], function () {
 	Auth::routes();
 });
 
-<<<<<<< HEAD
+
 //********************* Admin route ***************************
 Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
-=======
-//['middleware' => ['admin'],
-Route::group( ['middleware' => ['admin'], 'prefix' => 'admin'], function () {
->>>>>>> c078b6875fa3e9a3fcd65aad3afb89a86d595c81
 	
 	Route::get('dashboard', 'Admin@index');
 	Route::get('voter', function(){
