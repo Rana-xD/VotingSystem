@@ -19,7 +19,7 @@ Route::group(['prefix' => 'admin'], function () {
 	Auth::routes();
 });
 
-
+//********************* Admin route ***************************
 Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	
 	Route::get('dashboard', 'Admin@index');
@@ -36,7 +36,9 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 
 });
 
+// ********************** User Route **********************
 
+Route::post('userlogin','User@login');
 
 Route::post('user/meeting', 'SubmitvoteController@index');
 

@@ -33,6 +33,7 @@ class User extends Authenticatable
 	const NOMINEE_TYPE = 'NOMINEE';
 	const SHAREHOLDER_TYPE = 'SHARE_HOLDER';
 
+   
 	public function isAdmin()
 	{
 		return $this->role === self::ADMIN_TYPE;
