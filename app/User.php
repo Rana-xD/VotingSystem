@@ -17,7 +17,7 @@ class User extends Authenticatable
 	 * @var array
 	 */
 	protected $fillable = [
-		'username', 'password', 'role', 'plain_password',
+		'username', 'password', 'role',
 	];
 
 	/**
@@ -26,7 +26,7 @@ class User extends Authenticatable
 	 * @var array
 	 */
 	protected $hidden = [
-		'plain_password', 'password', 'remember_token',
+		'password', 'remember_token',
 	];
 
 	const ADMIN_TYPE = 'ADMIN';

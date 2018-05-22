@@ -22,3 +22,4 @@ class User extends Controller
         return "Hi Khos";
     }
 }
+1

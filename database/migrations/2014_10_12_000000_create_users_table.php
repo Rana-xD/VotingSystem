@@ -17,7 +17,6 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('username')->unique();
             $table->string('password')->nullable();
-            $table->string('plain_password');
             $table->enum('role', ['ADMIN', 'NOMINEE', 'SHARE_HOLDER']);
             $table->rememberToken();
             $table->softDeletes();
