@@ -19,8 +19,9 @@ Route::group(['prefix' => 'admin'], function () {
 	Auth::routes();
 });
 
-//['middleware' => ['admin'],
-Route::group( ['middleware' => ['admin'], 'prefix' => 'admin'], function () {
+
+//********************* Admin route ***************************
+Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	
 	Route::get('dashboard', 'Admin@index');
 	Route::get('voter', function(){
@@ -43,7 +44,9 @@ Route::group( ['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	Route::delete('meeting/delete', 'Admin\MeetingController@deleteMeeting')->name('meeting.delete');
 });
 
+// ********************** User Route **********************
 
+Route::post('userlogin','User@login');
 
 Route::post('user/meeting', 'SubmitvoteController@index');
 

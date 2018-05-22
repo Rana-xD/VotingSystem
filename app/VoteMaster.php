@@ -16,7 +16,7 @@ class VoteMaster extends Model
 	];
     protected $casts = [
     	'vote_setting' => 'array',
-    ]
+	];
 
     public function onMeeting() {
     	return $this->belongsTo('App\MeetingMaster', 'meeting_uuid', 'meeting_uuid');

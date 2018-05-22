@@ -33,6 +33,7 @@ class User extends Authenticatable
 	const NOMINEE_TYPE = 'NOMINEE';
 	const SHAREHOLDER_TYPE = 'SHARE_HOLDER';
 
+   
 	public function isAdmin()
 	{
 		return $this->role === self::ADMIN_TYPE;
@@ -46,9 +47,7 @@ class User extends Authenticatable
 		return $this->role === self::SHAREHOLDER_TYPE;
 	}
 
-	public function forMeeting() {
-		return $this->belongsTo('App\MeetingMaster', 'meeting_uuid', 'meeting_uuid');
-	}
+
 
 	public function accountInfo() {
 		return $this->hasOne('App\VoterInfo', 'username');
