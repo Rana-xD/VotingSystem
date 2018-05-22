@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('mainpanel')
+
 <div class="content AddMeeting">
 	<div class="container">
 		<div class="row">
@@ -9,6 +10,14 @@
 					<div class="card-header card-header-primary">
 						<h4 class="card-title">Create Metting</h4>
 						<p class="card-category">Register a meeting for client</p>
+						<div class="addContainer pull-right">
+							<button type="button" class="btn btn-success btnAddUser "  data-toggle="modal" data-target="#addUserForm">
+								<span aria-hidden="true">Add User</span>
+							</button>
+							<button type="button" class="btn btn-success btnAddResolution" data-toggle="modal" data-target="#addResolutionForm" >
+								<span aria-hidden="true">Add Resolution</span>
+							</button>
+						</div>
 					</div>
 					<div class="card-body">
 						<form class="custom-form AddMeeting__form" id="AddMeeting__form" action="{{ route('meeting.add.submit') }}">
@@ -168,203 +177,247 @@
 	</div>
 </div>
 
-<div class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header card-header-primary">
-                        <h4 class="card-title">Add Voter</h4>
-                    </div>
-                    <div class="card-body">
-                        <form ">
-                            <div class="row">
-                            	<div class="col-md-6">
-                                    <div class="form-group">
-                                        <label >HIN/SRN</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label >Shareholder Name</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label >Security</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label >Postal Code</label>
-                                        <input type='text' class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label >Address 1</label>
-                                        <input type='text' class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label >Address 2</label>
-                                        <input type='text' class="form-control" />
-                                    </div>
-                                </div>
-                                 <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label >Type</label>
-                                        <select class="form-control">
-                                            <option selected>Unknown</option>
-                                            <option>NOMINEE</option>
-                                            <option>SHAREHOLDER</option>
-                                          </select>
-                                    </div>
-                                </div>
+<!-- Modal -->
+<div class="modal fade" id="addUserForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			
+			<div class="modal-body">
 
-                            </div>
+				<div class="container">	
+					<ul class="nav nav-pills">
+						<li class="nav-item">
+							<a  href="#addNewUser" data-toggle="tab">Add New User</a>
+						</li class="nav-item">
+						<li><a href="#addExistingUser" data-toggle="tab">Add Existing User</a>
+						</li>
+					</ul>
 
-                            <br/><br/>
+					<div class="tab-content ">
+						<div class="tab-pane active" id="addNewUser">
+							<div class="content" id="addUserForm">
+								<div class="container">
+									<div class="row">
+										<div class="col">
+											<div class="card">
+												<div class="card-header card-header-primary">
+													<h4 class="card-title">Add Voter</h4>
+												</div>
+												<div class="card-body">
+													<form ">
+														<div class="row">
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label >HIN/SRN</label>
+																	<input type="text" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label >Shareholder Name</label>
+																	<input type="text" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label >Security</label>
+																	<input type="text" class="form-control">
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label >Postal Code</label>
+																	<input type='text' class="form-control" />
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label >Address 1</label>
+																	<input type='text' class="form-control" />
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label >Address 2</label>
+																	<input type='text' class="form-control" />
+																</div>
+															</div>
+															<div class="col-md-4">
+																<div class="form-group">
+																	<label >Type</label>
+																	<select class="form-control">
+																		<option selected>Unknown</option>
+																		<option>NOMINEE</option>
+																		<option>SHAREHOLDER</option>
+																	</select>
+																</div>
+															</div>
 
-                            <button type="submit" class="btn btn-danger pull-right">Save &#38; Close</button>
-                            <button type="submit" class="btn btn-warning pull-right">Save &#38; New</button>
-                            
-                            <div class="clearfix"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>	
+														</div>
 
+														<br/><br/>
 
-<div class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header card-header-primary">
-                        <h4 class="card-title">Add Resolution</h4>
-                        <p>Voting resolution questions</p>
-                    </div>
-                    <div class="card-body">
-                        <form ">
-                            <div class="row" id="resolutionQuestionEntry">
-                            	<div class="col-md-12 resolutionParent">
-                                    <div class="form-group">
-                                        <label >Resolution</label>
-                                        <input type="text" class="form-control resolutionQuestionInput">
-                                    </div>
-                                </div>
-                            </div>
-							
+														<button type="submit" class="btn btn-danger pull-right" data-dismiss="modal">Save &#38; Close</button>
+														<button type="submit" class="btn btn-warning pull-right" >Save &#38; New</button>
 
-                            <br/><br/>
-                            <div class="row">
-                            	<div class="col">
-                            		<button type="submit" class="btn btn-danger pull-right">Save</button>
-                            		<button id="btnAddResolution" type="button" class="btn btn-primary pull-right">Add more</button>
-                            	</div>
-                            </div>
-                            
-                            
-                            <div class="clearfix"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>	
+														<div class="clearfix"></div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="addExistingUser">
+							<h3>Notice the gap between the content and tab after applying a background color</h3>
+						</div>
+					</div>
+				</div>
 
-@includeIf('admin.partials.filemanager_dialog')	
-@endsection
-@section('execute_script')
-<script type="text/javascript" src="{{ asset('/admins/plugins/tinymce/tinymce.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/admins/plugins/tinymce/tinymce-config.js') }}"></script>
-<script>
-  function responsive_filemanager_callback(field_id){
-      var imageUrl="",
-         imgArr = [],
-         domain = "{{ URL('/') }}";
-      switch(field_id){
-         case 'txtFeaturedImage':
-            imageUrl = $('#'+field_id).val();
-            imageUrl = imageUrl.replace(domain,'');
-            $('#imagePreviewDiv').empty().append(
-               '<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'
-            );
-              break;
-          case 'txtMultiImages':
-              imageUrl = $('#'+field_id).val();
-              imageUrl = imageUrl.replace(domain,'');
-              imgArr.push(imageUrl);
-              $('#slideImagesPreviewDiv img').each(function(i,k,v){
-                  var imgSrc = $(this).attr('src');
-                  imgArr.push(imgSrc);
-              });
-              $('#slideImgs').val(JSON.stringify(imgArr));
-              $('#slideImagesPreviewDiv').append(''+
-                  '<div class="img_slide__outer">'+
-                      '<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'+
-                      '<span class="btnRmSlideImg">'+
-                          '<i class="fa fa-remove"></i>'+
-                      '</span>'+
-                  '</div>'+
-              '');
-              break;
-            case 'txtMultiImages':
-              imageUrl = $('#'+field_id).val();
-              imageUrl = imageUrl.replace(domain,'');
-              imgArr.push(imageUrl);
-              $('#slideImagesPreviewDiv img').each(function(i,k,v){
-                  var imgSrc = $(this).attr('src');
-                  imgArr.push(imgSrc);
-              });
-              $('#slideImgs').val(JSON.stringify(imgArr));
-              $('#slideImagesPreviewDiv').append(''+
-                  '<div class="img_slide__outer">'+
-                      '<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'+
-                      '<span class="btnRmSlideImg">'+
-                          '<i class="fa fa-remove"></i>'+
-                      '</span>'+
-                  '</div>'+
-              '');
-              break;
-          case 'sound_url':
-              var playing = false,
-                  audioEle = $('#audioEle').bind('play', function () {
-                              playing = true;
-                          }).bind('pause', function () {
-                              playing = false;
-                          }).bind('ended', function () {
-                              audio.pause();
-                          }).get(0);
-              var supportsAudio = !!document.createElement('audio').canPlayType;
-              if (supportsAudio){
-                  $(audioEle).attr('src', $('#'+field_id).val());
-              }
-              break;
+			</div>
+		</div>
+	</div>
 
-          default:
-              return;
-
-      }
-
-      $("#fileManagerModal").modal('hide');
-
-  	}
-  	jQuery(document).ready(function($) {
-  		$('#AddMeeting__form').on('submit', DP.main.addMeetingFormSubmitHandler);
-  		// Add Resolution handler
-  		$('#btnAddResolution').on('click', DP.main.addResolutionQuestion);
-  	});
+	<div class="modal fade" id="addResolutionForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="content">
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<div class="card">
+										<div class="card-header card-header-primary">
+											<h4 class="card-title">Add Resolution</h4>
+										</div>
+										<div class="card-body">
+											<form ">
+												<div class="row" id="resolutionQuestionEntry">
+													<div class="col-md-12 resolutionParent">
+														<div class="form-group">
+															<label >Resolution</label>
+															<input type="text" class="form-control resolutionQuestionInput">
+														</div>
+													</div>
+												</div>
 
 
-</script>
-@endsection
+												<br/><br/>
+												<div class="row">
+													<div class="col">
+														<button type="submit" class="btn btn-danger pull-right" data-dismiss="modal">Save</button>
+														<button id="btnAddResolution" type="button" class="btn btn-primary pull-right">Add more</button>
+													</div>
+												</div>
+
+												<div class="clearfix"></div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	@includeIf('admin.partials.filemanager_dialog')	
+	@endsection
+	@section('execute_script')
+	<script type="text/javascript" src="{{ asset('/admins/plugins/tinymce/tinymce.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/admins/plugins/tinymce/tinymce-config.js') }}"></script>
+	<script>
+		function responsive_filemanager_callback(field_id){
+			var imageUrl="",
+			imgArr = [],
+			domain = "{{ URL('/') }}";
+			switch(field_id){
+				case 'txtFeaturedImage':
+				imageUrl = $('#'+field_id).val();
+				imageUrl = imageUrl.replace(domain,'');
+				$('#imagePreviewDiv').empty().append(
+					'<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'
+					);
+				break;
+				case 'txtMultiImages':
+				imageUrl = $('#'+field_id).val();
+				imageUrl = imageUrl.replace(domain,'');
+				imgArr.push(imageUrl);
+				$('#slideImagesPreviewDiv img').each(function(i,k,v){
+					var imgSrc = $(this).attr('src');
+					imgArr.push(imgSrc);
+				});
+				$('#slideImgs').val(JSON.stringify(imgArr));
+				$('#slideImagesPreviewDiv').append(''+
+					'<div class="img_slide__outer">'+
+					'<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'+
+					'<span class="btnRmSlideImg">'+
+					'<i class="fa fa-remove"></i>'+
+					'</span>'+
+					'</div>'+
+					'');
+				break;
+				case 'txtMultiImages':
+				imageUrl = $('#'+field_id).val();
+				imageUrl = imageUrl.replace(domain,'');
+				imgArr.push(imageUrl);
+				$('#slideImagesPreviewDiv img').each(function(i,k,v){
+					var imgSrc = $(this).attr('src');
+					imgArr.push(imgSrc);
+				});
+				$('#slideImgs').val(JSON.stringify(imgArr));
+				$('#slideImagesPreviewDiv').append(''+
+					'<div class="img_slide__outer">'+
+					'<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'+
+					'<span class="btnRmSlideImg">'+
+					'<i class="fa fa-remove"></i>'+
+					'</span>'+
+					'</div>'+
+					'');
+				break;
+				case 'sound_url':
+				var playing = false,
+				audioEle = $('#audioEle').bind('play', function () {
+					playing = true;
+				}).bind('pause', function () {
+					playing = false;
+				}).bind('ended', function () {
+					audio.pause();
+				}).get(0);
+				var supportsAudio = !!document.createElement('audio').canPlayType;
+				if (supportsAudio){
+					$(audioEle).attr('src', $('#'+field_id).val());
+				}
+				break;
+
+				default:
+				return;
+
+			}
+
+			$("#fileManagerModal").modal('hide');
+
+		}
+		jQuery(document).ready(function($) {
+			$('#AddMeeting__form').on('submit', DP.main.addMeetingFormSubmitHandler);
+			// Add Resolution handler
+			$('#btnAddResolution').on('click', DP.main.addResolutionQuestion);
+		});
+
+	</script>
+	@endsection
+	

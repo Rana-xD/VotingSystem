@@ -10527,3 +10527,9 @@ a.text-dark:focus {
   top: 0;
 }
 
+.card-header .addContainer {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
+
