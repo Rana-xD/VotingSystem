@@ -191,11 +191,12 @@
 			<div class="modal-body">
 
 				<div class="container">	
-					<ul class="nav">
-						<li class="">
-							<a  href="#addNewUser" data-toggle="tab">Add New User</a>
-						</li class="">
-						<li><a href="#addExistingUser" data-toggle="tab">Add Existing User</a>
+					<ul class="nav nav-pills nav-justified">
+						<li class="nav-item ">
+							<a class="nav-link active show" href="#addNewUser" data-toggle="tab">Add New User</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#addExistingUser" data-toggle="tab">Add Existing User</a>
 						</li>
 					</ul>
 
@@ -206,9 +207,9 @@
 									<div class="row">
 										<div class="col">
 											<div class="card">
-												<div class="card-header card-header-primary">
+												<!-- <div class="card-header card-header-primary">
 													<h4 class="card-title">Add Voter</h4>
-												</div>
+												</div> -->
 												<div class="card-body">
 													<form ">
 														<div class="row">
