@@ -28,9 +28,9 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 		return view('admin.voter');
 	});
 
-	Route::get('voter/add', function(){
-		return view('admin.createvoter');
-	});
+	Route::get('voter', 'Admin@showVoterLists');
+	Route::get('voter/add', 'Admin@showVoterForm')->name('users.add.form');
+	Route::post('voter/add', 'Admin@addVoter')->name('user.add.submit');;
 
 	// Route::post('voter/add', function(){
 	// 	return view('admin.meeting');
@@ -39,9 +39,9 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	Route::get('meeting', 'Admin\MeetingController@showMeetingLists')->name('meetings');
 	Route::get('meeting/add', 'Admin\MeetingController@showCreateForm')->name('meetings.add.form');
 	Route::post('meeting/add', 'Admin\MeetingController@addMeeting')->name('meeting.add.submit');
-	Route::get('meeting/edit/{uuid}', 'Admin\MeetingController@showEditForm')->name('meetings.edit.form');
 	Route::post('meeting/edit/{uuid}', 'Admin\MeetingController@editMeeting')->name('meeting.edit.submit');
 	Route::delete('meeting/delete', 'Admin\MeetingController@deleteMeeting')->name('meeting.delete');
+	Route::get('meeting/details/{uuid}', 'Admin\MeetingController@detailsMeeting')->name('meetings.details');
 });
 
 // ********************** User Route **********************

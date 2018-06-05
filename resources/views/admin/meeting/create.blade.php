@@ -10,20 +10,18 @@
 					<div class="card-header card-header-primary">
 						<h4 class="card-title">Create Metting</h4>
 						<p class="card-category">Register a meeting for client</p>
-						<div class="addContainer pull-right">
-							<button type="button" class="btn btn-success btnAddUser "  data-toggle="modal" data-target="#addUserForm">
-								<span aria-hidden="true">Add User</span>
-							</button>
-							<button type="button" class="btn btn-success btnAddResolution" data-toggle="modal" data-target="#addResolutionForm" >
-								<span aria-hidden="true">Add Resolution</span>
-							</button>
-						</div>
 					</div>
 					<div class="card-body">
 						<form class="custom-form AddMeeting__form" id="AddMeeting__form" action="{{ route('meeting.add.submit') }}">
 							<div class="row">
 								<div class="col-12 col-md-8">
 									<div class="row">
+										<div class="col-md-6" hidden>
+											<div class="form-group">
+												<label class="AddUser__label">Meeting UUID</label>
+												<input type="hidden" name="meeting_uuid" class="form-control AddUser__input" value="{{ $meeting_uuid }}">
+											</div>
+										</div>
 										<div class="col-md-12">
 											<div class="form-group">
 												<label class="AddMeeting__label">Title</label>
@@ -189,7 +187,6 @@
 			</div>
 			
 			<div class="modal-body">
-
 				<div class="container">	
 					<ul class="nav nav-pills nav-justified">
 						<li class="nav-item ">
@@ -203,70 +200,120 @@
 					<div class="tab-content ">
 						<div class="tab-pane active" id="addNewUser">
 							<div class="content" id="addUserForm">
-								<div class="container">
+								<div class="container AddUser">
 									<div class="row">
 										<div class="col">
 											<div class="card">
-												<!-- <div class="card-header card-header-primary">
-													<h4 class="card-title">Add Voter</h4>
-												</div> -->
 												<div class="card-body">
-													<form ">
+													<form class="custom-form AddUser__form" id="AddUser__form" action="{{ route('user.add.submit') }}">
+														<input type="hidden" name="_token" value="{{ csrf_token() }}">
 														<div class="row">
-															<div class="col-md-6">
+															<div class="col-md-6" hidden>
 																<div class="form-group">
-																	<label >HIN/SRN</label>
-																	<input type="text" class="form-control">
+																	<label class="AddUser__label">Meeting UUID</label>
+																	<input type="hidden" name="meeting_uuid" class="form-control AddUser__input" value="{{ $meeting_uuid }}">
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label >Shareholder Name</label>
-																	<input type="text" class="form-control">
+																	<label class="AddUser__label">HIN/SRN</label>
+																	<input type="text" name="username" class="form-control AddUser__input">
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div data-error-for="HIN/SRN" class="AddUser__status-message status-message error">
+																	@if ($errors->has('username'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('username') }}
+																	</span>
+																	@endif
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label >Security</label>
-																	<input type="text" class="form-control">
+																	<label class="AddUser__label" >Security</label>
+																	<input type="text" name="security" class="AddUser__input form-control">
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div data-error-for="security" class="AddUser__status-message status-message error">
+																	@if ($errors->has('security'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('security') }}
+																	</span>
+																	@endif
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label >Postal Code</label>
-																	<input type='text' class="form-control" />
+																	<label class="AddUser__label">Postal Code</label>
+																	<input type='text' name="postal_code" class=" AddUser__input form-control" />
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div data-error-for="postal_code" class="AddUser__status-message status-message error">
+																	@if ($errors->has('postal_code'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('postal_code') }}
+																	</span>
+																	@endif
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label >Address 1</label>
-																	<input type='text' class="form-control" />
+																	<label class="AddUser__label">Address 1</label>
+																	<input type='text' name="address1" class=" AddUser__input form-control" />
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div data-error-for="address1" class="AddUser__status-message status-message error">
+																	@if ($errors->has('address1'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('address1') }}
+																	</span>
+																	@endif
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label >Address 2</label>
-																	<input type='text' class="form-control" />
+																	<label class="AddUser__label">Address 2</label>
+																	<input type='text' name="address2" class="AddUser__input form-control" />
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div data-error-for="address2" class="AddUser__status-message status-message error">
+																	@if ($errors->has('address2'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('address2') }}
+																	</span>
+																	@endif
 																</div>
 															</div>
 															<div class="col-md-4">
 																<div class="form-group">
-																	<label >Type</label>
-																	<select class="form-control">
+																	<label class="AddUser__label">Type</label>
+																	<select class="form-control AddUser__input" name="role">
 																		<option selected>Unknown</option>
 																		<option>NOMINEE</option>
-																		<option>SHAREHOLDER</option>
+																		<option>SHARE_HOLDER</option>
 																	</select>
 																</div>
 															</div>
-
+															<div class="col-md-6">
+																<div data-error-for="type" class="AddUser__status-message status-message error">
+																	@if ($errors->has('type'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('type') }}
+																	</span>
+																	@endif
+																</div>
+															</div>
 														</div>
+															<br/><br/>
 
-														<br/><br/>
-
-														<button type="submit" class="btn btn-danger pull-right" data-dismiss="modal">Save &#38; Close</button>
-														<button type="submit" class="btn btn-warning pull-right" >Save &#38; New</button>
-
+															<button type="submit" class="btn btn-danger pull-right">Save</button>
+															<!-- <button type="submit" class="btn btn-warning pull-right" >Save &#38; New</button>
+															-->
 														<div class="clearfix"></div>
 													</form>
 												</div>
@@ -277,11 +324,10 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="addExistingUser">
-							<h3>Notice the gap between the content and tab after applying a background color</h3>
+							<h1>Select user</h1>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -305,12 +351,20 @@
 										<h4 class="card-title">Add Resolution</h4>
 									</div>
 									<div class="card-body">
-										<form ">
+										<form>
 											<div class="row" id="resolutionQuestionEntry">
+												
+												<div class="col-md-12" hidden>
+													<div class="form-group">
+														<label class="AddUser__label">Meeting UUID</label>
+														<input type="hidden" name="meeting_uuid" class="form-control AddUser__input" value="{{ $meeting_uuid }}">
+													</div>
+												</div>
+
 												<div class="col-md-12 resolutionParent">
 													<div class="form-group">
 														<label >Resolution</label>
-														<input type="text" class="form-control resolutionQuestionInput">
+														<input type="text" name="resolution_0" class="form-control resolutionQuestionInput">
 													</div>
 												</div>
 											</div>
@@ -336,7 +390,6 @@
 		</div>
 	</div>
 </div>
-
 
 @includeIf('admin.partials.filemanager_dialog')	
 @endsection
@@ -417,10 +470,11 @@
 	}
 	jQuery(document).ready(function($) {
 		$('#AddMeeting__form').on('submit', DP.main.addMeetingFormSubmitHandler);
-			// Add Resolution handler
-			$('#btnAddResolution').on('click', DP.main.addResolutionQuestion);
-		});
+		// Add Resolution handler
+		$('#btnAddResolution').on('click', DP.main.addResolutionQuestion);
+		// Onsubmit add user form handler
+		$('#AddUser__form').on('submit', DP.main.addUserFormSubmitHandler);
+	});
 
-	</script>
-	@endsection
-	
+</script>
+@endsection

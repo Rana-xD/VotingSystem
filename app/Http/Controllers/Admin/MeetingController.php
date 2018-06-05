@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMeetingRequest;
 use App\MeetingMaster;
@@ -27,23 +28,28 @@ class MeetingController extends Controller
 	}
 
     public function showCreateForm(Request $request) {
-    	return view('admin.meeting.create');
+
+        function getNonExistingUUID() {
+            $meeting_uuid = random_int(100000, 999999); 
+            $existed = MeetingMaster::where('meeting_uuid', '=', $meeting_uuid)->count();
+            if(!$existed) {
+                return $meeting_uuid;
+            } else {
+                return getNonExistingUUID();
+            }
+        }
+        $meeting_uuid = getNonExistingUUID();
+
+    	return view('admin.meeting.create')->with([
+            'meeting_uuid' => $meeting_uuid
+        ]);
     }
 
     public function addMeeting(StoreMeetingRequest $request) {
     	$this->authorize('create', MeetingMaster::class);
-
-    	function getNonExistingUUID() {
-    		$meeting_uuid = str_random(24);
-	    	$existed = MeetingMaster::where('meeting_uuid', '=', $meeting_uuid)->count();
-	    	if(!$existed) {
-	    		return $meeting_uuid;
-	    	} else {
-	    		return getNonExistingUUID();
-	    	}
-    	}
+        
     	$validated_data = $request->validated();
-    	$validated_data['meeting_uuid'] = getNonExistingUUID();
+    	$validated_data['meeting_uuid'] = $request->meeting_uuid;
     	$meeting = MeetingMaster::create($validated_data);
     	if($meeting) {
     		Session::flash('success', 'Successfully added a meeting.');
@@ -66,5 +72,19 @@ class MeetingController extends Controller
     		'status' => $status,
     		'meeting' => $meeting
     	]);
+    }
+
+    public function detailsMeeting(Request $request, $uuid)
+    {
+        try {
+            $meeting = MeetingMaster::findOrFail($uuid);
+            $users = User::where('role','!=', 'ADMIN')->get();
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('meetings');
+        }
+        return view('admin.meeting.detail')->with([
+            'meeting' => $meeting,
+            'users' => $users
+        ]);
     }
 }

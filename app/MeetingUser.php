@@ -16,5 +16,5 @@ class MeetingUser extends Model
 		return $this->belongsTo('App\MeetingMaster', 'meeting_uuid', 'meeting_uuid');
 	}
 
-
+	
 }
