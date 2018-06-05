@@ -46,10 +46,10 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 
 // ********************** User Route **********************
 
-Route::post('userlogin','User@login');
-
+Route::post('userlogin','Users@login');
+Route::get('meeting','Users@meeting')->middleware('user');
 Route::post('user/meeting', 'SubmitvoteController@index');
-
+Route::get('userlogout','Users@logout');
 Route::get('user/meeting', function(){
 	return view('user.meetingdetail');
 });
