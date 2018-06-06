@@ -2,7 +2,7 @@
 <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 
 <!--   Core JS Files   -->
-<!-- <script src="{{ asset('js/core/jquery.min.js') }}" ></script> -->
+<!-- <script src="{{ asset('js/core/jquery-1.11.1.min.js') }}" ></script> -->
 <script src="{{ asset('js/core/popper.min.js') }}" ></script>
 <script src="{{ asset('js/bootstrap-material-design.js') }}" ></script>
 <script src="{{ asset('js/plugins/perfect-scrollbar.jquery.min.js') }}" ></script>
@@ -21,7 +21,5 @@
 
 <script src="{{ asset('js/libraries.js') }}" ></script>
 <script src="{{ asset('js/scripts.js') }}" ></script>
-
-<script src="{{ asset('js/selectize.js') }}" ></script>
 
 @yield('execute_script')

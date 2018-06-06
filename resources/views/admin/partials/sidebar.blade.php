@@ -13,12 +13,6 @@
             </a>
         </li>
         <li class="nav-item ">
-            <a class="nav-link" href="{{ url('admin/meeting/add') }}">
-                <i class="material-icons">content_paste</i>
-                <p>Create Meeting</p>
-            </a>
-        </li>
-        <li class="nav-item ">
             <a class="nav-link" href="{{ url('admin/voter') }}">
                 <i class="material-icons">person</i>
                 <p>Shareholder/Nominee</p>

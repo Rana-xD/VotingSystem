@@ -4,6 +4,9 @@
 @include('admin/partials/navpanel')
 <div class="content MeetingEntry">
 	<div class="container-fluid">
+		<a class="nav-link" href="{{ url('admin/meeting/add') }}">
+			<button type="button" class="btn btn-dark">New Meeting</button>
+		</a>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card">
