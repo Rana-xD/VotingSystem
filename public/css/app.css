@@ -10533,3 +10533,13 @@ a.text-dark:focus {
   top: 15px;
 }
 
+.resoultionQuestionWrapper,
+.resoultionRadioWrapper {
+  text-align: left;
+}
+
+.VoterDetail__table th,
+.VoterDetail__table td {
+  text-align: left;
+}
+

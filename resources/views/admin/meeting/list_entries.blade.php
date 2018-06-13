@@ -16,7 +16,7 @@
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
-							<table class="table MeetingEntry__table">
+							<table class="table table-hover MeetingEntry__table">
 								<thead class=" text-primary">
 									<th class="MeetingEntry__th">
 										Meeting ID
@@ -74,6 +74,9 @@
 @endsection
 @section('execute_script')
 <script type="text/javascript">
-	
+	jQuery(document).ready(function($){
+		// meeting row clicked, then go to details page
+		$('.MeetingEntry__tr').on('click', DP.main.meetingListClickedHandler);
+	});
 </script>
 @endsection

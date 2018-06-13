@@ -13,10 +13,11 @@
 				<div class="col">
 					<div class="card">
 						<div class="card-header card-header-primary">
-							<h4 class="card-title">Create Metting</h4>
+							<h4 class="card-title">Detail Meeting</h4>
 							<p class="card-category">Register a meeting for client</p>
 						</div>
 						<div class="card-body">
+							@if ( isset($meeting) && $meeting->count() > 0 )
 							<form class="custom-form AddMeeting__form" id="AddMeeting__form" action="{{ route('meeting.add.submit') }}">
 								<div class="row">
 									<div class="col-12 col-md-8">
@@ -24,7 +25,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<label class="AddMeeting__label">Title</label>
-													<input name="title" type="text" class="AddMeeting__input text form-control">
+													<input name="title" type="text" class="AddMeeting__input text form-control" value="{{ $meeting->title }}">
 												</div>
 											</div>
 											<div class="col-md-12">
@@ -41,7 +42,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<label class="AddMeeting__label">Company Name</label>
-													<input type="text" name="company_name" class="AddMeeting__input text form-control">
+													<input type="text" name="company_name" class="AddMeeting__input text form-control" value="{{ isset($meeting->company_name) ? $meeting->company_name : __('Unknown') }}">
 												</div>
 											</div>
 											<div class="col-md-12">
@@ -58,13 +59,13 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="AddMeeting__label">Meeting's Date</label>
-													<input id="meetingDate" type='date' class="AddMeeting__input date form-control" />
+													<input id="meetingDate" type='date' class="AddMeeting__input date form-control" value="{{ isset($meeting->date_of_meeting) ? $meeting->date_of_meeting : __('----') }}"/>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="AddMeeting__label">Meeting's Time</label>
-													<input id="meetingTime" type='time' class="AddMeeting__input time form-control" />
+													<input id="meetingTime" type='time' class="AddMeeting__input time form-control" value="10:10"/>
 												</div>
 											</div>
 											<div class="col-md-12">
@@ -81,7 +82,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="AddMeeting__label">Close Voting Date</label>
-													<input id="meetingCloseDate" type='date' class="AddMeeting__input date form-control" />
+													<input id="meetingCloseDate" type='date' class="AddMeeting__input date form-control" value="04.20.2014"/>
 												</div>
 											</div>
 											<div class="col-md-6">
@@ -104,7 +105,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<label class="AddMeeting__label">Location</label>
-													<input type="text" name="location" class="AddMeeting__input text form-control">
+													<input type="text" name="location" class="AddMeeting__input text form-control" value="{{ isset($meeting->location) ? $meeting->location : __('Unknown') }}">
 												</div>
 											</div>
 											<div class="col-md-12">
@@ -149,7 +150,9 @@
 										<div class="form-group">
 											<label class="AddMeeting__label">Introduction</label>
 											<div class="form-group">
-												<textarea name="content" class="richTextBox form-control AddMeeting__input textarea" rows="5"></textarea>
+												<textarea name="content" class="richTextBox form-control AddMeeting__input textarea" rows="5" >
+													{{ isset( $meeting->content) ? $meeting->content : __('Unknown') }}
+												</textarea>
 											</div>
 										</div>
 									</div>
@@ -167,6 +170,7 @@
 								<button type="submit" class="btn btn-primary pull-right">Save</button>
 								<div class="clearfix"></div>
 							</form>
+							@endif
 						</div>
 					</div>
 				</div>
@@ -178,7 +182,7 @@
 <div class="content">
 	<div class="container">
 		<div class="card">
-			<ul class="nav nav-pills nav-justified">
+			<ul class="nav nav-pills nav-justified pt-4">
 				<li class="nav-item ">
 					<a class="nav-link active show" href="#userTab" data-toggle="tab">User</a>
 				</li>
@@ -218,33 +222,36 @@
 								</tbody>
 							</table>
 						</div>
-						<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addUserForm">
+						
+						<button type="submit" class="btn btn-danger pull-right">
+							Save
+						</button>
+
+						<button type="button" class="btn btn-outline-primary pull-right" data-toggle="modal" data-target="#addUserForm">
 							Add User
 						</button>
 					</div>
 
 					<div class="tab-pane" id="resolutionTab">
-						<form>
-							<div class="row" id="resolutionQuestionEntry">
+						<div class="row" id="resolutionQuestionEntry">
 
-								<div class="col-md-12 resolutionParent">
-									<div class="form-group">
-										<label >Resolution</label>
-										<input type="text" name="resolution_0" class="form-control resolutionQuestionInput">
-									</div>
+							<div class="col-md-12 resolutionParent">
+								<div class="form-group">
+									<label >Resolution</label>
+									<input type="text" name="resolution_0" class="form-control resolutionQuestionInput">
 								</div>
 							</div>
+						</div>
 
-							<br/><br/>
-							<div class="row">
-								<div class="col">
-									<button type="submit" class="btn btn-danger pull-right" data-dismiss="modal">Save</button>
-									<button id="btnAddResolution" type="button" class="btn btn-primary pull-right">Add more</button>
-								</div>
+						<br/><br/>
+						<div class="row">
+							<div class="col">
+								<button type="button" id="btnSubmitResolution" class="btn btn-danger pull-right" data-dismiss="modal">Save</button>
+								<button id="btnAddResolution" type="button" class="btn btn-primary pull-right">Add more</button>
 							</div>
+						</div>
 
-							<div class="clearfix"></div>
-						</form>
+						<div class="clearfix"></div>
 					</div>
 				</div>
 			</div>
@@ -265,7 +272,7 @@
 			
 			<div class="modal-body">
 				<div class="container">	
-					<ul class="nav nav-pills nav-justified">
+					<ul class="p-4 nav nav-pills nav-justified">
 						<li class="nav-item ">
 							<a class="nav-link active show" href="#addNewUser" data-toggle="tab">Add New User</a>
 						</li>
@@ -288,7 +295,7 @@
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label class="AddUser__label">HIN/SRN</label>
-																	<input type="text" name="username" class="form-control AddUser__input">
+																	<input type="text" name="username" class="form-control AddUser__input" autofocus>
 																</div>
 															</div>
 															<div class="col-md-6">
@@ -432,16 +439,6 @@
 	</div>
 </div>
 
-<div class="container">
-	<div class="demo">
-		<h2>Test</h2>
-		<div class="control-group">
-			<label for="input-tags">Tags:</label>
-			<input type="text" id="input-tags" class="demo-default form-control" value="awesome,neat">
-		</div>
-	</div>
-</div>
-
 @includeIf('admin.partials.filemanager_dialog')	
 @endsection
 @section('execute_script')
@@ -525,11 +522,16 @@
 		$('#btnAddResolution').on('click', DP.main.addResolutionQuestion);
 		// Onsubmit add user form handler
 		$('#AddUser__form').on('submit', DP.main.addUserFormSubmitHandler);
-		$('#input-tags').selectize({
-			persist: false,
-			createOnBlur: true,
-			create: true
-		});
+		// Add resolution submit form handler
+		$('#btnSubmitResolution').on('click', DP.main.submitResolutionHandler);
+		// Autofocus setup for modal
+		$('.modal').on('shown.bs.modal', DP.utils.modalFormAutofocus);
+
+		// $('#input-tags').selectize({
+		// 	persist: false,
+		// 	createOnBlur: true,
+		// 	create: true
+		// });
 	});
 </script>
 @endsection

@@ -14,6 +14,12 @@ use Session;
 class MeetingController extends Controller
 {
 	protected $paginate_num = 20;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
 	/**
 	 * Show list of registered meeting.
 	 * @param  Illuminate\Http\Request $request
@@ -86,5 +92,5 @@ class MeetingController extends Controller
             'meeting' => $meeting,
             'users' => $users
         ]);
-    }
+    }   
 }

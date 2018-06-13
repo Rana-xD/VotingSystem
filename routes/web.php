@@ -42,6 +42,10 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	Route::post('meeting/edit/{uuid}', 'Admin\MeetingController@editMeeting')->name('meeting.edit.submit');
 	Route::delete('meeting/delete', 'Admin\MeetingController@deleteMeeting')->name('meeting.delete');
 	Route::get('meeting/details/{uuid}', 'Admin\MeetingController@detailsMeeting')->name('meetings.details');
+
+	Route::post('meeting/details/{uuid}/resolution/add', 'Admin@addResolution')->name('resolution.add');
+
+	Route::get('meeting/detailsmeeting', 'Admin\MeetingController@gotoDetailMeeting')->name('meetings.inDetail');
 });
 
 // ********************** User Route **********************

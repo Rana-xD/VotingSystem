@@ -26,11 +26,11 @@
  *               Buddha Bless:  "No Bugs"
  *
  * ========================================================= */
-var DP;
-if(!DP) DP = {};
-if(!DP.utils) DP.utils = {};
+ var DP;
+ if(!DP) DP = {};
+ if(!DP.utils) DP.utils = {};
 
-(function($) {
+ (function($) {
 	var func = DP.utils;
 
 		/**
@@ -41,7 +41,7 @@ if(!DP.utils) DP.utils = {};
 		$('.spinner').removeClass('active');
 		$('.spinner-wrapper').removeClass('active');
 		$('body').removeClass('spinner-loading');
-	}
+	 }
 
 	/**
 	 * Activate loading spinner
@@ -51,28 +51,28 @@ if(!DP.utils) DP.utils = {};
 		$('body').addClass('spinner-loading');
 		$('.spinner-wrapper').addClass('active');
 		$('.spinner').addClass('active');
-	}
+	 }
 
 	/**
 	 * Open new tab
 	 */
 	func.openInNewTab = function(url) {
-	  	var win = window.open(url, '_blank');
-	  	win.focus();
-	}
+		var win = window.open(url, '_blank');
+		win.focus();
+	 }
 
 	/**
 	 * Change window tab url
 	 */
 	func.changeUrl = function(url) {
 		window.location.replace(url);
-	}
+	 }
 
 	func.closeFilemanagerDialog = function(e) {
 		e.preventDefault();
 		console.log("clicked");
 		$("#fileManagerModal").modal('hide');
-	}
+	 }
 
 	func.removeSelfParentDOM = function(e, parentSelector) {
 		e.preventDefault();
@@ -80,6 +80,19 @@ if(!DP.utils) DP.utils = {};
 		if($parent){
 			$parent.remove();
 		}
-	}
-	
-})(jQuery);
+	 }
+
+	func.scroll_to_class = function(chosen_class) {
+		var nav_height = $('nav').outerHeight();
+		var scroll_to = $(chosen_class).offset().top - nav_height;
+
+		if($(window).scrollTop() != scroll_to) {
+			$('html, body').stop().animate({scrollTop: scroll_to}, 1000);
+		}
+	 }
+
+	func.modalFormAutofocus = function() {
+		$(this).find('[autofocus]').focus();
+	 }
+
+	})(jQuery);

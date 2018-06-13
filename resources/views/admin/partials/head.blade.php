@@ -7,7 +7,6 @@
 
 <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-<link href="{{ asset('css/selectize.css') }}" rel="stylesheet">
 
 <!-- Core default css-->
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/

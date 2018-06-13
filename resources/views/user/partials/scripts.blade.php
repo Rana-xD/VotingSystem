@@ -1,5 +1,5 @@
 <!-- Core js default app -->
-<!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
+<script src="{{ asset('js/app.js') }}"></script>
 
 <!--   Core JS Files   -->
 <!-- <script src="{{ asset('js/core/jquery-1.11.1.min.js') }}" ></script> -->

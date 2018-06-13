@@ -25,7 +25,7 @@
 										<div class="col-md-12">
 											<div class="form-group">
 												<label class="AddMeeting__label">Title</label>
-												<input name="title" type="text" class="AddMeeting__input text form-control">
+												<input name="title" type="text" class="AddMeeting__input text form-control" autofocus>
 											</div>
 										</div>
 										<div class="col-md-12">
@@ -165,7 +165,7 @@
 								</div>
 							</div>
 
-							<button type="submit" class="btn btn-primary pull-right">Submit</button>
+							<button type="submit" class="btn btn-primary pull-right">Create</button>
 							<div class="clearfix"></div>
 						</form>
 					</div>

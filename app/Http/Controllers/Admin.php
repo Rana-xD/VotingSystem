@@ -141,6 +141,6 @@ class Admin extends Controller
 
 	public function addResolution(Request $request)
 	{
-		
+		return redirect('admin/dashboard');
 	}
 }

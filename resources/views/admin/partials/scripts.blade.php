@@ -22,6 +22,4 @@
 <script src="{{ asset('js/libraries.js') }}" ></script>
 <script src="{{ asset('js/scripts.js') }}" ></script>
 
-<script src="{{ asset('js/selectize.js') }}" ></script>
-
 @yield('execute_script')
