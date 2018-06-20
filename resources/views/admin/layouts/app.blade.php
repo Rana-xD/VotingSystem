@@ -23,7 +23,8 @@
 	@includeIf('admin/partials/scripts')
 	<script type="text/javascript">
 		$(document).ready(function(e) {
-			$('input').addClass('form-control')
+			$('input').addClass('form-control');
+			$('.bmd-form-group label').removeClass("bmd-label-static");
 		});
 	</script>
 </body>

@@ -91,6 +91,7 @@ class MeetingController extends Controller
         return view('admin.meeting.detail')->with([
             'meeting' => $meeting,
             'users' => $users
-        ]);
+		]);
+
     }   
 }

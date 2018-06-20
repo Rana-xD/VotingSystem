@@ -6,7 +6,7 @@
 	<div>
 		<button type="button" class="btn btn-dark">Edit</button>
 	</div>
-
+	<input type="hidden" name="meeting_uuid" id="meeting_uuid" value="{{ $meeting->meeting_uuid }}">
 	<div class="content AddMeeting">
 		<div class="container">
 			<div class="row">
@@ -246,7 +246,7 @@
 						<br/><br/>
 						<div class="row">
 							<div class="col">
-								<button type="button" id="btnSubmitResolution" class="btn btn-danger pull-right" data-dismiss="modal">Save</button>
+								<button type="button" id="btnSubmitResolution" class="btn btn-danger pull-right" >Save</button>
 								<button id="btnAddResolution" type="button" class="btn btn-primary pull-right">Add more</button>
 							</div>
 						</div>

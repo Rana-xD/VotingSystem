@@ -9,6 +9,7 @@ use App\User;
 use App\MeetingUser;
 use App\MeetingMaster;
 use App\VoterInfo;
+use App\VoteMaster;
 use Auth;
 use Session;
 
@@ -141,6 +142,33 @@ class Admin extends Controller
 
 	public function addResolution(Request $request)
 	{
-		return redirect('admin/dashboard');
+		$vote = new VoteMaster;
+		$resolution = $request->resolutions;
+		$meeting_uuid = $request->meeting_uuid;
+		try{
+		$vote->meeting_uuid = $meeting_uuid;
+		$vote->vote_setting = $resolution;
+		$vote->save();
+		$responseData = [
+			"status" => [
+				"code" => 200,
+				"message" => ".$meeting_uuid."
+			]
+		]; 
+		return $request->expectsJson() ? response()->json($responseData) 
+		: redirect()->back()->with($responseData);
+		}
+		catch(Exception $e)
+		{
+			$responseData = [
+				"status" => [
+					"code" => 400,
+					"message" => $e->getMessage()
+				]
+			]; 
+			return $request->expectsJson() ? response()->json($responseData) 
+			: redirect()->back()->with($responseData);
+		}
+		
 	}
 }

@@ -12,7 +12,6 @@ class VoteMaster extends Model
 	protected $fillable = [
 		'meeting_uuid',
 		'vote_setting',
-		'voter_role',
 	];
     protected $casts = [
     	'vote_setting' => 'array',
