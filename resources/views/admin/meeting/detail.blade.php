@@ -10,6 +10,7 @@
 					<div class="card">
 						<div class="card-header card-header-primary">
 							<h4 class="card-title">Detail Meeting</h4>
+							<input type="hidden" name="meeting_uuid" value="{{ $meeting->meeting_uuid }}">
 							<p class="card-category">Register a meeting for client</p>
 						</div>
 						<div class="card-body">
@@ -200,10 +201,13 @@
 									<th class="UserEntry__th">
 										Role
 									</th>
+									<th class="UserEntry__th">
+										PIN
+									</th>
 								</thead>
 								<tbody class="MeetingEntry__tbody">
-									@if(isset($usersMeeting) && $usersMeeting->count() > 0)
-									@foreach($usersMeeting as $user)
+									@if(isset($usersBelongToMeeting) && $usersBelongToMeeting->count() > 0)
+									@foreach($usersBelongToMeeting as $user)
 									<tr class="MeetingEntry__record MeetingEntry__tr ObjectRecord">
 										<td class="UserEntry__td">
 											{{ isset($user->username) ? $user->username : __('Unknown') }}
@@ -212,6 +216,11 @@
 											{{ isset($user->role) ? $user->role : __('Unknown') }}
 
 										</td>
+										<td class="MeetingEntry__td">
+											{{ isset($user->pin) ? $user->pin : __('Unknown') }}
+
+										</td>
+										
 									</tr>
 									@endforeach
 									@endif
@@ -274,7 +283,7 @@
 
 
 <div class="modal fade" id="addUserForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-
+	
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -304,6 +313,7 @@
 												<div class="card-body">
 													<form class="custom-form AddUser__form" id="AddUser__form" action="{{ route('user.add.submit') }}">
 														<input type="hidden" name="_token" value="{{ csrf_token() }}">
+														<input type="hidden" name="meeting_uuid" value="{{ $meeting->meeting_uuid }}">
 														<div class="row">
 															<div class="col-md-6">
 																<div class="form-group">

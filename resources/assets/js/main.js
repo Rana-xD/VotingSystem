@@ -322,6 +322,9 @@
 					text: response.status.message ? response.status.message : 'Successfully added a user.',
 					button: false,
 					timer: 7000,
+				}).then(okay=>{
+					
+					window.location.reload();
 				});
 			} else {
 				swal({
