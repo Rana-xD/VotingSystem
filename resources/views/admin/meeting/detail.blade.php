@@ -3,10 +3,7 @@
 @section('mainpanel')
 
 <div class="container">
-	<div>
-		<button type="button" class="btn btn-dark">Edit</button>
-	</div>
-
+	
 	<div class="content AddMeeting">
 		<div class="container">
 			<div class="row">
@@ -526,6 +523,8 @@
 		$('#btnSubmitResolution').on('click', DP.main.submitResolutionHandler);
 		// Autofocus setup for modal
 		$('.modal').on('shown.bs.modal', DP.utils.modalFormAutofocus);
+		// remove bmd-label-static
+		// $('.bmd-form-group label').removeClass("bmd-label-static");
 
 		// $('#input-tags').selectize({
 		// 	persist: false,

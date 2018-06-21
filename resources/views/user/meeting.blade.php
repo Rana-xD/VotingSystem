@@ -118,16 +118,20 @@
 
 										<h1 class="display-4">Proxy</h1>
 										<hr class="my-4">
-
+										<!-- <div class="proxySelectionWrapper"> -->
 										<div class="custom-control custom-radio">
 											<input type="radio" class="custom-control-input" id="customControlValidation2" name="proxy" required>
 											<label class="custom-control-label" for="customControlValidation2">Appointing to Chairman of the meeting.</label>
 										</div>
 
-										<div class="custom-control custom-radio">
-											<input type="radio" class="custom-control-input" id="customControlValidation3" name="proxy" required>
+										<div class="custom-control custom-radio proxyName">
+											<input type="radio" class="custom-control-input " id="customControlValidation3" name="proxy" required>
 											<label class="custom-control-label" for="customControlValidation3">Appointing to Proxy of the meeting.</label>
+											<div class="proxyNameWrapper">
+											<input type="text" class="form-control" name="proxyName">
+											</div>
 										</div>
+										<!-- </div> -->
 
 										<div class="content text-justify mt-3">
 											<p class="text-body mt-3">
@@ -246,7 +250,11 @@
 			$(this).prev().fadeIn();
 			DP.utils.scroll_to_class('.msf-form');
 		});
-	});	
+	});
+
+	// Proxy appoiting feature
+	
+	
 
 	// $('.tr_header').attr('scope','row');
 });
