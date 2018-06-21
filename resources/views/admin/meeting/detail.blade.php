@@ -187,7 +187,7 @@
 					<a class="nav-link active show" href="#userTab" data-toggle="tab">User</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#resolutionTab" data-toggle="tab">Resolution</a>
+					<a class="nav-link" href="#resolutionTab" data-toggle="tab" id="resolution">Resolution</a>
 				</li>
 			</ul>
 
@@ -223,9 +223,9 @@
 							</table>
 						</div>
 						
-						<button type="submit" class="btn btn-danger pull-right">
+						{{-- <button type="submit" class="btn btn-danger pull-right">
 							Save
-						</button>
+						</button> --}}
 
 						<button type="button" class="btn btn-outline-primary pull-right" data-toggle="modal" data-target="#addUserForm">
 							Add User
@@ -233,6 +233,22 @@
 					</div>
 
 					<div class="tab-pane" id="resolutionTab">
+						@if(isset($vote->vote_setting))
+						@foreach($vote->vote_setting as $vote)
+						<div class="row" id="resolutionQuestionEntry">
+
+							<div class="col-md-12 resolutionParent">
+								<div class="form-group">
+									<label >Resolution</label>
+									<input type="text" value="{{ $vote }}" name="resolution_0" class="form-control resolutionQuestionInput">
+									<button type="button" class="close noChildEventPointer" aria-label="Close" onclick="DP.utils.removeSelfParentDOM(event, '.resolutionParent')">
+										<span aria-hidden="true">&times;</span>
+										</button>
+								</div>
+							</div>
+						</div>
+						@endforeach
+						@else	
 						<div class="row" id="resolutionQuestionEntry">
 
 							<div class="col-md-12 resolutionParent">
@@ -242,7 +258,8 @@
 								</div>
 							</div>
 						</div>
-
+						@endif
+						
 						<br/><br/>
 						<div class="row">
 							<div class="col">
@@ -526,7 +543,8 @@
 		$('#btnSubmitResolution').on('click', DP.main.submitResolutionHandler);
 		// Autofocus setup for modal
 		$('.modal').on('shown.bs.modal', DP.utils.modalFormAutofocus);
-
+		//Retrieve existing resolution 
+		$("#resolution").on('click',DP.main.getExistingResolutionHandler);
 		// $('#input-tags').selectize({
 		// 	persist: false,
 		// 	createOnBlur: true,

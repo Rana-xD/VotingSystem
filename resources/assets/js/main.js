@@ -205,8 +205,12 @@
 	 				icon: 'success',
 	 				text: response.status.message ? response.status.message : 'Successfully added a meeting.',
 	 				button: false,
-	 				timer: 7000,
-	 			});
+	 				timer: 10000,
+				 }).then(okay => {
+					  window.location = '/admin/meeting';
+					
+				  }); 
+				 
 	 		} else {
 	 			swal({
 	 				title: 'Warning',
@@ -337,6 +341,10 @@
 		var meeting_uuid = selected_meeting[0].innerText;
 		var url = "meeting/details/" + meeting_uuid;
 		DP.utils.changeUrl(url);
+	}
+
+	func.getExistingResolutionHandler = function(e){
+		console.log("HI RESOLUTION");
 	}
 
 })(jQuery);

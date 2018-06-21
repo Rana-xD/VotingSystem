@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMeetingRequest;
 use App\MeetingMaster;
 use App\User;
+use App\VoteMaster;
 use Auth;
 use Session;
 
@@ -84,13 +85,16 @@ class MeetingController extends Controller
     {
         try {
             $meeting = MeetingMaster::findOrFail($uuid);
-            $users = User::where('role','!=', 'ADMIN')->get();
+			$users = User::where('role','!=', 'ADMIN')->get();
+			$vote = VoteMaster::where('meeting_uuid','=',$uuid)->first();
+
         } catch (ModelNotFoundException $e) {
             return redirect()->route('meetings');
         }
         return view('admin.meeting.detail')->with([
             'meeting' => $meeting,
-            'users' => $users
+			'users' => $users,
+			'vote' => $vote
 		]);
 
     }   

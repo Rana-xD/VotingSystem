@@ -143,32 +143,65 @@ class Admin extends Controller
 	public function addResolution(Request $request)
 	{
 		$vote = new VoteMaster;
+		
 		$resolution = $request->resolutions;
 		$meeting_uuid = $request->meeting_uuid;
-		try{
-		$vote->meeting_uuid = $meeting_uuid;
-		$vote->vote_setting = $resolution;
-		$vote->save();
-		$responseData = [
-			"status" => [
-				"code" => 200,
-				"message" => ".$meeting_uuid."
-			]
-		]; 
-		return $request->expectsJson() ? response()->json($responseData) 
-		: redirect()->back()->with($responseData);
-		}
-		catch(Exception $e)
+
+		$existVote = $vote->where('meeting_uuid','=',$meeting_uuid)->first();
+		if(isset($existVote))
 		{
-			$responseData = [
-				"status" => [
-					"code" => 400,
-					"message" => $e->getMessage()
-				]
-			]; 
-			return $request->expectsJson() ? response()->json($responseData) 
-			: redirect()->back()->with($responseData);
+			try{
+				$existVote->vote_setting = $resolution;
+				$existVote->save();
+				$responseData = [
+						"status" => [
+							"code" => 200,
+							"message" => "Successfully update resolution"
+						]
+					]; 
+					return $request->expectsJson() ? response()->json($responseData) 
+					: redirect()->back()->with($responseData);
+			}
+			catch(Exception $e)
+			{
+				$responseData = [
+					"status" => [
+						"code" => 400,
+						"message" => $e->getMessage()
+					]
+				]; 
+				return $request->expectsJson() ? response()->json($responseData) 
+				: redirect()->back()->with($responseData);
+			}
 		}
+		else
+		{
+			try{
+				$vote->meeting_uuid = $meeting_uuid;
+				$vote->vote_setting = $resolution;
+				$vote->save();
+				$responseData = [
+					"status" => [
+						"code" => 200,
+						"message" => "Successfully add resolution"
+					]
+				]; 
+				return $request->expectsJson() ? response()->json($responseData) 
+				: redirect()->back()->with($responseData);
+				}
+				catch(Exception $e)
+				{
+					$responseData = [
+						"status" => [
+							"code" => 400,
+							"message" => $e->getMessage()
+						]
+					]; 
+					return $request->expectsJson() ? response()->json($responseData) 
+					: redirect()->back()->with($responseData);
+				}
+		}
+		
 		
 	}
 }
