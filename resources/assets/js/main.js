@@ -37,13 +37,13 @@
 	 * Handle promise for form AJAX submit
 	 * @return Promise
 	 */
-	 func.formSubmitPromise = function(url, formData) {
+	 func.formSubmitPromise = function(url, formData, processData=false) {
 	 	return new Promise(function(resolve, reject) {
 	 		$.ajax({
 	 			url: url,
 	 			type: 'POST',
 	 			dataType: 'json',
-	 			processData: false,
+	 			processData: processData,
 	 			contentType: false,
 	 			data: formData,
 	 			success: function(response) {
@@ -205,8 +205,12 @@
 	 				icon: 'success',
 	 				text: response.status.message ? response.status.message : 'Successfully added a meeting.',
 	 				button: false,
-	 				timer: 7000,
-	 			});
+	 				timer: 10000,
+				 }).then(okay => {
+					  window.location = '/admin/meeting';
+					
+				  }); 
+				 
 	 		} else {
 	 			swal({
 	 				title: 'Warning',
@@ -248,12 +252,65 @@
 			`);
 	}
 
+	func.submitResolutionHandler = function(e){
+		
+		var resolutionInput = $(".resolutionQuestionInput");
+		var meeting_uuid = $("#meeting_uuid").val();
+		var resolutions = [];
+		
+		// resolutionInput.forEach((resolution) =>{
+		// 	resolutions.push(resolution.value);
+		// });
+		for(var i=0;i<resolutionInput.length;i++){
+			resolutions.push(resolutionInput[i].value);
+		}
+		console.log(resolutions);
+		console.log(meeting_uuid);
+		actionUrl = "/admin/meeting/details/resolution/add";
+		formData = {
+			meeting_uuid : meeting_uuid,
+			resolutions : resolutions,
+
+		};
+		console.log(formData);
+		$.ajax({
+			url: actionUrl,
+			type: 'POST',
+			dataType: 'json',
+			data: formData,
+			success: function(response) {
+				if(response.status.code == 200) {
+					swal({
+						title: 'Success',
+						icon: 'success',
+						text: response.status.message ? response.status.message : 'Successfully added a meeting.',
+						button: false,
+						timer: 7000,
+					});
+				} else {
+					swal({
+						title: 'Warning',
+						icon: 'warning',
+						text: response.status.message ? response.status.message : 'Something went wrong, please retry',
+						button: false,
+						timer: 10000,
+					});
+				}
+			},
+			error: function(error) {
+				
+			}
+		});
+		
+		
+	}
+
 	func.addUserFormSubmitHandler = function(e){
 		e.preventDefault();
 		var self = e.target;
 		var formData = new FormData($(self).get(0)),
 		actionUrl = $(self).attr('action');
-
+		console.log(formData);
 		DP.utils.activateSpinner();
 		var promise = DP.main.formSubmitPromise(actionUrl, formData);
 		promise.then(function(response) {
@@ -284,6 +341,10 @@
 		var meeting_uuid = selected_meeting[0].innerText;
 		var url = "meeting/details/" + meeting_uuid;
 		DP.utils.changeUrl(url);
+	}
+
+	func.getExistingResolutionHandler = function(e){
+		console.log("HI RESOLUTION");
 	}
 
 })(jQuery);

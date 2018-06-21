@@ -17,7 +17,6 @@ class CreateVoteMastersTable extends Migration
             $table->increments('id');
             $table->string('meeting_uuid')->nullable();
             $table->json('vote_setting')->nullable();
-            $table->enum('voter_role', ['NOMINEE', 'SHARE_HOLDER'])->nullable();
             $table->timestamps();
 
             $table->foreign('meeting_uuid')
