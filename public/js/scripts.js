@@ -150,7 +150,7 @@
 			case 'document':
 			$(iframe).attr(
 				'src',
-				"/admins/filemanager/dialog.php?type=2&field_id=documentTxtField'&fldr=documents"
+				"/admins/filemanager/dialog.php?type=2&field_id=txtMultiDocument'&fldr=documents"
 				);
 			break;
 			case 'image':
@@ -310,7 +310,6 @@
 		var self = e.target;
 		var formData = new FormData($(self).get(0)),
 		actionUrl = $(self).attr('action');
-		console.log(formData);
 		DP.utils.activateSpinner();
 		var promise = DP.main.formSubmitPromise(actionUrl, formData);
 		promise.then(function(response) {
@@ -345,6 +344,41 @@
 
 	func.getExistingResolutionHandler = function(e){
 		console.log("HI RESOLUTION");
+	}
+
+	func.updateMeetingHandler = function(e){
+		console.log("Update Meeting Btn Clicked");
+	}
+
+	func.meetingFormSubmitHandler = function(e){
+		e.preventDefault();
+		console.log('meetingFormSubmitHandler clicked');
+		var self = e.target;
+		var formData = new FormData($(self).get(0)),
+		actionUrl = $(self).attr('action');
+		console.log(formData.get("proxy"));
+		DP.utils.activateSpinner();
+		var promise = DP.main.formSubmitPromise(actionUrl, formData);
+		promise.then(function(response) {
+			console.log(response.status.code);
+			if(response.status.code == 200) {
+				swal({
+					title: 'Success',
+					icon: 'success',
+					text: response.status.message ? response.status.message : 'Successfully added a user.',
+					button: false,
+					timer: 7000,
+				});
+			} else {
+				swal({
+					title: 'Warning',
+					icon: 'warning',
+					text: response.status.message ? response.status.message : 'Something went wrong, please retry',
+					button: false,
+					timer: 10000,
+				});
+			}
+		});
 	}
 
 })(jQuery);

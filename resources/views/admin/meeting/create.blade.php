@@ -165,225 +165,41 @@
 								</div>
 							</div>
 
-							<button type="submit" class="btn btn-primary pull-right">Create</button>
-							<div class="clearfix"></div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="addUserForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			
-			<div class="modal-body">
-				<div class="container">	
-					<ul class="nav nav-pills nav-justified">
-						<li class="nav-item ">
-							<a class="nav-link active show" href="#addNewUser" data-toggle="tab">Add New User</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#addExistingUser" data-toggle="tab">Add Existing User</a>
-						</li>
-					</ul>
-
-					<div class="tab-content ">
-						<div class="tab-pane active" id="addNewUser">
-							<div class="content" id="addUserForm">
-								<div class="container AddUser">
-									<div class="row">
-										<div class="col">
-											<div class="card">
-												<div class="card-body">
-													<form class="custom-form AddUser__form" id="AddUser__form" action="{{ route('user.add.submit') }}">
-														<input type="hidden" name="_token" value="{{ csrf_token() }}">
-														<div class="row">
-															<div class="col-md-6" hidden>
-																<div class="form-group">
-																	<label class="AddUser__label">Meeting UUID</label>
-																	<input type="hidden" name="meeting_uuid" class="form-control AddUser__input" value="{{ $meeting_uuid }}">
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label class="AddUser__label">HIN/SRN</label>
-																	<input type="text" name="username" class="form-control AddUser__input">
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div data-error-for="HIN/SRN" class="AddUser__status-message status-message error">
-																	@if ($errors->has('username'))
-																	<span class="invalid-form-validation text-small">
-																		{{ $errors->first('username') }}
-																	</span>
-																	@endif
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label class="AddUser__label" >Security</label>
-																	<input type="text" name="security" class="AddUser__input form-control">
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div data-error-for="security" class="AddUser__status-message status-message error">
-																	@if ($errors->has('security'))
-																	<span class="invalid-form-validation text-small">
-																		{{ $errors->first('security') }}
-																	</span>
-																	@endif
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label class="AddUser__label">Postal Code</label>
-																	<input type='text' name="postal_code" class=" AddUser__input form-control" />
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div data-error-for="postal_code" class="AddUser__status-message status-message error">
-																	@if ($errors->has('postal_code'))
-																	<span class="invalid-form-validation text-small">
-																		{{ $errors->first('postal_code') }}
-																	</span>
-																	@endif
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label class="AddUser__label">Address 1</label>
-																	<input type='text' name="address1" class=" AddUser__input form-control" />
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div data-error-for="address1" class="AddUser__status-message status-message error">
-																	@if ($errors->has('address1'))
-																	<span class="invalid-form-validation text-small">
-																		{{ $errors->first('address1') }}
-																	</span>
-																	@endif
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label class="AddUser__label">Address 2</label>
-																	<input type='text' name="address2" class="AddUser__input form-control" />
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div data-error-for="address2" class="AddUser__status-message status-message error">
-																	@if ($errors->has('address2'))
-																	<span class="invalid-form-validation text-small">
-																		{{ $errors->first('address2') }}
-																	</span>
-																	@endif
-																</div>
-															</div>
-															<div class="col-md-4">
-																<div class="form-group">
-																	<label class="AddUser__label">Type</label>
-																	<select class="form-control AddUser__input" name="role">
-																		<option selected>Unknown</option>
-																		<option>NOMINEE</option>
-																		<option>SHARE_HOLDER</option>
-																	</select>
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div data-error-for="type" class="AddUser__status-message status-message error">
-																	@if ($errors->has('type'))
-																	<span class="invalid-form-validation text-small">
-																		{{ $errors->first('type') }}
-																	</span>
-																	@endif
-																</div>
-															</div>
-														</div>
-															<br/><br/>
-
-															<button type="submit" class="btn btn-danger pull-right">Save</button>
-															<!-- <button type="submit" class="btn btn-warning pull-right" >Save &#38; New</button>
-															-->
-														<div class="clearfix"></div>
-													</form>
+							<div class="container">
+								<div class="card">
+									<div class="card-body">
+										<!-- Document upload -->
+										<div class="row">
+											<div class="col-md-12">
+												<div class="text-left">
+													<button class="custom-btn btn btn-default uploadFile" data-type="document">
+														Upload Document
+													</button>
+													<input type="hidden" id="txtMultiDocument">
+													<input type="hidden" id="documentHiddenInput" name="document">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div id="documentUploadPreviewDiv"></div>
+											</div>
+											<div class="col-md-12">
+												<div data-error-for="document" class="AddMeeting__status-message status-message error">
+													@if ($errors->has('document'))
+													<span class="invalid-form-validation text-small">
+														{{ $errors->first('document') }}
+													</span>
+													@endif
 												</div>
 											</div>
 										</div>
+										<!-- /Document upload -->
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="tab-pane" id="addExistingUser">
-							<h1>Select user</h1>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
-<div class="modal fade" id="addResolutionForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="content">
-					<div class="container">
-						<div class="row">
-							<div class="col">
-								<div class="card">
-									<div class="card-header card-header-primary">
-										<h4 class="card-title">Add Resolution</h4>
-									</div>
-									<div class="card-body">
-										<form>
-											<div class="row" id="resolutionQuestionEntry">
-												
-												<div class="col-md-12" hidden>
-													<div class="form-group">
-														<label class="AddUser__label">Meeting UUID</label>
-														<input type="hidden" name="meeting_uuid" class="form-control AddUser__input" value="{{ $meeting_uuid }}">
-													</div>
-												</div>
-
-												<div class="col-md-12 resolutionParent">
-													<div class="form-group">
-														<label >Resolution</label>
-														<input type="text" name="resolution_0" class="form-control resolutionQuestionInput">
-													</div>
-												</div>
-											</div>
-
-
-											<br/><br/>
-											<div class="row">
-												<div class="col">
-													<button type="submit" class="btn btn-danger pull-right" data-dismiss="modal">Save</button>
-													<button id="btnAddResolution" type="button" class="btn btn-primary pull-right">Add more</button>
-												</div>
-											</div>
-
-											<div class="clearfix"></div>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
+							<button type="submit" class="btn btn-primary pull-right">Create</button>
+							<div class="clearfix"></div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -399,7 +215,7 @@
 <script>
 	function responsive_filemanager_callback(field_id){
 		var imageUrl="",
-		imgArr = [],
+		docArray = [],
 		domain = "{{ URL('/') }}";
 		switch(field_id){
 			case 'txtFeaturedImage':
@@ -409,41 +225,24 @@
 				'<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'
 				);
 			break;
-			case 'txtMultiImages':
-			imageUrl = $('#'+field_id).val();
-			imageUrl = imageUrl.replace(domain,'');
-			imgArr.push(imageUrl);
-			$('#slideImagesPreviewDiv img').each(function(i,k,v){
-				var imgSrc = $(this).attr('src');
-				imgArr.push(imgSrc);
+			case 'txtMultiDocument':
+			var documentUrl = $('#'+field_id).val(),
+			documentUrl = documentUrl.replace(domain,''),
+			documentName = documentUrl.split('/').pop().split('#')[0].split('?')[0];
+			docArray.push(documentUrl);
+			$('#documentUploadPreviewDiv li').each(function(i,k,v){
+				var docUrl = $(this).attr('data-document-url');
+				docArray.push(docUrl);
 			});
-			$('#slideImgs').val(JSON.stringify(imgArr));
-			$('#slideImagesPreviewDiv').append(''+
-				'<div class="img_slide__outer">'+
-				'<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'+
-				'<span class="btnRmSlideImg">'+
-				'<i class="fa fa-remove"></i>'+
-				'</span>'+
-				'</div>'+
-				'');
-			break;
-			case 'txtMultiImages':
-			imageUrl = $('#'+field_id).val();
-			imageUrl = imageUrl.replace(domain,'');
-			imgArr.push(imageUrl);
-			$('#slideImagesPreviewDiv img').each(function(i,k,v){
-				var imgSrc = $(this).attr('src');
-				imgArr.push(imgSrc);
-			});
-			$('#slideImgs').val(JSON.stringify(imgArr));
-			$('#slideImagesPreviewDiv').append(''+
-				'<div class="img_slide__outer">'+
-				'<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'+
-				'<span class="btnRmSlideImg">'+
-				'<i class="fa fa-remove"></i>'+
-				'</span>'+
-				'</div>'+
-				'');
+			$('#documentHiddenInput').val(JSON.stringify(docArray));
+			$('#documentUploadPreviewDiv').append(''+
+				'<li class="documentItem" data-document-url="'+documentUrl+'">'+
+				'<a href="'+documentUrl+'">' +
+				'<span class="icon"></span>' +
+				'<span class="filename">'+documentName+'</span>' +
+				'</a>' +
+				'</li>'
+				);
 			break;
 			case 'sound_url':
 			var playing = false,
@@ -459,22 +258,17 @@
 				$(audioEle).attr('src', $('#'+field_id).val());
 			}
 			break;
-
 			default:
 			return;
-
 		}
-
 		$("#fileManagerModal").modal('hide');
-
 	}
 	jQuery(document).ready(function($) {
 		$('#AddMeeting__form').on('submit', DP.main.addMeetingFormSubmitHandler);
-		// Add Resolution handler
-		$('#btnAddResolution').on('click', DP.main.addResolutionQuestion);
-		// Onsubmit add user form handler
-		$('#AddUser__form').on('submit', DP.main.addUserFormSubmitHandler);
-	});
-
+	// Add Resolution handler
+	$('#btnAddResolution').on('click', DP.main.addResolutionQuestion);
+	// Onsubmit add user form handler
+	$('#AddUser__form').on('submit', DP.main.addUserFormSubmitHandler);
+});
 </script>
 @endsection

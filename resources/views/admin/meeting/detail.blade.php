@@ -4,12 +4,13 @@
 
 <div class="container">
 	<div class="content AddMeeting">
-		<div class="container">
+		<div class="">
 			<div class="row">
 				<div class="col">
 					<div class="card">
 						<div class="card-header card-header-primary">
 							<h4 class="card-title">Detail Meeting</h4>
+							<input type="hidden" name="meeting_uuid" value="{{ $meeting->meeting_uuid }}">
 							<p class="card-category">Register a meeting for client</p>
 						</div>
 						<div class="card-body">
@@ -34,6 +35,7 @@
 												</div>
 											</div>
 										</div>
+
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group">
@@ -51,6 +53,7 @@
 												</div>
 											</div>
 										</div>
+
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group">
@@ -138,6 +141,8 @@
 												</div>
 											</div>
 										</div>
+
+										
 									</div>
 								</div>
 
@@ -163,7 +168,39 @@
 									</div>
 								</div>
 
-								<button type="submit" class="btn btn-primary pull-right">Save</button>
+								<div class="container">
+									<div class="card">
+										<div class="card-body">
+											<!-- Document upload -->
+											<div class="row">
+												<div class="col-md-12">
+													<div class="text-left">
+														<button class="custom-btn btn btn-default uploadFile" data-type="document">
+															Upload Document
+														</button>
+														<input type="hidden" id="txtMultiDocument">
+														<input type="hidden" id="documentHiddenInput" name="document">
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div id="documentUploadPreviewDiv"></div>
+												</div>
+												<div class="col-md-12">
+													<div data-error-for="document" class="AddMeeting__status-message status-message error">
+														@if ($errors->has('document'))
+														<span class="invalid-form-validation text-small">
+															{{ $errors->first('document') }}
+														</span>
+														@endif
+													</div>
+												</div>
+											</div>
+											<!-- /Document upload -->
+										</div>
+									</div>
+								</div>
+
+								<button type="button" id="btnSaveMeeting" class="btnSaveMeeting btn btn-primary pull-right disabled">Save</button>
 								<div class="clearfix"></div>
 							</form>
 							@endif
@@ -175,106 +212,119 @@
 	</div>
 </div>
 
-<div class="content">
-	<div class="container">
-		<div class="card">
-			<ul class="nav nav-pills nav-justified pt-4">
-				<li class="nav-item ">
-					<a class="nav-link active show" href="#userTab" data-toggle="tab">User</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#resolutionTab" data-toggle="tab" id="resolution">Resolution</a>
-				</li>
-			</ul>
+								
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="card">
+				<ul class="nav nav-pills nav-justified pt-4">
+					<li class="nav-item ">
+						<a class="nav-link active show" href="#userTab" data-toggle="tab">User</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#resolutionTab" data-toggle="tab" id="resolution">Resolution</a>
+					</li>
+				</ul>
 
 
-			<div class="card-body">
-				<div class="tab-content">
-					<div class="tab-pane active" id="userTab">
-						<div class="table-responsive">
-							<table class="table UserEntry__table">
-								<thead class=" text-primary">
-									<th class="UserEntry__th">
-										HIN/SRN
-									</th>
-									<th class="UserEntry__th">
-										Role
-									</th>
-								</thead>
-								<tbody class="MeetingEntry__tbody">
-									@if(isset($usersMeeting) && $usersMeeting->count() > 0)
-									@foreach($usersMeeting as $user)
-									<tr class="MeetingEntry__record MeetingEntry__tr ObjectRecord">
-										<td class="UserEntry__td">
-											{{ isset($user->username) ? $user->username : __('Unknown') }}
-										</td>
-										<td class="MeetingEntry__td">
-											{{ isset($user->role) ? $user->role : __('Unknown') }}
+				<div class="card-body">
+					<div class="tab-content">
+						<div class="tab-pane active" id="userTab">
+							<div class="table-responsive">
+								<table class="table UserEntry__table">
+									<thead class=" text-primary">
+										<th class="UserEntry__th">
+											HIN/SRN
+										</th>
+										<th class="UserEntry__th">
+											Role
+										</th>
+										<th class="UserEntry__th">
+											PIN
+										</th>
+									</thead>
+									<tbody class="MeetingEntry__tbody">
+										@if(isset($usersBelongToMeeting) && $usersBelongToMeeting->count() > 0)
+										@foreach($usersBelongToMeeting as $user)
+										<tr class="MeetingEntry__record MeetingEntry__tr ObjectRecord">
+											<td class="UserEntry__td">
+												{{ isset($user->username) ? $user->username : __('Unknown') }}
+											</td>
+											<td class="MeetingEntry__td">
+												{{ isset($user->role) ? $user->role : __('Unknown') }}
 
-										</td>
-									</tr>
-									@endforeach
-									@endif
-								</tbody>
-							</table>
+											</td>
+											<td class="MeetingEntry__td">
+												{{ isset($user->pin) ? $user->pin : __('Unknown') }}
+
+											</td>
+											
+										</tr>
+										@endforeach
+										@endif
+									</tbody>
+								</table>
+							</div>
+							
+							{{-- <button type="submit" class="btn btn-danger pull-right">
+								Save
+							</button> --}}
+
+							<button type="button" class="btn btn-outline-primary pull-right" data-toggle="modal" data-target="#addUserForm">
+								Add User
+							</button>
 						</div>
-						
-						{{-- <button type="submit" class="btn btn-danger pull-right">
-							Save
-						</button> --}}
 
-						<button type="button" class="btn btn-outline-primary pull-right" data-toggle="modal" data-target="#addUserForm">
-							Add User
-						</button>
-					</div>
+						<div class="tab-pane" id="resolutionTab">
+							@if(isset($vote->vote_setting))
+							@foreach($vote->vote_setting as $vote)
+							<div class="row" id="resolutionQuestionEntry">
 
-					<div class="tab-pane" id="resolutionTab">
-						@if(isset($vote->vote_setting))
-						@foreach($vote->vote_setting as $vote)
-						<div class="row" id="resolutionQuestionEntry">
-
-							<div class="col-md-12 resolutionParent">
-								<div class="form-group">
-									<label >Resolution</label>
-									<input type="text" value="{{ $vote }}" name="resolution_0" class="form-control resolutionQuestionInput">
-									<button type="button" class="close noChildEventPointer" aria-label="Close" onclick="DP.utils.removeSelfParentDOM(event, '.resolutionParent')">
-										<span aria-hidden="true">&times;</span>
+								<div class="col-md-12 resolutionParent">
+									<div class="form-group">
+										<label >Resolution</label>
+										<input type="text" value="{{ $vote }}" name="resolution_0" class="form-control resolutionQuestionInput">
+										<button type="button" class="close noChildEventPointer" aria-label="Close" onclick="DP.utils.removeSelfParentDOM(event, '.resolutionParent')">
+											<span aria-hidden="true">&times;</span>
 										</button>
+									</div>
 								</div>
 							</div>
-						</div>
-						@endforeach
-						@else	
-						<div class="row" id="resolutionQuestionEntry">
+							@endforeach
+							@else	
+							<div class="row" id="resolutionQuestionEntry">
 
-							<div class="col-md-12 resolutionParent">
-								<div class="form-group">
-									<label >Resolution</label>
-									<input type="text" name="resolution_0" class="form-control resolutionQuestionInput">
+								<div class="col-md-12 resolutionParent">
+									<div class="form-group">
+										<label >Resolution</label>
+										<input type="text" name="resolution_0" class="form-control resolutionQuestionInput">
+									</div>
 								</div>
 							</div>
-						</div>
-						@endif
-						
-						<br/><br/>
-						<div class="row">
-							<div class="col">
-								<button type="button" id="btnSubmitResolution" class="btn btn-danger pull-right" >Save</button>
-								<button id="btnAddResolution" type="button" class="btn btn-primary pull-right">Add more</button>
+							@endif
+							
+							<br/><br/>
+							<div class="row">
+								<div class="col">
+									<button type="button" id="btnSubmitResolution" class="btn btn-danger pull-right" >Save</button>
+									<button id="btnAddResolution" type="button" class="btn btn-primary pull-right">Add more</button>
+								</div>
 							</div>
-						</div>
 
-						<div class="clearfix"></div>
+							<div class="clearfix"></div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>	
 	</div>
 </div>
 
 
-<div class="modal fade" id="addUserForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
 
+<div class="modal fade" id="addUserForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+	
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -304,6 +354,7 @@
 												<div class="card-body">
 													<form class="custom-form AddUser__form" id="AddUser__form" action="{{ route('user.add.submit') }}">
 														<input type="hidden" name="_token" value="{{ csrf_token() }}">
+														<input type="hidden" name="meeting_uuid" value="{{ $meeting->meeting_uuid }}">
 														<div class="row">
 															<div class="col-md-6">
 																<div class="form-group">
@@ -460,7 +511,7 @@
 <script>
 	function responsive_filemanager_callback(field_id){
 		var imageUrl="",
-		imgArr = [],
+		docArray = [],
 		domain = "{{ URL('/') }}";
 		switch(field_id){
 			case 'txtFeaturedImage':
@@ -470,41 +521,24 @@
 				'<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'
 				);
 			break;
-			case 'txtMultiImages':
-			imageUrl = $('#'+field_id).val();
-			imageUrl = imageUrl.replace(domain,'');
-			imgArr.push(imageUrl);
-			$('#slideImagesPreviewDiv img').each(function(i,k,v){
-				var imgSrc = $(this).attr('src');
-				imgArr.push(imgSrc);
+			case 'txtMultiDocument':
+			var documentUrl = $('#'+field_id).val(),
+			documentUrl = documentUrl.replace(domain,''),
+			documentName = documentUrl.split('/').pop().split('#')[0].split('?')[0];
+			docArray.push(documentUrl);
+			$('#documentUploadPreviewDiv li').each(function(i,k,v){
+				var docUrl = $(this).attr('data-document-url');
+				docArray.push(docUrl);
 			});
-			$('#slideImgs').val(JSON.stringify(imgArr));
-			$('#slideImagesPreviewDiv').append(''+
-				'<div class="img_slide__outer">'+
-				'<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'+
-				'<span class="btnRmSlideImg">'+
-				'<i class="fa fa-remove"></i>'+
-				'</span>'+
-				'</div>'+
-				'');
-			break;
-			case 'txtMultiImages':
-			imageUrl = $('#'+field_id).val();
-			imageUrl = imageUrl.replace(domain,'');
-			imgArr.push(imageUrl);
-			$('#slideImagesPreviewDiv img').each(function(i,k,v){
-				var imgSrc = $(this).attr('src');
-				imgArr.push(imgSrc);
-			});
-			$('#slideImgs').val(JSON.stringify(imgArr));
-			$('#slideImagesPreviewDiv').append(''+
-				'<div class="img_slide__outer">'+
-				'<img src="'+imageUrl+'" style="width:100%; margin-bottom:10px;">'+
-				'<span class="btnRmSlideImg">'+
-				'<i class="fa fa-remove"></i>'+
-				'</span>'+
-				'</div>'+
-				'');
+			$('#documentHiddenInput').val(JSON.stringify(docArray));
+			$('#documentUploadPreviewDiv').append(''+
+				'<li class="documentItem" data-document-url="'+documentUrl+'">'+
+				'<a href="'+documentUrl+'">' +
+				'<span class="icon"></span>' +
+				'<span class="filename">'+documentName+'</span>' +
+				'</a>' +
+				'</li>'
+				);
 			break;
 			case 'sound_url':
 			var playing = false,
@@ -520,14 +554,10 @@
 				$(audioEle).attr('src', $('#'+field_id).val());
 			}
 			break;
-
 			default:
 			return;
-
 		}
-
 		$("#fileManagerModal").modal('hide');
-
 	}
 	jQuery(document).ready(function($) {
 		$('#AddMeeting__form').on('submit', DP.main.addMeetingFormSubmitHandler);
@@ -541,7 +571,13 @@
 		$('.modal').on('shown.bs.modal', DP.utils.modalFormAutofocus);
 		//Retrieve existing resolution 
 		$("#resolution").on('click',DP.main.getExistingResolutionHandler);
-
+		// editOrSaveBtn
+		// $('form').on('change', function(){
+		// 	var btn = $('#editOrSaveBtn');
+		// 	btn.removeClass('disabled');
+		// 	console.log(this);
+		// });
+		$('.btnSaveMeeting').on('click', DP.main.updateMeetingHandler);
 		// $('#input-tags').selectize({
 		// 	persist: false,
 		// 	createOnBlur: true,

@@ -115,3 +115,177 @@
 		text-align : left;
 	}
 }
+
+#documentUploadPreviewDiv{
+	.documentItem{
+		display: block;
+		margin-top: 15px;
+		list-style-type: none;
+
+		a{
+			position: relative;
+			text-decoration: none;
+			color: #111;
+			display: flex;
+		    align-items: flex-end;
+		    justify-content: start;
+			&:hover{
+				text-decoration: underline;
+			}
+		}
+		span {
+			display: inline-block;
+		}
+
+		span.filename {
+			font-size: 15px;
+			word-break: break-word;
+		}
+		span.icon {
+		    width: auto;
+		    background-size: contain;
+		    height: 40px;
+		    margin-right: 8px;
+		}
+
+		a[href$=".*"] span.icon {
+		  	content:url(/img/icons/svg/015-file.svg);
+		}
+
+		a[href$=".docx"] span.icon {
+		  	content:url(/img/icons/svg/036-doc.svg);
+		}
+
+		a[href$=".pttx"] span.icon {
+		  	content:url(/img/icons/svg/023-ppt.svg);
+		}
+
+		a[href$=".xlsx"] span.icon{
+		  	content:url(/img/icons/svg/031-xls.svg);
+		}
+
+		a[href$=".xls"] span.icon{
+		  	content:url(/img/icons/svg/031-xls.svg);
+		}
+
+		a[href$=".pdf"] span.icon {
+		  	content:url(/img/icons/svg/039-pdf.svg);
+		}
+
+		a[href$=".txt"] span.icon {
+		  	content:url(/img/icons/svg/022-txt.svg);
+		}
+
+		a[href$=".prelude"] span.icon{
+		  	content:url(/img/icons/svg/001-prelude.svg);
+		}
+
+		a[href$=".fireworks"] span.icon {
+		  	content:url(/img/icons/svg/002-fireworks.svg);
+		}
+
+		a[href$=".audition"] span.icon {
+		  	content:url(/img/icons/svg/003-audition.svg);
+		}
+
+		a[href$=".fla"] span.icon {
+		  	content:url(/img/icons/svg/004-fla.svg);
+		}
+
+		a[href$=".dwg"] span.icon {
+		  	content:url(/img/icons/svg/005-dwg.svg);
+		}
+
+		a[href$=".avi"] span.icon {
+		  	content:url(/img/icons/svg/006-avi.svg);
+		}
+
+		a[href$=".svg"] span.icon {
+		  	content:url(/img/icons/svg/007-svg.svg);
+		}
+
+		a[href$=".exe"] span.icon {
+		  	content:url(/img/icons/svg/008-exe.svg);
+		}
+
+		a[href$=".iso"] span.icon {
+		  	content:url(/img/icons/svg/009-iso.svg);
+		}
+
+		a[href$=".rtf"] span.icon{
+		  	content:url(/img/icons/svg/010-rtf.svg);
+		}
+
+		a[href$=".bridge"] span.icon{
+		  	content:url(/img/icons/svg/011-bridge.svg);
+		}
+
+		a[href$=".dbf"] span.icon {
+		  	content:url(/img/icons/svg/012-dbf.svg);
+		}
+
+		a[href$=".zip"] span.icon {
+		  	content:url(/img/icons/svg/029-zip.svg);
+		}
+
+		a[href$=".ai"] span.icon {
+		  	content:url(/img/icons/svg/014-ai.svg);
+		}
+
+		a[href$=".flash"] span.icon {
+		  	content:url(/img/icons/svg/017-flash.svg);
+		}
+
+		a[href$=".mp4"] span.icon {
+		  	content:url(/img/icons/svg/018-mp4.svg);
+		}
+
+		a[href$=".psd"] span.icon {
+		  	content:url(/img/icons/svg/019-psd.svg);
+		}
+
+		a[href$=".csv"] span.icon {
+		  	content:url(/img/icons/svg/020-csv.svg);
+		}
+
+		a[href$=".mp3"] span.icon {
+		  	content:url(/img/icons/svg/021-mp3.svg);
+		}
+
+		a[href$=".js"] span.icon {
+		  	content:url(/img/icons/svg/024-javascript.svg);
+		}
+
+		a[href$=".jpg"] span.icon {
+		  	content:url(/img/icons/svg/025-jpg.svg);
+		}
+
+		a[href$=".css"] span.icon {
+		  	content:url(/img/icons/svg/026-css.svg);
+		}
+
+		a[href$=".scss"] span.icon {
+		  	content:url(/img/icons/svg/026-css.svg);
+		}
+
+		a[href$=".sass"] span.icon {
+		  	content:url(/img/icons/svg/026-css.svg);
+		}
+
+		a[href$=".png"] span.icon {
+		  	content:url(/img/icons/svg/027-png.svg);
+		}
+
+		a[href$=".xml"] span.icon {
+		  	content:url(/img/icons/svg/028-xml.svg);
+		}
+
+		a[href$="."] span.icon {
+		  	content:url(/img/icons/svg/0-.svg);
+		}
+
+		a[href$=".json"] span.icon {
+		  	content:url(/img/icons/svg/030-json-file.svg);
+		}
+	}
+}

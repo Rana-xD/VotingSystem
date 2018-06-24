@@ -10543,3 +10543,184 @@ a.text-dark:focus {
   text-align: left;
 }
 
+#documentUploadPreviewDiv .documentItem {
+  display: block;
+  margin-top: 15px;
+  list-style-type: none;
+}
+
+#documentUploadPreviewDiv .documentItem a {
+  position: relative;
+  text-decoration: none;
+  color: #111;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+}
+
+#documentUploadPreviewDiv .documentItem a:hover {
+  text-decoration: underline;
+}
+
+#documentUploadPreviewDiv .documentItem span {
+  display: inline-block;
+}
+
+#documentUploadPreviewDiv .documentItem span.filename {
+  font-size: 15px;
+  word-break: break-word;
+}
+
+#documentUploadPreviewDiv .documentItem span.icon {
+  width: auto;
+  background-size: contain;
+  height: 40px;
+  margin-right: 8px;
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".*"] span.icon {
+  content: url(/img/icons/svg/015-file.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".docx"] span.icon {
+  content: url(/img/icons/svg/036-doc.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".pttx"] span.icon {
+  content: url(/img/icons/svg/023-ppt.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".xlsx"] span.icon {
+  content: url(/img/icons/svg/031-xls.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".xls"] span.icon {
+  content: url(/img/icons/svg/031-xls.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".pdf"] span.icon {
+  content: url(/img/icons/svg/039-pdf.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".txt"] span.icon {
+  content: url(/img/icons/svg/022-txt.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".prelude"] span.icon {
+  content: url(/img/icons/svg/001-prelude.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".fireworks"] span.icon {
+  content: url(/img/icons/svg/002-fireworks.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".audition"] span.icon {
+  content: url(/img/icons/svg/003-audition.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".fla"] span.icon {
+  content: url(/img/icons/svg/004-fla.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".dwg"] span.icon {
+  content: url(/img/icons/svg/005-dwg.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".avi"] span.icon {
+  content: url(/img/icons/svg/006-avi.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".svg"] span.icon {
+  content: url(/img/icons/svg/007-svg.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".exe"] span.icon {
+  content: url(/img/icons/svg/008-exe.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".iso"] span.icon {
+  content: url(/img/icons/svg/009-iso.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".rtf"] span.icon {
+  content: url(/img/icons/svg/010-rtf.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".bridge"] span.icon {
+  content: url(/img/icons/svg/011-bridge.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".dbf"] span.icon {
+  content: url(/img/icons/svg/012-dbf.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".zip"] span.icon {
+  content: url(/img/icons/svg/029-zip.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".ai"] span.icon {
+  content: url(/img/icons/svg/014-ai.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".flash"] span.icon {
+  content: url(/img/icons/svg/017-flash.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".mp4"] span.icon {
+  content: url(/img/icons/svg/018-mp4.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".psd"] span.icon {
+  content: url(/img/icons/svg/019-psd.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".csv"] span.icon {
+  content: url(/img/icons/svg/020-csv.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".mp3"] span.icon {
+  content: url(/img/icons/svg/021-mp3.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".js"] span.icon {
+  content: url(/img/icons/svg/024-javascript.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".jpg"] span.icon {
+  content: url(/img/icons/svg/025-jpg.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".css"] span.icon {
+  content: url(/img/icons/svg/026-css.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".scss"] span.icon {
+  content: url(/img/icons/svg/026-css.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".sass"] span.icon {
+  content: url(/img/icons/svg/026-css.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".png"] span.icon {
+  content: url(/img/icons/svg/027-png.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".xml"] span.icon {
+  content: url(/img/icons/svg/028-xml.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$="."] span.icon {
+  content: url(/img/icons/svg/0-.svg);
+}
+
+#documentUploadPreviewDiv .documentItem a[href$=".json"] span.icon {
+  content: url(/img/icons/svg/030-json-file.svg);
+}
+
