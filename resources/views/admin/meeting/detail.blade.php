@@ -227,32 +227,49 @@
 					</li>
 				</ul>
 
+			<div class="card-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="userTab">
+						<div class="table-responsive">
+							<table class="table UserEntry__table">
+								<thead class=" text-primary">
+									<th class="UserEntry__th">
+										HIN/SRN
+									</th>
+									<th class="UserEntry__th">
+										Role
+									</th>
+									<th class="UserEntry__th">
+										PIN
+									</th>
+								</thead>
+								<tbody class="MeetingEntry__tbody">
+									@if(isset($usersBelongToMeeting) && $usersBelongToMeeting->count() > 0)
+									@foreach($usersBelongToMeeting as $user)
+									<tr class="MeetingEntry__record MeetingEntry__tr ObjectRecord">
+										<td class="UserEntry__td">
+											{{ isset($user->username) ? $user->username : __('Unknown') }}
+										</td>
+										<td class="MeetingEntry__td">
+											{{ isset($user->role) ? $user->role : __('Unknown') }}
 
-				<div class="card-body">
-					<div class="tab-content">
-						<div class="tab-pane active" id="userTab">
-							<div class="table-responsive">
-								<table class="table UserEntry__table">
-									<thead class=" text-primary">
-										<th class="UserEntry__th">
-											HIN/SRN
-										</th>
-										<th class="UserEntry__th">
-											Role
-										</th>
-										<th class="UserEntry__th">
-											PIN
-										</th>
-									</thead>
-									<tbody class="MeetingEntry__tbody">
-										@if(isset($usersBelongToMeeting) && $usersBelongToMeeting->count() > 0)
-										@foreach($usersBelongToMeeting as $user)
-										<tr class="MeetingEntry__record MeetingEntry__tr ObjectRecord">
-											<td class="UserEntry__td">
-												{{ isset($user->username) ? $user->username : __('Unknown') }}
-											</td>
-											<td class="MeetingEntry__td">
-												{{ isset($user->role) ? $user->role : __('Unknown') }}
+										</td>
+										<td class="MeetingEntry__td">
+											{{ isset($user->pin) ? $user->pin : __('Unknown') }}
+
+										</td>
+										
+									</tr>
+									@endforeach
+									@endif
+								</tbody>
+							</table>
+						</div>
+						
+						{{-- <button type="submit" class="btn btn-danger pull-right">
+							Save
+						</button> --}}
+>>>>>>> 3747d45c02a1ef7424dad5029e2a7e6d33d43083
 
 											</td>
 											<td class="MeetingEntry__td">
@@ -320,8 +337,6 @@
 		</div>	
 	</div>
 </div>
-
-
 
 <div class="modal fade" id="addUserForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
 	

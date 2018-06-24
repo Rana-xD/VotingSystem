@@ -9,8 +9,10 @@ use App\Http\Requests\StoreMeetingRequest;
 use App\MeetingMaster;
 use App\User;
 use App\VoteMaster;
+use App\MeetingUser;
 use Auth;
 use Session;
+use DB;
 
 class MeetingController extends Controller
 {
@@ -86,7 +88,15 @@ class MeetingController extends Controller
         try {
             $meeting = MeetingMaster::findOrFail($uuid);
 			$users = User::where('role','!=', 'ADMIN')->get();
+			$usersBelongToMeeting = DB::table('meeting_users')
+									->join('users','meeting_users.username','=','users.username')
+									->select('users.username','users.role','meeting_users.pin')
+									->where('meeting_users.meeting_uuid','=',$uuid)
+									->get();
+		
 			$vote = VoteMaster::where('meeting_uuid','=',$uuid)->first();
+			
+			
 
         } catch (ModelNotFoundException $e) {
             return redirect()->route('meetings');
@@ -94,7 +104,8 @@ class MeetingController extends Controller
         return view('admin.meeting.detail')->with([
             'meeting' => $meeting,
 			'users' => $users,
-			'vote' => $vote
+			'vote' => $vote,
+			'usersBelongToMeeting' => $usersBelongToMeeting
 		]);
 
     }   
