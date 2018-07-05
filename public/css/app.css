@@ -10544,7 +10544,9 @@ a.text-dark:focus {
 }
 
 #documentUploadPreviewDiv .documentItem {
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   margin-top: 15px;
   list-style-type: none;
 }

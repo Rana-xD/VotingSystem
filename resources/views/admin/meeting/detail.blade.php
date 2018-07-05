@@ -58,13 +58,13 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="AddMeeting__label">Meeting's Date</label>
-													<input id="meetingDate" type='date' class="AddMeeting__input date form-control" value="{{ isset($meeting->date_of_meeting) ? $meeting->date_of_meeting : __('----') }}"/>
+													<input id="meetingDate" type='date' class="AddMeeting__input date form-control" value="{{ isset($meeting->date_of_meeting) ? $meeting->date_of_meeting->format('Y-m-d') : __('---') }}"/>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="AddMeeting__label">Meeting's Time</label>
-													<input id="meetingTime" type='time' class="AddMeeting__input time form-control" value="10:10"/>
+													<input id="meetingTime" type='time' class="AddMeeting__input time form-control" value="{{ isset($meeting->date_of_meeting) ? $meeting->date_of_meeting->format('H:i') : __('--') }}"/>
 												</div>
 											</div>
 											<div class="col-md-12">
@@ -81,13 +81,13 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="AddMeeting__label">Close Voting Date</label>
-													<input id="meetingCloseDate" type='date' class="AddMeeting__input date form-control" value="04.20.2014"/>
+													<input id="meetingCloseDate" type='date' class="AddMeeting__input date form-control" value="{{ isset($meeting->date_of_meeting) ? $meeting->expired_date->format('Y-m-d') : __('--') }}"/>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="AddMeeting__label">Close Voting Time</label>
-													<input id="meetingCloseTime" type='time' class="AddMeeting__input time form-control" />
+													<input id="meetingCloseTime" type='time' class="AddMeeting__input time form-control" value="{{ isset($meeting->date_of_meeting) ? $meeting->expired_date->format('H:i') : __('--') }}"/>
 												</div>
 											</div>
 											<div class="col-md-12">
@@ -212,8 +212,6 @@
 	</div>
 </div>
 
-								
-
 <div class="container">
 	<div class="row">
 		<div class="col">
@@ -227,63 +225,46 @@
 					</li>
 				</ul>
 
-			<div class="card-body">
-				<div class="tab-content">
-					<div class="tab-pane active" id="userTab">
-						<div class="table-responsive">
-							<table class="table UserEntry__table">
-								<thead class=" text-primary">
-									<th class="UserEntry__th">
-										HIN/SRN
-									</th>
-									<th class="UserEntry__th">
-										Role
-									</th>
-									<th class="UserEntry__th">
-										PIN
-									</th>
-								</thead>
-								<tbody class="MeetingEntry__tbody">
-									@if(isset($usersBelongToMeeting) && $usersBelongToMeeting->count() > 0)
-									@foreach($usersBelongToMeeting as $user)
-									<tr class="MeetingEntry__record MeetingEntry__tr ObjectRecord">
-										<td class="UserEntry__td">
-											{{ isset($user->username) ? $user->username : __('Unknown') }}
-										</td>
-										<td class="MeetingEntry__td">
-											{{ isset($user->role) ? $user->role : __('Unknown') }}
-
-										</td>
-										<td class="MeetingEntry__td">
-											{{ isset($user->pin) ? $user->pin : __('Unknown') }}
-
-										</td>
-										
-									</tr>
-									@endforeach
-									@endif
-								</tbody>
-							</table>
-						</div>
-						
-						{{-- <button type="submit" class="btn btn-danger pull-right">
-							Save
-						</button> --}}
->>>>>>> 3747d45c02a1ef7424dad5029e2a7e6d33d43083
+				<div class="card-body">
+					<div class="tab-content">
+						<div class="tab-pane active" id="userTab">
+							<div class="table-responsive">
+								<table class="table UserEntry__table">
+									<thead class=" text-primary">
+										<th class="UserEntry__th">
+											HIN/SRN
+										</th>
+										<th class="UserEntry__th">
+											Role
+										</th>
+										<th class="UserEntry__th">
+											PIN
+										</th>
+									</thead>
+									<tbody class="MeetingEntry__tbody">
+										@if(isset($usersBelongToMeeting) && $usersBelongToMeeting->count() > 0)
+										@foreach($usersBelongToMeeting as $user)
+										<tr class="MeetingEntry__record MeetingEntry__tr ObjectRecord">
+											<td class="UserEntry__td">
+												{{ isset($user->username) ? $user->username : __('Unknown') }}
+											</td>
+											<td class="MeetingEntry__td">
+												{{ isset($user->role) ? $user->role : __('Unknown') }}
 
 											</td>
 											<td class="MeetingEntry__td">
 												{{ isset($user->pin) ? $user->pin : __('Unknown') }}
 
 											</td>
-											
+
 										</tr>
 										@endforeach
 										@endif
+
 									</tbody>
 								</table>
 							</div>
-							
+
 							{{-- <button type="submit" class="btn btn-danger pull-right">
 								Save
 							</button> --}}
@@ -309,7 +290,7 @@
 								</div>
 							</div>
 							@endforeach
-							@else	
+							@else   
 							<div class="row" id="resolutionQuestionEntry">
 
 								<div class="col-md-12 resolutionParent">
@@ -320,7 +301,7 @@
 								</div>
 							</div>
 							@endif
-							
+
 							<br/><br/>
 							<div class="row">
 								<div class="col">
@@ -334,7 +315,7 @@
 					</div>
 				</div>
 			</div>
-		</div>	
+		</div>  
 	</div>
 </div>
 
@@ -349,7 +330,7 @@
 			</div>
 			
 			<div class="modal-body">
-				<div class="container">	
+				<div class="container"> 
 					<ul class="p-4 nav nav-pills nav-justified">
 						<li class="nav-item ">
 							<a class="nav-link active show" href="#addNewUser" data-toggle="tab">Add New User</a>
@@ -518,7 +499,7 @@
 	</div>
 </div>
 
-@includeIf('admin.partials.filemanager_dialog')	
+@includeIf('admin.partials.filemanager_dialog') 
 @endsection
 @section('execute_script')
 <script type="text/javascript" src="{{ asset('/admins/plugins/tinymce/tinymce.min.js') }}"></script>
@@ -546,13 +527,16 @@
 				docArray.push(docUrl);
 			});
 			$('#documentHiddenInput').val(JSON.stringify(docArray));
-			$('#documentUploadPreviewDiv').append(''+
-				'<li class="documentItem" data-document-url="'+documentUrl+'">'+
-				'<a href="'+documentUrl+'">' +
-				'<span class="icon"></span>' +
-				'<span class="filename">'+documentName+'</span>' +
-				'</a>' +
-				'</li>'
+			$('#documentUploadPreviewDiv').append(`
+				<li class="documentItem" data-document-url="${documentUrl}">
+				<a href="${documentUrl}">
+				<span class="icon"></span>
+				<span class="filename">${documentName}</span>
+				</a>
+				<button type="button" class="close noChildEventPointer px-5" aria-label="Close" onclick="DP.utils.removeSelfParentDOM(event, '.documentItem', DP.utils.renderDocumentInput)">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				</li>`
 				);
 			break;
 			case 'sound_url':
@@ -588,15 +572,15 @@
 		$("#resolution").on('click',DP.main.getExistingResolutionHandler);
 		// editOrSaveBtn
 		// $('form').on('change', function(){
-		// 	var btn = $('#editOrSaveBtn');
-		// 	btn.removeClass('disabled');
-		// 	console.log(this);
+		//  var btn = $('#editOrSaveBtn');
+		//  btn.removeClass('disabled');
+		//  console.log(this);
 		// });
 		$('.btnSaveMeeting').on('click', DP.main.updateMeetingHandler);
 		// $('#input-tags').selectize({
-		// 	persist: false,
-		// 	createOnBlur: true,
-		// 	create: true
+		//  persist: false,
+		//  createOnBlur: true,
+		//  create: true
 		// });
 	});
 </script>

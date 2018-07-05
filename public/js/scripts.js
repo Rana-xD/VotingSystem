@@ -432,7 +432,7 @@ jQuery(document).ready(function($) {
 		$('.spinner').removeClass('active');
 		$('.spinner-wrapper').removeClass('active');
 		$('body').removeClass('spinner-loading');
-	 }
+	}
 
 	/**
 	 * Activate loading spinner
@@ -442,7 +442,7 @@ jQuery(document).ready(function($) {
 		$('body').addClass('spinner-loading');
 		$('.spinner-wrapper').addClass('active');
 		$('.spinner').addClass('active');
-	 }
+	}
 
 	/**
 	 * Open new tab
@@ -450,28 +450,31 @@ jQuery(document).ready(function($) {
 	func.openInNewTab = function(url) {
 		var win = window.open(url, '_blank');
 		win.focus();
-	 }
+	}
 
 	/**
 	 * Change window tab url
 	 */
 	func.changeUrl = function(url) {
 		window.location.replace(url);
-	 }
+	}
 
 	func.closeFilemanagerDialog = function(e) {
 		e.preventDefault();
 		console.log("clicked");
 		$("#fileManagerModal").modal('hide');
-	 }
+	}
 
-	func.removeSelfParentDOM = function(e, parentSelector) {
+	func.removeSelfParentDOM = function(e, parentSelector, callback=null) {
 		e.preventDefault();
 		var $parent = $(e.target).parents(parentSelector)[0]
 		if($parent){
 			$parent.remove();
 		}
-	 }
+		if(callback){
+			callback();
+		}
+	}
 
 	func.scroll_to_class = function(chosen_class) {
 		var nav_height = $('nav').outerHeight();
@@ -480,10 +483,19 @@ jQuery(document).ready(function($) {
 		if($(window).scrollTop() != scroll_to) {
 			$('html, body').stop().animate({scrollTop: scroll_to}, 1000);
 		}
-	 }
+	}
 
 	func.modalFormAutofocus = function() {
 		$(this).find('[autofocus]').focus();
-	 }
+	}
+
+	func.renderDocumentInput = function(){
+	 	var docArray = [];
+		$('#documentUploadPreviewDiv li').each(function(i,k,v){
+			var docUrl = $(this).attr('data-document-url');
+			docArray.push(docUrl);
+		});
+		$('#documentHiddenInput').val(JSON.stringify(docArray));
+	}
 
 	})(jQuery);

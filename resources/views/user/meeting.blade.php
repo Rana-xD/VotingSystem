@@ -29,6 +29,7 @@
 										
 										<hr class="my-4">
 										<p>{!! $meeting_master->content !!}</p>
+										<p>{{ $documents[0] }}</p>
 										<a class="btn btn-primary btn-lg btn-next" href="#" role="button">Start Now</a>
 									</div>
 								</div>
@@ -162,16 +163,16 @@
 													{{ $resolution }}
 												</p>
 												<div class="mb-2 resoultionRadioWrapper">
-													<div class="custom-control custom-radio custom-control-inline">
+													<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
 														<input type="radio" id="resolutionId1_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input" value="for">
 														<label class="custom-control-label pl-4" for="resolutionId1_{{ $index }}">
 														For</label>
 													</div>
-													<div class="custom-control custom-radio custom-control-inline">
+													<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
 														<input type="radio" id="resolutionId2_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input" value="against">
 														<label class="custom-control-label pl-4" for="resolutionId2_{{ $index }}">Against</label>
 													</div>
-													<div class="custom-control custom-radio custom-control-inline">
+													<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
 														<input type="radio" id="resolutionId3_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input" value="obstain">
 														<label class="custom-control-label pl-4" for="resolutionId3_{{ $index }}">Abstain</label>
 													</div>
@@ -254,7 +255,7 @@
 	});
 
 	// meetingFormBtn handler
-	// $('.meetingForm').on('submit', DP.main.meetingFormSubmitHandler);
+	$('.meetingForm').on('submit', DP.main.meetingFormSubmitHandler);
 
 	// Proxy appoiting feature
 	
