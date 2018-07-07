@@ -229,22 +229,30 @@
 						<div class="container">
 							<div class="row">
 								<div class="summaryWrapper jumbotron custom-box-shadow-small bg-white">
-									<div class="col-md-12">
-										<h1>Email: </h1>
-									</div>
+									<div class="">
+										<h1>Vote Summary </h1>
+										<hr>
 
-									<div class="resoultionQuestionWrapper">
-											<p class="p-3 mb-2 bg-dark text-white ">
+										@foreach ($resolutions as $index => $resolution)
+										<div class="border-bottom">
+											<p class="p-3 mb-2 text-white text-left bg-dark">
 												{{ $resolution }}
 											</p>
-											<div class="mb-2 resoultionRadioWrapper">
-												<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
-													<input type="radio" id="resolutionId1_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input" value="for">
-													<label class="custom-control-label pl-4" for="resolutionId1_{{ $index }}">
-													For</label>
-												</div>											
-											</div>
+											<p class="p-3 mb-2 text-black text-left">
+												Answer: 
+											</p>
 										</div>
+										@endforeach
+									</div>
+
+									<div class="promteEmail mt-4 text-left">
+										<p>
+											Email:  <input type="email" name="voterEmail">
+											<input type="checkbox" name="dontNotify" class="emailNotifyFalse pl-3">
+										</p>
+										
+
+									</div>
 								</div>
 							</div>
 						</div>
