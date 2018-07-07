@@ -116,6 +116,9 @@
 	}
 }
 
+/**
+ * File icon
+ */
 #documentUploadPreviewDiv{
 	.documentItem{
 		display: flex;
@@ -287,5 +290,60 @@
 		a[href$=".json"] span.icon {
 		  	content:url(/img/icons/svg/030-json-file.svg);
 		}
+	}
+}
+
+.meetingForm {
+	fieldset {
+		width: 100%;
+	}
+	.introduction{
+		width: 100%;
+	}
+}
+
+.meetingForm__proxy {
+	.Proxy__col {
+		display: flex;
+	}
+	.Proxy__card {
+		flex: 1;
+	}
+	.ProxyName__input {
+		&.hide {
+			visibility: hidden;
+			width: 0;
+			transition: width 0.2s ease-out;
+		}
+
+		&.show {
+			visibility: visible;
+			width: 100%;
+		}
+	}
+
+	.flex_label{
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding-left: 35px;
+
+		&:before{
+			
+		}
+	}
+}
+.custom-box-shadow-small {
+	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.bg-white {
+	background-color: #FFF !important;
+}
+
+//Step 3
+.step-3{
+	.summaryWrapper{
+		width: 100%;
 	}
 }

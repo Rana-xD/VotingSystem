@@ -151,8 +151,10 @@ class Admin extends Controller
 		if(isset($existVote))
 		{
 			try{
+				
 				$existVote->vote_setting = $resolution;
 				$existVote->save();
+				
 				$responseData = [
 						"status" => [
 							"code" => 200,

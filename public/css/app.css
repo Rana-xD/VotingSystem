@@ -10543,6 +10543,10 @@ a.text-dark:focus {
   text-align: left;
 }
 
+/**
+ * File icon
+ */
+
 #documentUploadPreviewDiv .documentItem {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -10724,5 +10728,63 @@ a.text-dark:focus {
 
 #documentUploadPreviewDiv .documentItem a[href$=".json"] span.icon {
   content: url(/img/icons/svg/030-json-file.svg);
+}
+
+.meetingForm fieldset {
+  width: 100%;
+}
+
+.meetingForm .introduction {
+  width: 100%;
+}
+
+.meetingForm__proxy .Proxy__col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.meetingForm__proxy .Proxy__card {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.meetingForm__proxy .ProxyName__input.hide {
+  visibility: hidden;
+  width: 0;
+  -webkit-transition: width 0.2s ease-out;
+  transition: width 0.2s ease-out;
+}
+
+.meetingForm__proxy .ProxyName__input.show {
+  visibility: visible;
+  width: 100%;
+}
+
+.meetingForm__proxy .flex_label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 35px;
+}
+
+.custom-box-shadow-small {
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.bg-white {
+  background-color: #FFF !important;
+}
+
+.step-3 .summaryWrapper {
+  width: 100%;
 }
 

@@ -355,7 +355,17 @@
 
 	func.meetingFormSubmitHandler = function(e){
 		e.preventDefault();
-		console.log('meetingFormSubmitHandler clicked');
+		var overallVote = $('.resolutionRadioContainer input:checked');
+		var resolution = JSON.parse($('#resolution').val());
+		var vote = {};
+		
+
+		for ( var i = 0; i<resolution.length; i++ )
+		{	
+			vote[resolution[i]] = overallVote[i].value;
+		}
+		console.log(vote);
+		$('#vote').val(JSON.stringify(vote));
 		var self = e.target;
 		var formData = new FormData($(self).get(0)),
 		actionUrl = $(self).attr('action');
@@ -382,6 +392,23 @@
 				});
 			}
 		});
+	}
+
+	func.toggleVisibilityProxyNameInput = function(e) {
+		var $self = $(e.target),
+			value = $self.val();
+		if(value == 0) {
+			$('input.ProxyName__input')
+			.removeClass('hide')
+			.addClass('show')
+			.prop('disabled', false)
+			.focus();
+		} else {
+			$('input.ProxyName__input')
+			.removeClass('show')
+			.addClass('hide')
+			.prop('disabled', true);
+		}
 	}
 
 })(jQuery);

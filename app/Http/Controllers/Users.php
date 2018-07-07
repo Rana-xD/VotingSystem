@@ -67,20 +67,49 @@ class Users extends Controller
 	}
 
 	public function addVote(Request $request){
+		$vote_master = VoteMaster::where('meeting_uuid', '=', $request->meeting_uuid)->first();
+		$exitVote = Vote::where([['username','=',$request->username],['vote_master_id','=',$vote_master->id]])->first();
+		
+		if(isset($exitVote))
+		{
+			try{
+				$exitVote->vote_master_id =  $vote_master->id; 
+				$exitVote->username = $request->username ;
 
-		try{
-			$vote_master = VoteMaster::where("meeting_uuid", "=", $request->meeting_uuid)->first();
-		}catch(ModelNotFoundException $e){
-			$status = [
-				"code" => 404,
-				"message" => "Meeting does not exist."
-			];
-			return $request->expectsJson() ? response()->json([
-				"status" => $status
-			]) : redirect()->back()->with("status", $status);
+		if($request->proxy == "isAppointed"){
+			$exitVote->isAppointed = 1;
+		}else{
+			$exitVote->proxy = $request->proxyName;
 		}
+		$exitVote->vote = $request->vote;
+		$exitVote->save();
 
-		$vote = new Vote;
+		$responseData = [
+			"status" => [
+				"code" => 200,
+				"message" => "Vote successfully updated."
+			]
+		]; 
+
+		return $request->expectsJson() ? response()->json($responseData) 
+		: redirect()->back()->with($responseData);
+			}
+			catch(Exception $e)
+			{
+				$responseData = [
+					"status" => [
+						"code" => 400,
+						"message" => $e->getMessage()
+					]
+				]; 
+				return $request->expectsJson() ? response()->json($responseData) 
+		: redirect()->back()->with($responseData);
+			}
+		}
+		else
+		{
+			try{
+				$vote = new Vote;
 		$vote->vote_master_id =  $vote_master->id; 
 		$vote->username = $request->username ;
 
@@ -89,7 +118,7 @@ class Users extends Controller
 		}else{
 			$vote->proxy = $request->proxyName;
 		}
-		$vote->vote = $request->$request;
+		$vote->vote = $request->vote;
 		$vote->save();
 
 		$responseData = [
@@ -101,6 +130,21 @@ class Users extends Controller
 
 		return $request->expectsJson() ? response()->json($responseData) 
 		: redirect()->back()->with($responseData);
+			}
+			catch(Exception $e)
+			{
+
+				$responseData = [
+					"status" => [
+						"code" => 400,
+						"message" => $e->getMessage()
+					]
+				]; 
+				return $request->expectsJson() ? response()->json($responseData) 
+		: redirect()->back()->with($responseData);
+					}
+		}
+		
 	}
 
 	public function logout()

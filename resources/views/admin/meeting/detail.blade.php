@@ -10,7 +10,7 @@
 					<div class="card">
 						<div class="card-header card-header-primary">
 							<h4 class="card-title">Detail Meeting</h4>
-							<input type="hidden" name="meeting_uuid" value="{{ $meeting->meeting_uuid }}">
+							<input type="hidden" id="meeting_uuid" name="meeting_uuid" value="{{ $meeting->meeting_uuid }}">
 							<p class="card-category">Register a meeting for client</p>
 						</div>
 						<div class="card-body">
