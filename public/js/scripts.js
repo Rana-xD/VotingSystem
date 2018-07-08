@@ -411,6 +411,14 @@
 		}
 	}
 
+	func.emailNotifyFalseOnchange = function(e){
+		if ($(e.target).is(':checked')){
+			$('.voterEmail').prop('required', true);
+		}else{
+			$('.voterEmail').prop('required', false);
+		}
+	}
+
 })(jQuery);
 
 jQuery(document).ready(function($) {

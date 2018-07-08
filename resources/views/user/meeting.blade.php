@@ -246,12 +246,12 @@
 									</div>
 
 									<div class="promteEmail mt-4 text-left">
-										<p>
-											Email:  <input type="email" name="voterEmail">
-											<input type="checkbox" name="dontNotify" class="emailNotifyFalse pl-3">
-										</p>
-										
-
+										<span>
+											Ecomms Approval: <input type="checkbox" name="dontNotify" class="emailNotifyFalse" checked>
+										</span>	
+										<span class="ml-4">
+											Email:  <input type="email" name="voterEmail" class="voterEmail" required autofocus="true">
+										</span>
 									</div>
 								</div>
 							</div>
@@ -305,6 +305,9 @@
 
 		// remove form-control from input in resolutionForNomineeTable
 		//$('.resolutionForNomineeTable tbody input').removeClass('form-control');
+
+		// voterEmail promte handler
+		$('.emailNotifyFalse').on('change', DP.main.emailNotifyFalseOnchange);
 	});
 </script>
 @endsection
