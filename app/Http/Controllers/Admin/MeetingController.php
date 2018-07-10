@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMeetingRequest;
+use App\Http\Requests\UpdateMeetingRequest;
 use App\MeetingMaster;
 use App\User;
 use App\VoteMaster;
@@ -107,10 +109,54 @@ class MeetingController extends Controller
 			'vote' => $vote,
 			'usersBelongToMeeting' => $usersBelongToMeeting
 		]);
+    }
 
-	} 
-	
-	public function pdfDownload($uuid)
+    public function updateMeeting(UpdateMeetingRequest $request, $uuid) {
+        try{
+            $meeting = MeetingMaster::find($uuid);
+        } catch (ModelNotFoundException $e){
+            $status = [
+                'code' => 404,
+                'message' => 'Meeting does not exists.'
+            ];
+            return $request->expectsJson() ? response()->json([
+                'status' => $status
+            ]) : redirect()->back()->with(['status' => $status]);
+        }
+
+        $validated_data = $request->validated();
+        try {
+            $meeting->update($validated_data);
+        } catch (QueryException $e) {
+            $status = [
+                'code' => 505,
+                'message' => 'Cannot update meeting now due to database connection interupted..'
+            ];
+            return $request->expectsJson() ? response()->json([
+                'status' => $status
+            ]) : redirect()->back()->with(['status' => $status]);
+        } catch (Exception $e) {
+            $status = [
+                'code' => 500,
+                'message' => 'Unknown error occured while update meeting, please retry.'
+            ];
+            return $request->expectsJson() ? response()->json([
+                'status' => $status
+            ]) : redirect()->back()->with(['status' => $status]);
+        }
+
+        $status = [
+            'code' => 200,
+            'message' => 'Successfully updated the meeting.'
+        ];
+        return $request->expectsJson() ? response()->json([
+            'status' => $status
+        ]) : redirect()->back()->with(['status' => $status]);
+        
+
+}
+
+public function pdfDownload($uuid)
 	{
 		$usersBelongToMeeting = DB::table('meeting_users')
 		->join('users','meeting_users.username','=','users.username')
@@ -125,3 +171,5 @@ class MeetingController extends Controller
 		// ]);
 	}
 }
+
+

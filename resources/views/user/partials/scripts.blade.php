@@ -21,5 +21,5 @@
 
 <script src="{{ asset('js/libraries.js') }}" ></script>
 <script src="{{ asset('js/scripts.js') }}" ></script>
-
+@yield('include_script')
 @yield('execute_script')

@@ -15,8 +15,11 @@ mix.js('resources/assets/js/app.js', 'public/js')
 	.js('resources/assets/js/libraries.js', 'public/js')
   .sass('resources/assets/sass/app.scss', 'public/css')
   .scripts([
-  	'resources/assets/js/main.js',
-  	'resources/assets/js/utils.js',
-  ], 'public/js/scripts.js');
+	'resources/assets/js/main.js',
+	'resources/assets/js/utils.js',
+  ], 'public/js/scripts.js')
+  .scripts([
+  	'resources/assets/js/user.js'
+  	], 'public/js/normal_user.js');
 
 mix.browserSync('localhost:8000');

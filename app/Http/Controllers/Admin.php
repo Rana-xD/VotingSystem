@@ -148,7 +148,7 @@ class Admin extends Controller
 		$meeting_uuid = $request->meeting_uuid;
 
 		$existVote = $vote->where('meeting_uuid','=',$meeting_uuid)->first();
-		if(isset($existVote))
+		if(!empty($existVote))
 		{
 			try{
 				

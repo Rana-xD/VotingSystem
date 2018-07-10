@@ -107,4 +107,14 @@
 		$('#documentHiddenInput').val(JSON.stringify(docArray));
 	}
 
-	})(jQuery);
+	func.onShowSweetAlertSuccess = function(message) {
+		swal({
+			title: 'Success',
+			icon: 'success',
+			text: message,
+			button: false,
+			timer: 7000,
+		});
+	}
+
+})(jQuery);

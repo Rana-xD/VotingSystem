@@ -226,6 +226,7 @@
 				);
 			break;
 			case 'txtMultiDocument':
+			
 			var documentUrl = $('#'+field_id).val(),
 			documentUrl = documentUrl.replace(domain,''),
 			documentName = documentUrl.split('/').pop().split('#')[0].split('?')[0];
@@ -235,14 +236,16 @@
 				docArray.push(docUrl);
 			});
 			$('#documentHiddenInput').val(JSON.stringify(docArray));
-			$('#documentUploadPreviewDiv').append(''+
-				'<li class="documentItem" data-document-url="'+documentUrl+'">'+
-				'<a href="'+documentUrl+'">' +
-				'<span class="icon"></span>' +
-				'<span class="filename">'+documentName+'</span>' +
-				'</a>' +
-				'</li>'
-				);
+			$('#documentUploadPreviewDiv').append(`
+				<li class="documentItem" data-document-url="${documentUrl}">
+				<a href="${documentUrl}">
+				<span class="icon"></span>
+				<span class="filename">${documentName}</span>
+				</a>
+				<button type="button" class="close noChildEventPointer px-5" aria-label="Close" onclick="DP.utils.removeSelfParentDOM(event, '.documentItem', DP.utils.renderDocumentInput)">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				</li>`);
 			break;
 			case 'sound_url':
 			var playing = false,

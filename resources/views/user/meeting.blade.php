@@ -29,9 +29,24 @@
 										<p>Time: {{ $meeting_master->date_of_meeting->format('g:i a') }}</p>
 										
 										<hr class="my-4">
-										<p>{!! $meeting_master->content !!}</p>
-										<p>{{ $documents[0] }}</p>
-										<a class="btn btn-primary btn-lg btn-next" href="#" role="button">Start Now</a>
+
+										<div class="Meeting__content">
+											<div class="Meeting__content-title">
+												<h3>Introduction</h3>
+											</div>
+											{!! $meeting_master->content !!}
+										</div>
+										
+										<div class="Meeting__document pt-3">
+											<div class="Meeting__doc-title">
+												<h3>Reference Documents</h3>
+											</div>
+											<input type="hidden" id="documentHiddenInput" name="document" @if(isset($meeting_master->document) && !empty($meeting_master->document)) value="{{$meeting_master->document}}" @endif>
+											<div id="documentUploadPreviewDiv" class="pt-3"></div>
+										</div>
+										<div class="pt-5">
+											<a class="btn btn-primary btn-lg btn-next" href="#" role="button">Start Now</a>
+										</div>
 									</div>
 								</div>
 
@@ -65,7 +80,7 @@
 														
 														<td class="text-body">
 															@foreach ($addresses as $address)
-															{{ $address }}	
+															{{ $address }}
 															@endforeach
 														</td>
 													</tr>
@@ -157,16 +172,16 @@
 											</p>
 											<div class="mb-2 resoultionRadioWrapper">
 												<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
-													<input type="radio" id="resolutionId1_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input" value="for">
+													<input type="radio" id="resolutionId1_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionFor resolutionChoiceInput" value="for" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 													<label class="custom-control-label pl-4" for="resolutionId1_{{ $index }}">
 													For</label>
 												</div>
 												<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
-													<input type="radio" id="resolutionId2_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input" value="against">
+													<input type="radio" id="resolutionId2_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionAgaint resolutionChoiceInput" value="against" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 													<label class="custom-control-label pl-4" for="resolutionId2_{{ $index }}">Against</label>
 												</div>
 												<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
-													<input type="radio" id="resolutionId3_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input" value="obstain">
+													<input type="radio" id="resolutionId3_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionAbstain resolutionChoiceInput" value="abstain" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 													<label class="custom-control-label pl-4" for="resolutionId3_{{ $index }}">Abstain</label>
 												</div>
 											</div>
@@ -190,15 +205,15 @@
 													<tr>
 														<th scope="row">{{ $resolution }}</th>
 														<td>
-															<input type="checkbox">
-												
+															<input type="checkbox" name="">
+								
 														</td>
 														<td>
-															<input type="checkbox">
+															<input type="checkbox" name="">
 															
 														</td>
 														<td>
-															<input type="checkbox">
+															<input type="checkbox" name="">
 															
 														</td>
 													</tr>
@@ -232,7 +247,7 @@
 									<div class="">
 										<h1>Vote Summary </h1>
 										<hr>
-
+									@if($role == 'NOMINEE')
 										@foreach ($resolutions as $index => $resolution)
 										<div class="border-bottom">
 											<p class="p-3 mb-2 text-white text-left bg-dark">
@@ -240,9 +255,24 @@
 											</p>
 											<p class="p-3 mb-2 text-black text-left">
 												Answer: 
+												<span class="resolutionAnswerTerm" id="resolutionAnswerTerm{{$index}}"></span>
 											</p>
 										</div>
 										@endforeach
+									@else
+										@foreach ($resolutions as $index => $resolution)
+										<div class="border-bottom">
+											<p class="p-3 mb-2 text-white text-left bg-dark">
+												{{ $resolution }}
+											</p>
+											<p class="p-3 mb-2 text-black text-left">
+												Answer: 
+												<span class="resolutionAnswerTerm" id="resolutionAnswerTerm{{$index}}"></span>
+												<span class="resolutionShareAmountAnswer" id="resolutionShareAmountAnswer{{$index}}"></span>
+											</p>
+										</div>
+										@endforeach
+									@endif
 									</div>
 
 									<div class="promteEmail mt-4 text-left">
@@ -268,6 +298,10 @@
 			</div>
 		</div>
 	</div>
+	@endsection
+
+	@section('include_script')
+	<script src="{{ asset('js/normal_user.js') }}" type="text/javascript" charset="utf-8"></script>
 	@endsection
 
 	@section('execute_script')
@@ -308,6 +342,16 @@
 
 		// voterEmail promte handler
 		$('.emailNotifyFalse').on('change', DP.main.emailNotifyFalseOnchange);
+
+		/**
+		 * Append document to UI
+		 */
+		DP.main.appendDocumentToUserUI();
+
+		/**
+		 * Bind on change event on resolution choice input
+		 */
+		$(".resolutionChoiceInput").on("change", DP.main.onResolutionChoiceChangeHandler);
 	});
 </script>
 @endsection
