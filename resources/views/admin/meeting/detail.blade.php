@@ -268,10 +268,12 @@
 							{{-- <button type="submit" class="btn btn-danger pull-right">
 								Save
 							</button> --}}
-
-							<button type="button" class="btn btn-outline-primary pull-right" data-toggle="modal" data-target="#addUserForm">
+							
+							<button type="button" class="btn btn-outline-primary pull-right" ><a href="/admin/meeting/pdf/{{ $meeting->meeting_uuid }}">
+								Download PDF</a></button>
+								<button type="button" class="btn btn-outline-primary pull-right" data-toggle="modal" data-target="#addUserForm">
 								Add User
-							</button>
+							</button>		
 						</div>
 
 						<div class="tab-pane" id="resolutionTab">

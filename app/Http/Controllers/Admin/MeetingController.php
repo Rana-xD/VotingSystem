@@ -13,7 +13,7 @@ use App\MeetingUser;
 use Auth;
 use Session;
 use DB;
-
+use PDF;
 class MeetingController extends Controller
 {
 	protected $paginate_num = 20;
@@ -108,5 +108,20 @@ class MeetingController extends Controller
 			'usersBelongToMeeting' => $usersBelongToMeeting
 		]);
 
-    }   
+	} 
+	
+	public function pdfDownload($uuid)
+	{
+		$usersBelongToMeeting = DB::table('meeting_users')
+		->join('users','meeting_users.username','=','users.username')
+		->select('users.username','users.role','meeting_users.pin')
+		->where('meeting_users.meeting_uuid','=',$uuid)
+		->get();
+		$data = compact('usersBelongToMeeting');
+		$pdf = PDF::loadView('pdf.userList', $data);
+		return $pdf->download('download.pdf');
+		// return view ('pdf.userList')->with([
+		// 	'usersBelongToMeeting' => $usersBelongToMeeting
+		// ]);
+	}
 }
