@@ -15,7 +15,7 @@
 						</div>
 						<div class="card-body">
 							@if ( isset($meeting) && $meeting->count() > 0 )
-							<form class="custom-form AddMeeting__form" id="AddMeeting__form" action="{{ route('meeting.add.submit') }}">
+							<form class="custom-form EditMeeting__form" id="EditMeeting__form" action="{{ route('meeting.edit.submit', ['uuid' => $meeting->meeting_uuid]) }}">
 								<div class="row">
 									<div class="col-12 col-md-8">
 										<div class="row">
@@ -125,11 +125,15 @@
 													<button class="custom-btn btn btn-default uploadFile" data-type="image">
 														Upload Company Logo
 													</button>
-													<input type="hidden" id="txtFeaturedImage" name="logo">
+													<input type="hidden" id="txtFeaturedImage" name="logo" value="{{ $meeting->logo }}">
 												</div>
 											</div>
 											<div class="col-md-12">
-												<div id="imagePreviewDiv"></div>
+												<div id="imagePreviewDiv">
+												@if(isset($meeting->logo) && !empty($meeting->logo))
+													<img src="{{ asset($meeting->logo) }}" style="width:100%; margin-bottom:10px;">
+												@endif
+												</div>
 											</div>
 											<div class="col-md-12">
 												<div data-error-for="logo" class="AddMeeting__status-message status-message error">
@@ -179,7 +183,7 @@
 															Upload Document
 														</button>
 														<input type="hidden" id="txtMultiDocument">
-														<input type="hidden" id="documentHiddenInput" name="document">
+														<input type="hidden" id="documentHiddenInput" name="document" @if(isset($meeting->document) && !empty($meeting->document)) value="{{$meeting->document}}" @endif>
 													</div>
 												</div>
 												<div class="col-md-12">
@@ -200,7 +204,7 @@
 									</div>
 								</div>
 
-								<button type="button" id="btnSaveMeeting" class="btnSaveMeeting btn btn-primary pull-right disabled">Save</button>
+								<button type="submit" id="btnSaveMeeting" class="btnSaveMeeting btn btn-primary pull-right">Update</button>
 								<div class="clearfix"></div>
 							</form>
 							@endif
@@ -276,9 +280,8 @@
 
 						<div class="tab-pane" id="resolutionTab">
 							@if(isset($vote->vote_setting))
-							@foreach($vote->vote_setting as $vote)
 							<div class="row" id="resolutionQuestionEntry">
-
+							@foreach($vote->vote_setting as $vote)
 								<div class="col-md-12 resolutionParent">
 									<div class="form-group">
 										<label >Resolution</label>
@@ -288,8 +291,8 @@
 										</button>
 									</div>
 								</div>
-							</div>
 							@endforeach
+							</div>
 							@else   
 							<div class="row" id="resolutionQuestionEntry">
 
@@ -537,7 +540,7 @@
 				<span aria-hidden="true">&times;</span>
 				</button>
 				</li>`
-				);
+			);
 			break;
 			case 'sound_url':
 			var playing = false,
@@ -582,6 +585,18 @@
 		//  createOnBlur: true,
 		//  create: true
 		// });
+
+		/**
+		 * Update meeting
+		 */
+		$('#EditMeeting__form').on('submit', DP.main.onUpdateMeetingFormSubmitHandler);
+
+		/**
+		 * Append document to UI
+		 */
+		DP.main.appendDocumentToFormUI();
+		// Remove bmd-label-static when document complete
+		DP.main.removeLabelStatic();
 	});
 </script>
 @endsection

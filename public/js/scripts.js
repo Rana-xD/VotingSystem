@@ -242,7 +242,7 @@
 		$('#resolutionQuestionEntry').append(`
 			<div class="col-md-12 resolutionParent">
 			<div class="form-group ">
-			<label >Resolution</label>
+			<label class="bmd-label-float">Resolution</label>
 			<input type="text" class="form-control resolutionQuestionInput">
 			<button type="button" class="close noChildEventPointer" aria-label="Close" onclick="DP.utils.removeSelfParentDOM(event, '.resolutionParent')">
 			<span aria-hidden="true">&times;</span>
@@ -250,6 +250,7 @@
 			</div>
 			</div>
 			`);
+		$('.bmd-label-static').removeClass('bmd-label-static');
 	}
 
 	func.submitResolutionHandler = function(e){
@@ -364,7 +365,7 @@
 		{	
 			vote[resolution[i]] = overallVote[i].value;
 		}
-		console.log(vote);
+
 		$('#vote').val(JSON.stringify(vote));
 		var self = e.target;
 		var formData = new FormData($(self).get(0)),
@@ -417,6 +418,82 @@
 		}else{
 			$('.voterEmail').prop('required', false);
 		}
+	}
+
+	func.onUpdateMeetingFormSubmitHandler = function(e) {
+		e.preventDefault();
+		var $self = $(e.target);
+		var	formData = new FormData($self.get(0)),
+			meetingStartDate = $('#meetingDate').val();
+		 	meetingStartTime = $('#meetingTime').val(),
+		 	meetingCloseDate = $('#meetingCloseDate').val(),
+		 	meetingCloseTime = $('#meetingCloseTime').val(),
+		 	actionUrl = $($self).attr('action');
+		 	var meetingStartDatetime = window.Moment(meetingStartDate +" "+ meetingStartTime).format('YYYY-MM-DD HH:MM:ss');
+		 	var meetingCloseDatetime = window.Moment(meetingCloseDate +" "+ meetingCloseTime).format('YYYY-MM-DD HH:MM:ss');
+		 	formData.append('date_of_meeting', meetingStartDatetime);
+		 	formData.append('expired_date', meetingCloseDatetime);
+
+		DP.utils.activateSpinner();
+		var promise = DP.main.formSubmitPromise(actionUrl, formData);
+		promise.then(function(response){
+			if(response.status.code == 200) {
+				var message = response.status.message ? response.status.message : 'Successfully updated a meeting.'
+				DP.utils.onShowSweetAlertSuccess(message);
+			}
+		}, function(error){
+			DP.main.handleFormSubmitionError($self, error, 'Error occured while updating meeting, please retry.');
+		}).catch(function(error){
+			DP.main.handleFormSubmitionError($self, error, 'Error occured while updating meeting, please retry.');
+		});
+	}
+
+	func.appendDocumentToFormUI = function() {
+		var docArray = $('#documentHiddenInput').val(),
+			docArray = JSON.parse(docArray);
+		for(var i=0; i<docArray.length; i++) {
+			var documentName = docArray[i].split('/').pop().split('#')[0].split('?')[0];
+			$('#documentUploadPreviewDiv').append(`
+				<li class="documentItem" data-document-url="${docArray[i]}">
+				<a href="${docArray[i]}">
+				<span class="icon"></span>
+				<span class="filename">${documentName}</span>
+				</a>
+				<button type="button" class="close noChildEventPointer px-5" aria-label="Close" onclick="DP.utils.removeSelfParentDOM(event, '.documentItem', DP.utils.renderDocumentInput)">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				</li>`
+			);
+		}
+	}
+
+
+	func.appendDocumentToUserUI = function() {
+		var docArray = $('#documentHiddenInput').val(),
+			docArray = JSON.parse(docArray);
+		for(var i=0; i<docArray.length; i++) {
+			var documentName = docArray[i].split('/').pop().split('#')[0].split('?')[0];
+			$('#documentUploadPreviewDiv').append(`
+				<li class="documentItem" data-document-url="${docArray[i]}">
+				<a href="${docArray[i]}">
+				<span class="icon"></span>
+				<span class="filename">${documentName}</span>
+				</a>
+				</li>`
+			);
+		}
+	}
+
+	func.removeLabelStatic = function(){
+		var docIntervalState;
+		docIntervalState = setInterval(function(){
+			if(document.readyState == 'complete'){
+				$('.bmd-label-static').removeClass('bmd-label-static');
+				console.log("clearing setInterval");
+				clearInterval(docIntervalState);
+			}
+			console.log(docIntervalState);
+		}, 1000);
 	}
 
 })(jQuery);
@@ -533,4 +610,14 @@ jQuery(document).ready(function($) {
 		$('#documentHiddenInput').val(JSON.stringify(docArray));
 	}
 
-	})(jQuery);
+	func.onShowSweetAlertSuccess = function(message) {
+		swal({
+			title: 'Success',
+			icon: 'success',
+			text: message,
+			button: false,
+			timer: 7000,
+		});
+	}
+
+})(jQuery);

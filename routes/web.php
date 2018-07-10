@@ -30,7 +30,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 
 	Route::get('voter', 'Admin@showVoterLists');
 	Route::get('voter/add', 'Admin@showVoterForm')->name('users.add.form');
-	Route::post('voter/add', 'Admin@addVoter')->name('user.add.submit');;
+	Route::post('voter/add', 'Admin@addVoter')->name('user.add.submit');
 
 	// Route::post('voter/add', function(){
 	// 	return view('admin.meeting');
@@ -39,10 +39,9 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	Route::get('meeting', 'Admin\MeetingController@showMeetingLists')->name('meetings');
 	Route::get('meeting/add', 'Admin\MeetingController@showCreateForm')->name('meetings.add.form');
 	Route::post('meeting/add', 'Admin\MeetingController@addMeeting')->name('meeting.add.submit');
-	Route::post('meeting/edit/{uuid}', 'Admin\MeetingController@editMeeting')->name('meeting.edit.submit');
+	Route::post('meeting/edit/{uuid}', 'Admin\MeetingController@updateMeeting')->name('meeting.edit.submit');
 	Route::delete('meeting/delete', 'Admin\MeetingController@deleteMeeting')->name('meeting.delete');
 	Route::get('meeting/details/{uuid}', 'Admin\MeetingController@detailsMeeting')->name('meetings.details');
-
 	Route::post('meeting/details/resolution/add', 'Admin@addResolution')->name('resolution.add');
 
 	Route::get('meeting/detailsmeeting', 'Admin\MeetingController@gotoDetailMeeting')->name('meetings.inDetail');
