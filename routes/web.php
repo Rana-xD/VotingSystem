@@ -42,11 +42,10 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	Route::post('meeting/edit/{uuid}', 'Admin\MeetingController@updateMeeting')->name('meeting.edit.submit');
 	Route::delete('meeting/delete', 'Admin\MeetingController@deleteMeeting')->name('meeting.delete');
 	Route::get('meeting/details/{uuid}', 'Admin\MeetingController@detailsMeeting')->name('meetings.details');
-<<<<<<< HEAD
+
 	Route::get('meeting/pdf/{uuid}','Admin\MeetingController@pdfDownload')->name('meeting.pdfDownload');
 
-=======
->>>>>>> f268cfce3781d97ba255ff569dce0b7375819fb2
+
 	Route::post('meeting/details/resolution/add', 'Admin@addResolution')->name('resolution.add');
 
 	Route::get('meeting/detailsmeeting', 'Admin\MeetingController@gotoDetailMeeting')->name('meetings.inDetail');
