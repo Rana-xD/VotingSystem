@@ -496,6 +496,14 @@
 		}, 1000);
 	}
 
+	// getErrorStatus&MessageFromLogin
+	func.getLoginErrorStatus = function()
+	{
+		var status = "<?= $phpVar ?>";
+		console.log(status);
+
+	}
+
 })(jQuery);
 
 jQuery(document).ready(function($) {

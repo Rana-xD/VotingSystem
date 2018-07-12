@@ -67,7 +67,7 @@
                 <div class="card-body">
                     <form method="POST" action="userlogin">
                         @csrf
-
+                        <input type="hidden" name="current_date">
                         <div class="form-group row">
                             <label for="username" class="col-sm-4 col-form-label text-md-right">{{ __('HIN/SRN') }}</label>
 
@@ -125,4 +125,26 @@
               
     </div>
 </div>
+
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="{{ asset('js/libraries.js') }}" ></script>
+<script>
+jQuery(document).ready(function(e){
+    var date = Math.floor(new Date().getTime() / 1000);
+    console.log(date)
+    $('input[name=current_date]').val(date);
+
+    var status = <?= $status ?>;
+    switch(status.code){
+        case 0:
+            swal('Oop!', status.message, 'error', {
+	 			button: false
+             });
+        break;
+        default:
+        break;
+       
+    }
+});
+</script>

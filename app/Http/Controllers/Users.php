@@ -23,21 +23,48 @@ class Users extends Controller
 				['pin',$request->password]
 			])->exists())
 			{
-
+				$date = MeetingMaster::select('expired_date')
+									   ->where('meeting_uuid',$request->meetingid)
+									   ->first();
+				
+				if($date->expired_date->format('U') > $request->current_date)
+				{
 				session(['username' => $request->username ]);
 				session(['meeting_uuid' => $request->meetingid]);
-				// return 'meeting and pin chekced';
+				
 				return redirect('meeting');
+				}
+				else{
+					$status = [
+						'code' => 0,
+						 'message' => "Meeting is expired!!!!"
+					];
+					return view('user.login')->with([
+						'status' => json_encode($status)
+					]);
+				}
 			}
 			else {
 				{
-					return "meeting ot trov";
+					$status = [
+						'code' => 0,
+						 'message' => "MeetingID is not correct"
+					];
+					return view('user.login')->with([
+						'status' => json_encode($status)
+					]);
 				}
 			}
 		}
 		else
 		{
-			return "ot mean";
+			$status = [
+				'code' => 0,
+				 'message' => "HIN/SRN is not correct"
+			];
+			return view('user.login')->with([
+				'status' => json_encode($status)
+			]);
 		}
 	}
 
