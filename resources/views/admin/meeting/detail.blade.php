@@ -432,6 +432,36 @@
 																	@endif
 																</div>
 															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label class="AddUser__label">Address 3</label>
+																	<input type='text' name="address3" class="AddUser__input form-control" />
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div data-error-for="address3" class="AddUser__status-message status-message error">
+																	@if ($errors->has('address3'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('address3') }}
+																	</span>
+																	@endif
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label class="AddUser__label">Address 4</label>
+																	<input type='text' name="address4" class="AddUser__input form-control" />
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div data-error-for="address4" class="AddUser__status-message status-message error">
+																	@if ($errors->has('address4'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('address4') }}
+																	</span>
+																	@endif
+																</div>
+															</div>
 															<div class="col-md-4">
 																<div class="form-group">
 																	<label class="AddUser__label">Type</label>
