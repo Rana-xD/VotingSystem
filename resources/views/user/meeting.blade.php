@@ -163,7 +163,7 @@
 										<h1 class="display-4">Resolution</h1>
 										<hr class="my-4 pt-3">
 										
-										@if ($role == "SHAREHOLDER")
+										@if ($role == "SHARE_HOLDER")
 										@foreach (array_slice($resolutions,0,4) as $index => $resolution)
 										<div class="resoultionQuestionWrapper">
 											<p class="p-3 mb-2 bg-dark text-white ">
