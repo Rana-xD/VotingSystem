@@ -12,7 +12,13 @@
 */
 
 Route::get('/', function () {
-	return view('user.login');
+	$status = [
+		'code' => 1,
+		'message'=> "ok"
+	]; 
+	return view('user.login')->with([
+		'status' => json_encode($status)
+	]);
 });
 
 Route::group(['prefix' => 'admin'], function () {
