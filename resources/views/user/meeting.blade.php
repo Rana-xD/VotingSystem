@@ -59,7 +59,7 @@
 
 						<div class="container-fluid">
 
-							<div class="py-2 px-2 mb-1">
+							<div class="VoterInfo py-2 px-2 mb-1">
 								<div class="row">
 									<div class="col-md-6">
 										<div class="table-responsive">
@@ -73,17 +73,16 @@
 															{{ $voterinfo->number_of_share }}
 														</td>
 													</tr>
+													@foreach ($addresses as $index => $address)
 													<tr class="ObjectRecord">
 														<th class="tr_header">
-															Address
+															Address{{ $index+1 }}
 														</th>
-														
 														<td class="text-body">
-															@foreach ($addresses as $address)
 															{{ $address }}
-															@endforeach
 														</td>
 													</tr>
+													@endforeach
 												</tbody>
 											</table>
 										</div>
@@ -143,7 +142,7 @@
 												<input type="text" class="hide form-control ProxyName__input" name="proxyName" placeholder="Proxy Name">
 											</div>
 										</div>
-											
+
 										<div class="content text-justify mt-3">
 											<p class="text-body mt-3">
 												Falling the individual or body corporate named, or if no individual or body corporate is named, the Chairman of the Meeting as my/our proxy is to act generally at the meeting on my/our behalf and to vote in accordance with the following directions, of if no directions have been given, as the proxy sees fit at the general meeting of (company name) to be held on (date of the meeting) and at any document of that meeting.
@@ -159,13 +158,13 @@
 									</div>
 								</div>
 
-								<div class="col-md-6 Proxy__col">
+								<div class="ResolutionBox col-md-6 Proxy__col">
 									<div class="jumbotron custom-box-shadow-small bg-white Proxy__card">
 										<h1 class="display-4">Resolution</h1>
 										<hr class="my-4 pt-3">
 										
-									@if ($role == "NOMINEE")
-										@foreach ($resolutions as $index => $resolution)
+										@if ($role == "SHAREHOLDER")
+										@foreach (array_slice($resolutions,0,4) as $index => $resolution)
 										<div class="resoultionQuestionWrapper">
 											<p class="p-3 mb-2 bg-dark text-white ">
 												{{ $resolution }}
@@ -184,20 +183,24 @@
 													<input type="radio" id="resolutionId3_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionAbstain resolutionChoiceInput" value="abstain" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 													<label class="custom-control-label pl-4" for="resolutionId3_{{ $index }}">Abstain</label>
 												</div>
+												<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline" hidden>
+													<input type="radio" id="resolutionId4_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionOpenVote resolutionChoiceInput" value="OpenVote" data-answer-selector="#resolutionAnswerTerm{{ $index }}" checked>
+													<label class="custom-control-label pl-4" for="resolutionId4_{{ $index }}">OpenVote</label>
+												</div>
 											</div>
 										</div>
 										@endforeach
-									@else
+										@else
 										
 										{{-- <div class="p-3 mb-2 bg-light text-dark">{{ $resolution }}</div> --}}
 										<div class="p-3 mb-2">
 											<table class="table resolutionForNomineeTable">
 												<thead>
 													<tr>
-													<th scope="col"></th>
-													<th scope="col">For</th>
-													<th scope="col">Against</th>
-													<th scope="col">Abstain</th>
+														<th scope="col"></th>
+														<th scope="col">For</th>
+														<th scope="col">Against</th>
+														<th scope="col">Abstain</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -206,7 +209,7 @@
 														<th scope="row">{{ $resolution }}</th>
 														<td>
 															<input type="checkbox" name="">
-								
+
 														</td>
 														<td>
 															<input type="checkbox" name="">
@@ -222,7 +225,7 @@
 											</table>
 										</div>
 
-									@endif
+										@endif
 									</div>
 								</div>
 							</div>
@@ -242,12 +245,79 @@
 						<h4>Voting Summary <span class="step">(Step 3 / 3)</span></h4>
 
 						<div class="container">
+
+							<div class="VoterInfo py-2 px-2 mb-1">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="table-responsive">
+											<table class="table VoterDetail__table">
+												<tbody class="">
+													<tr class="ObjectRecord">
+														<th class="tr_header">
+															Name
+														</th>
+														<td class="">
+															{{ $voterinfo->number_of_share }}
+														</td>
+													</tr>
+													@foreach ($addresses as $index => $address)
+													<tr class="ObjectRecord">
+														<th class="tr_header">
+															Address{{ $index+1 }}
+														</th>
+														<td class="text-body">
+															{{ $address }}
+														</td>
+													</tr>
+													@endforeach
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="table-responsive">
+											<table class="table MeetingEntry__table">
+												<tbody class="">
+													<tr class="ObjectRecord">
+														<th class="tr_header">
+															HIN/SRN
+														</th>
+														<td class="">
+															{{ $voterinfo->username }}
+															<input type="hidden" name="username" value="{{ $voterinfo->username }}">
+														</td>
+													</tr>
+													<tr class="ObjectRecord">
+														<th class="tr_header">
+															Meeting ID
+														</th>
+														<td class="">
+															{{ $meeting_master->meeting_uuid }}
+															<input type="hidden" name="meeting_uuid" value="{{ $meeting_master->meeting_uuid }}">
+														</td>
+													</tr>
+													<tr class="ObjectRecord">
+														<th class="tr_header">
+															Number of shares
+														</th>
+														<td class="">
+															{{ $voterinfo->number_of_share }}
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+
 							<div class="row">
 								<div class="summaryWrapper jumbotron custom-box-shadow-small bg-white">
 									<div class="">
 										<h1>Vote Summary </h1>
 										<hr>
-									@if($role == 'NOMINEE')
+										@if($role == 'NOMINEE')
 										@foreach ($resolutions as $index => $resolution)
 										<div class="border-bottom">
 											<p class="p-3 mb-2 text-white text-left bg-dark">
@@ -259,7 +329,7 @@
 											</p>
 										</div>
 										@endforeach
-									@else
+										@else
 										@foreach ($resolutions as $index => $resolution)
 										<div class="border-bottom">
 											<p class="p-3 mb-2 text-white text-left bg-dark">
@@ -272,7 +342,7 @@
 											</p>
 										</div>
 										@endforeach
-									@endif
+										@endif
 									</div>
 
 									<div class="promteEmail mt-4 text-left">
@@ -292,21 +362,21 @@
 						<button type="submit" class="meetingFormBtn btn">Submit</button>
 					</fieldset>
 
-					</form>
+				</form>
 
-				</div>
 			</div>
 		</div>
 	</div>
-	@endsection
+</div>
+@endsection
 
-	@section('include_script')
-	<script src="{{ asset('js/normal_user.js') }}" type="text/javascript" charset="utf-8"></script>
-	@endsection
+@section('include_script')
+<script src="{{ asset('js/normal_user.js') }}" type="text/javascript" charset="utf-8"></script>
+@endsection
 
-	@section('execute_script')
-	<script>
-		jQuery(document).ready(function() {
+@section('execute_script')
+<script>
+	jQuery(document).ready(function() {
 
 		/*
 			Multi Step Form
@@ -346,12 +416,16 @@
 		/**
 		 * Append document to UI
 		 */
-		DP.main.appendDocumentToUserUI();
+		 DP.main.appendDocumentToUserUI();
 
 		/**
 		 * Bind on change event on resolution choice input
 		 */
 		$(".resolutionChoiceInput").on("change", DP.main.onResolutionChoiceChangeHandler);
-	});
-</script>
-@endsection
+
+		// Initial resolutionChoiceInput to OpenVote.
+		$('.resolutionChoiceInput').trigger('change');
+
+		});
+	</script>
+	@endsection
