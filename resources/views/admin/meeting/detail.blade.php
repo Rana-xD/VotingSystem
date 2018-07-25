@@ -357,58 +357,26 @@
 														<input type="hidden" name="_token" value="{{ csrf_token() }}">
 														<input type="hidden" name="meeting_uuid" value="{{ $meeting->meeting_uuid }}">
 														<div class="row">
+
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label class="AddUser__label">HIN/SRN</label>
-																	<input type="text" name="username" class="form-control AddUser__input" autofocus>
+																	<label class="AddUser__label">Name</label>
+																	<input type="text" name="name" class="form-control AddUser__input" autofocus>
 																</div>
-															</div>
-															<div class="col-md-6">
-																<div data-error-for="HIN/SRN" class="AddUser__status-message status-message error">
-																	@if ($errors->has('username'))
+																<div data-error-for="name" class="AddUser__status-message status-message error">
+																	@if ($errors->has('name'))
 																	<span class="invalid-form-validation text-small">
-																		{{ $errors->first('username') }}
+																		{{ $errors->first('name') }}
 																	</span>
 																	@endif
 																</div>
 															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label class="AddUser__label" >Security</label>
-																	<input type="text" name="security" class="AddUser__input form-control">
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div data-error-for="security" class="AddUser__status-message status-message error">
-																	@if ($errors->has('security'))
-																	<span class="invalid-form-validation text-small">
-																		{{ $errors->first('security') }}
-																	</span>
-																	@endif
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label class="AddUser__label">Postal Code</label>
-																	<input type='text' name="postal_code" class=" AddUser__input form-control" />
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div data-error-for="postal_code" class="AddUser__status-message status-message error">
-																	@if ($errors->has('postal_code'))
-																	<span class="invalid-form-validation text-small">
-																		{{ $errors->first('postal_code') }}
-																	</span>
-																	@endif
-																</div>
-															</div>
+
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label class="AddUser__label">Address 1</label>
 																	<input type='text' name="address1" class=" AddUser__input form-control" />
 																</div>
-															</div>
-															<div class="col-md-6">
 																<div data-error-for="address1" class="AddUser__status-message status-message error">
 																	@if ($errors->has('address1'))
 																	<span class="invalid-form-validation text-small">
@@ -417,13 +385,26 @@
 																	@endif
 																</div>
 															</div>
+
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label class="AddUser__label">HIN/SRN</label>
+																	<input type="text" name="username" class="form-control AddUser__input" >
+																</div>
+																<div data-error-for="HIN/SRN" class="AddUser__status-message status-message error">
+																	@if ($errors->has('username'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('username') }}
+																	</span>
+																	@endif
+																</div>
+															</div>
+
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label class="AddUser__label">Address 2</label>
 																	<input type='text' name="address2" class="AddUser__input form-control" />
 																</div>
-															</div>
-															<div class="col-md-6">
 																<div data-error-for="address2" class="AddUser__status-message status-message error">
 																	@if ($errors->has('address2'))
 																	<span class="invalid-form-validation text-small">
@@ -432,13 +413,26 @@
 																	@endif
 																</div>
 															</div>
+															
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label class="AddUser__label" >Security</label>
+																	<input type="text" name="security" class="AddUser__input form-control">
+																</div>
+																<div data-error-for="security" class="AddUser__status-message status-message error">
+																	@if ($errors->has('security'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('security') }}
+																	</span>
+																	@endif
+																</div>
+															</div>
+
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label class="AddUser__label">Address 3</label>
 																	<input type='text' name="address3" class="AddUser__input form-control" />
 																</div>
-															</div>
-															<div class="col-md-6">
 																<div data-error-for="address3" class="AddUser__status-message status-message error">
 																	@if ($errors->has('address3'))
 																	<span class="invalid-form-validation text-small">
@@ -447,13 +441,26 @@
 																	@endif
 																</div>
 															</div>
+															
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label class="AddUser__label">Postal Code</label>
+																	<input type='text' name="postal_code" class=" AddUser__input form-control" />
+																</div>
+																<div data-error-for="postal_code" class="AddUser__status-message status-message error">
+																	@if ($errors->has('postal_code'))
+																	<span class="invalid-form-validation text-small">
+																		{{ $errors->first('postal_code') }}
+																	</span>
+																	@endif
+																</div>
+															</div>
+
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label class="AddUser__label">Address 4</label>
 																	<input type='text' name="address4" class="AddUser__input form-control" />
 																</div>
-															</div>
-															<div class="col-md-6">
 																<div data-error-for="address4" class="AddUser__status-message status-message error">
 																	@if ($errors->has('address4'))
 																	<span class="invalid-form-validation text-small">
@@ -462,7 +469,8 @@
 																	@endif
 																</div>
 															</div>
-															<div class="col-md-4">
+
+															<div class="col-md-6">
 																<div class="form-group">
 																	<label class="AddUser__label">Type</label>
 																	<select class="form-control AddUser__input" name="role">
@@ -471,8 +479,6 @@
 																		<option>SHARE_HOLDER</option>
 																	</select>
 																</div>
-															</div>
-															<div class="col-md-6">
 																<div data-error-for="type" class="AddUser__status-message status-message error">
 																	@if ($errors->has('type'))
 																	<span class="invalid-form-validation text-small">
@@ -481,6 +487,7 @@
 																	@endif
 																</div>
 															</div>
+														
 														</div>
 														<br/><br/>
 

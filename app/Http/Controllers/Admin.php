@@ -67,6 +67,7 @@ class Admin extends Controller
 			$request->address4
 		];
 		$voterinfo->address = json_encode($address);
+		$voterinfo->name = $request->name;
 		$voterinfo->number_of_share = $request->security;
 		$voterinfo->postal_code = $request->postal_code;
 		$voterinfo->save();
