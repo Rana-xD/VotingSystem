@@ -125,8 +125,9 @@
 								</div>
 							</div>
 
-							<div class="row meetingForm__proxy">
-								<div class="col-md-6 Proxy__col">
+							<div class="row meetingForm__proxy justify-content-md-center">
+								
+								<div class="col-md-10 Proxy__col">
 									<div class="jumbotron custom-box-shadow-small bg-white Proxy__card">
 										<h1 class="display-4">Proxy</h1>
 										<hr class="my-4">
@@ -158,15 +159,15 @@
 									</div>
 								</div>
 
-								<div class="ResolutionBox col-md-6 Proxy__col">
+								<div class="ResolutionBox col-md-10 Proxy__col">
 									<div class="jumbotron custom-box-shadow-small bg-white Proxy__card">
 										<h1 class="display-4">Resolution</h1>
-										<hr class="my-4 pt-3">
+										<hr class="my-4">
 										
 										@if ($role == "SHARE_HOLDER")
 										@foreach (array_slice($resolutions,0,4) as $index => $resolution)
-										<div class="resoultionQuestionWrapper">
-											<p class="p-3 mb-2 bg-dark text-white ">
+										<div class="resoultionQuestionWrapper mx-3">
+											<p class="p-3 bg-dark text-white ">
 												{{ $resolution }}
 											</p>
 											<div class="mb-2 resoultionRadioWrapper">
@@ -207,17 +208,22 @@
 													@foreach ($resolutions as $index => $resolution)
 													<tr>
 														<th scope="row">{{ $resolution }}</th>
-														<td>
-															<input type="checkbox" name="">
+														<td>															
+
+															<input class="resolutionChoiceInput" type="checkbox" name="shareForCheckbox">
+															<input type="text" name="shareForInput">
 
 														</td>
 														<td>
-															<input type="checkbox" name="">
-															
+															<input class="resolutionChoiceInput" type="checkbox" name="shareAbstainCheckbox">
+															<input type="text" name="shareAgainstInput">
 														</td>
 														<td>
-															<input type="checkbox" name="">
-															
+															<input class="resolutionChoiceInput" type="checkbox" name="shareAbstainCheckbox">
+															<input type="text" name="shareAbstainInput">
+														</td>
+														<td hidden>
+															<input type="checkbox" id="resolutionId4_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionOpenVote resolutionChoiceInput" value="OpenVote" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 														</td>
 													</tr>
 													@endforeach
@@ -228,6 +234,7 @@
 										@endif
 									</div>
 								</div>
+
 							</div>
 
 							<br>

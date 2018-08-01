@@ -10,6 +10,7 @@ use App\MeetingUser;
 use App\MeetingMaster;
 use App\VoterInfo;
 use App\VoteMaster;
+use App\Vote;
 use Auth;
 use Session;
 
@@ -208,5 +209,70 @@ class Admin extends Controller
 		}
 		
 		
+	}
+
+	public function getMeetingReport($uuid){
+
+		/* Check if uuid is existed */
+
+		/* Get Users's info belong to meeting */
+		$meeting_user = MeetingUser::where('meeting_uuid', '=', $uuid)->get();
+		
+		// build array for fetching user
+		$username = array();
+		for ($i=0; $i < $meeting_user->count() ; $i++) {
+			array_push($username, (int)($meeting_user[$i]->username));
+		}
+
+		$users = new VoterInfo;
+		$users = $users->whereIn('username', $username)->get();	
+
+		/* Get vote result */
+		$voteMaster = VoteMaster::where('meeting_uuid', '=', $uuid)->first();
+		$voteMasterId = $voteMaster->id;
+		$votes = Vote::find($voteMasterId)->all();
+		$resolutions = $voteMaster->vote_setting;
+		
+		$answer = [];
+		for ($i=0; $i < count($resolutions) ; $i++) { 
+			
+			// $for; $abstain; $against; $openvote;
+			// $for = $abstain = $against = $openvote = 0;
+			$for = $abstain = $against = $openvote = 0;
+
+			for ($j=0; $j< count($votes) ; $j++) { 
+
+				$arr = json_decode($votes[$j]->vote, true);
+
+				if(strtolower($arr[$resolutions[$i]]) === "for"){
+					$for++;
+				}
+				if(strtolower($arr[$resolutions[$i]]) === "abstain"){
+					$abstain++;
+				}
+				if(strtolower($arr[$resolutions[$i]]) === "against"){
+					$against++;
+				}
+				if(strtolower($arr[$resolutions[$i]]) === "openvote"){
+					$openvote++;
+				}
+			}
+			
+			$answer[$resolutions[$i]] = [
+					"for" => $for,
+					"abstain" => $abstain,
+					"against" => $against,
+					"openvote" => $openvote,
+				];
+
+			// array_push($answer, );
+		}
+		// dd($answer);
+
+		return view('admin.reporting')->with([
+			'users' => $users,
+			'answers' => $answer,
+			// 'resolutions' => $resolutions,
+		]);
 	}
 }

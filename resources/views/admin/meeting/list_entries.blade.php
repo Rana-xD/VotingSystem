@@ -60,6 +60,9 @@
 											{{ $meeting->isExpired ? __('Closed') : __('On Going') }}
 										</td>
 									</tr>
+										<a href="/admin/reporting/{{ $meeting->meeting_uuid }}">
+											<button type="button" class="btn btn-primary btn-sm">Report</button>
+										</a>
 									@endforeach
 								@endif
 								</tbody>

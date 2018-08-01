@@ -15,7 +15,7 @@
 
 .msf-form form fieldset { display: none; overflow: hidden; }
 
-.msf-form form input[type="text"] { width: 400px; margin-left: 5px; margin-right: 5px; }
+.msf-form form input[type="text"] { width: 50%; margin-left: 5px; margin-right: 5px; }
 
 .msf-form form textarea.form-control { width: 700px; height: 160px; }
 

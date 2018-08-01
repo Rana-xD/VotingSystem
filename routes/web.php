@@ -55,6 +55,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	Route::post('meeting/details/resolution/add', 'Admin@addResolution')->name('resolution.add');
 
 	Route::get('meeting/detailsmeeting', 'Admin\MeetingController@gotoDetailMeeting')->name('meetings.inDetail');
+
+	Route::get('reporting/{uuid}', 'Admin@getMeetingReport');
 });
 
 // ********************** User Route **********************
