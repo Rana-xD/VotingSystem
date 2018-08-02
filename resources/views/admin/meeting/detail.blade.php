@@ -283,11 +283,11 @@
 						<div class="tab-pane" id="resolutionTab">
 							@if(isset($vote->vote_setting))
 							<div class="row" id="resolutionQuestionEntry">
-							@foreach($vote->vote_setting as $vote)
+							@foreach(json_decode($vote->vote_setting, true) as $vote_resolution)
 								<div class="col-md-12 resolutionParent">
 									<div class="form-group">
 										<label >Resolution</label>
-										<input type="text" value="{{ $vote }}" name="resolution_0" class="form-control resolutionQuestionInput">
+										<input type="text" data-uuid="{{ $vote_resolution['uuid'] }}" value="{{ $vote_resolution['question'] }}" name="resolution_0" class="form-control resolutionQuestionInput">
 										<button type="button" class="close noChildEventPointer" aria-label="Close" onclick="DP.utils.removeSelfParentDOM(event, '.resolutionParent')">
 											<span aria-hidden="true">&times;</span>
 										</button>

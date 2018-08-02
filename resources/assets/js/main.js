@@ -259,18 +259,21 @@
 		var meeting_uuid = $("#meeting_uuid").val();
 		var resolutions = [];
 		
-		// resolutionInput.forEach((resolution) =>{
-		// 	resolutions.push(resolution.value);
-		// });
 		for(var i=0;i<resolutionInput.length;i++){
-			resolutions.push(resolutionInput[i].value);
+			var uuid = DP.utils.uuidv4();
+			var exitedUUID = $(resolutionInput[i]).attr('data-uuid');
+			var tempObj = {
+				uuid: exitedUUID ? exitedUUID : uuid,
+				question: $(resolutionInput[i]).val()
+			};
+			resolutions.push(tempObj);
 		}
 		console.log(resolutions);
 		console.log(meeting_uuid);
 		actionUrl = "/admin/meeting/details/resolution/add";
 		formData = {
 			meeting_uuid : meeting_uuid,
-			resolutions : resolutions,
+			resolutions : JSON.stringify(resolutions),
 
 		};
 		console.log(formData);
@@ -356,18 +359,22 @@
 
 	func.meetingFormSubmitHandler = function(e){
 		e.preventDefault();
-		var overallVote = $('.resolutionRadioContainer input:checked');
 		var resolution = JSON.parse($('#resolution').val());
 		var vote = {};
 		
 
-		for ( var i = 0; i<resolution.length; i++ )
-		{	
-			vote[resolution[i]] = overallVote[i].value;
+		var self = e.target;
+		var roleType = $(self).attr('data-role');
+		if(roleType == 'SHARE_HOLDER') {
+			var overallVote = $('.resolutionRadioContainer .resolutionChoiceInput:checked');
+			for ( var i = 0; i<resolution.length; i++ ){	
+				vote[resolution[i]] = overallVote[i].value;
+			}
+			$('#vote').val(JSON.stringify(vote));
+		} else {
+
 		}
 
-		$('#vote').val(JSON.stringify(vote));
-		var self = e.target;
 		var formData = new FormData($(self).get(0)),
 		actionUrl = $(self).attr('action');
 		console.log(formData.get("proxy"));

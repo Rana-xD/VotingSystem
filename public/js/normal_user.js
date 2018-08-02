@@ -37,10 +37,45 @@ if(!DP.main) DP.main = {};
 		e.preventDefault();
 		var $self = $(e.target),
 			value = $self.val(),
-			answerSelector = $self.attr('data-answer-selector');
+			answerSelector = $self.attr('data-answer-selector'),
+			$answerElement = $(answerSelector),
+			$numShareInput = $self.next('.numShareInput');
+		if($self.is(':checked')) {
+			if($answerElement.length) {
+				var $answerDiv = $($answerElement[0]).find(`.resolutionAnswerTerm_${value} .resolutionAnswerTerm`);
+				$answerDiv.html(value);
+
+			}
+			if($numShareInput) {
+				var $answerDiv = $($answerElement[0]).find(`.resolutionAnswerTerm_${value} .resolutionShareAmountAnswer`);
+				$answerDiv.html($numShareInput.val());
+				$numShareInput.prop('disabled', false);
+			}
+		} else {
+			if($answerElement.length) {
+				var $answerDiv = $($answerElement[0]).find(`.resolutionAnswerTerm_${value} .resolutionAnswerTerm`);
+				$answerDiv.html('');
+			}
+			if($numShareInput) {
+				var $answerDiv = $($answerElement[0]).find(`.resolutionAnswerTerm_${value} .resolutionShareAmountAnswer`);
+				$answerDiv.html('');
+				$numShareInput.val('').prop('disabled', true);
+			}
+		}
+			
+	}
+
+	func.onResolutionNumShareInputChangeHandler = function(e) {
+		e.preventDefault();
+		var $self = $(e.target),
+			value = $self.val(),
+			resolutionType = $self.attr('data-resolution-type'),
+			answerSelector = $self.attr('data-answer-selector'),
 			$answerElement = $(answerSelector);
+
 		if($answerElement.length) {
-			$($answerElement[0]).html(value);
+			var $answerDiv = $($answerElement[0]).find(`.resolutionAnswerTerm_${resolutionType} .resolutionShareAmountAnswer`);
+			$answerDiv.html(value);
 		}
 	}
 	

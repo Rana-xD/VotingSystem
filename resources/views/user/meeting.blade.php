@@ -7,7 +7,7 @@
 		<div class="row">
 			<div class="col-sm-12 msf-form">
 
-				<form action="{{ route('vote.add.submit') }}" class="form-inline meetingForm">
+				<form action="{{ route('vote.add.submit') }}" class="form-inline meetingForm" data-role="{{ $role }}">
 
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<input type="hidden" id="vote" name="vote">
@@ -165,7 +165,7 @@
 										<hr class="my-4">
 										
 										@if ($role == "SHARE_HOLDER")
-										@foreach (array_slice($resolutions,0,4) as $index => $resolution)
+										@foreach ($resolutions as $index => $resolution)
 										<div class="resoultionQuestionWrapper mx-3">
 											<p class="p-3 bg-dark text-white ">
 												{{ $resolution }}
@@ -177,7 +177,7 @@
 													For</label>
 												</div>
 												<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
-													<input type="radio" id="resolutionId2_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionAgaint resolutionChoiceInput" value="against" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+													<input type="radio" id="resolutionId2_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionAgainst resolutionChoiceInput" value="against" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 													<label class="custom-control-label pl-4" for="resolutionId2_{{ $index }}">Against</label>
 												</div>
 												<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
@@ -206,24 +206,21 @@
 												</thead>
 												<tbody>
 													@foreach ($resolutions as $index => $resolution)
-													<tr>
+													<tr class="nomineeResolutionWrapper resolutionRadioContainer">
 														<th scope="row">{{ $resolution }}</th>
 														<td>															
 
-															<input class="resolutionChoiceInput" type="checkbox" name="shareForCheckbox">
-															<input type="text" name="shareForInput">
+															<input class="resolutionChoiceInput" type="checkbox" name="shareForCheckbox_{{ $index }}" value="for" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input data-resolution-type="for" type="text" class="numShareInput" name="shareForInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 
 														</td>
 														<td>
-															<input class="resolutionChoiceInput" type="checkbox" name="shareAbstainCheckbox">
-															<input type="text" name="shareAgainstInput">
+															<input class="resolutionChoiceInput" type="checkbox" name="shareAgaintCheckbox_{{ $index }}" value="against" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input data-resolution-type="against" type="text" class="numShareInput" name="shareAgainstInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 														</td>
 														<td>
-															<input class="resolutionChoiceInput" type="checkbox" name="shareAbstainCheckbox">
-															<input type="text" name="shareAbstainInput">
-														</td>
-														<td hidden>
-															<input type="checkbox" id="resolutionId4_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionOpenVote resolutionChoiceInput" value="OpenVote" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input class="resolutionChoiceInput" type="checkbox" name="shareAbstainCheckbox_{{ $index }}" value="abstain" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input data-resolution-type="abstain" type="text" class="numShareInput" name="shareAbstainInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 														</td>
 													</tr>
 													@endforeach
@@ -324,7 +321,7 @@
 									<div class="">
 										<h1>Vote Summary </h1>
 										<hr>
-										@if($role == 'NOMINEE')
+										@if($role == 'SHARE_HOLDER')
 										@foreach ($resolutions as $index => $resolution)
 										<div class="border-bottom">
 											<p class="p-3 mb-2 text-white text-left bg-dark">
@@ -332,7 +329,17 @@
 											</p>
 											<p class="p-3 mb-2 text-black text-left">
 												Answer: 
-												<span class="resolutionAnswerTerm" id="resolutionAnswerTerm{{$index}}"></span>
+												<div id="resolutionAnswerTerm{{$index}}">
+													<div class="resolutionAnswerTerm_for">
+														<span class="resolutionAnswerTerm"></span>
+													</div>
+													<div class="resolutionAnswerTerm_against">
+														<span class="resolutionAnswerTerm"></span>
+													</div>
+													<div class="resolutionAnswerTerm_abstain">
+														<span class="resolutionAnswerTerm"></span>
+													</div>
+												</div>
 											</p>
 										</div>
 										@endforeach
@@ -344,8 +351,21 @@
 											</p>
 											<p class="p-3 mb-2 text-black text-left">
 												Answer: 
-												<span class="resolutionAnswerTerm" id="resolutionAnswerTerm{{$index}}"></span>
-												<span class="resolutionShareAmountAnswer" id="resolutionShareAmountAnswer{{$index}}"></span>
+												<div id="resolutionAnswerTerm{{$index}}">
+													<div class="resolutionAnswerTerm_for">
+														<span class="resolutionAnswerTerm"></span>
+														<span class="resolutionShareAmountAnswer"></span>
+													</div>
+													<div class="resolutionAnswerTerm_against">
+														<span class="resolutionAnswerTerm"></span>
+														<span class="resolutionShareAmountAnswer"></span>
+													</div>
+													<div class="resolutionAnswerTerm_abstain">
+														<span class="resolutionAnswerTerm"></span>
+														<span class="resolutionShareAmountAnswer"></span>
+													</div>
+												</div>
+												
 											</p>
 										</div>
 										@endforeach
@@ -378,6 +398,7 @@
 @endsection
 
 @section('include_script')
+<script src="{{ asset('js/libs/uncheckable-radio.js') }}" type="text/javascript" charset="utf-8"></script>
 <script src="{{ asset('js/normal_user.js') }}" type="text/javascript" charset="utf-8"></script>
 @endsection
 
@@ -425,10 +446,17 @@
 		 */
 		 DP.main.appendDocumentToUserUI();
 
+		$('.resolutionChoiceInput[type="radio"]').uncheckableRadio();
+
 		/**
 		 * Bind on change event on resolution choice input
 		 */
 		$(".resolutionChoiceInput").on("change", DP.main.onResolutionChoiceChangeHandler);
+
+		/**
+		 * Bind on change evvent on share number input
+		 */
+		$(".numShareInput").on("keyup", DP.main.onResolutionNumShareInputChangeHandler);
 
 		// Initial resolutionChoiceInput to OpenVote.
 		$('.resolutionChoiceInput').trigger('change');
