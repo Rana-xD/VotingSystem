@@ -184,7 +184,8 @@
 	 * Handle add meeting form submit
 	 */
 	 func.addMeetingFormSubmitHandler = function(e) {
-	 	e.preventDefault();
+		 e.preventDefault();
+		 
 	 	var self = e.target;
 	 	var formData = new FormData($(self).get(0)),
 	 	meetingStartDate = $('#meetingDate').val();
@@ -226,7 +227,24 @@
 	 		DP.main.handleFormSubmitionError(self, error, 'Unexpected error while adding meeting, please retry.');
 	 	});
 	 }
+	 /**
+	  * prepare vote data for NOMINEE and SHARE_HOLDER
+	  */
 
+
+	 func.getVoteData = function()
+	 {
+		var overallVote = $('.resolutionRadioContainer input:checked');
+		var resolution = $('#resolution').val();
+		var vote = {};
+		
+
+		for ( var i = 0; i<resolution.length; i++ )
+		{	
+			vote[resolution[i]] = overallVote[i].value;
+		}
+		return vote;
+	 }
 	/**
 	 * Handle click on upload media files
 	 */
@@ -360,6 +378,7 @@
 	func.meetingFormSubmitHandler = function(e){
 		e.preventDefault();
 		var resolution = JSON.parse($('#resolution').val());
+		
 		var vote = {};
 		
 
@@ -367,17 +386,19 @@
 		var roleType = $(self).attr('data-role');
 		if(roleType == 'SHARE_HOLDER') {
 			var overallVote = $('.resolutionRadioContainer .resolutionChoiceInput:checked');
+			
 			for ( var i = 0; i<resolution.length; i++ ){	
-				vote[resolution[i]] = overallVote[i].value;
+				vote[resolution[i].question] = overallVote[i].value;
 			}
-			$('#vote').val(JSON.stringify(vote));
+			// $('#vote').val(JSON.stringify(vote));
 		} else {
 
 		}
-
+		console.log(vote);
 		var formData = new FormData($(self).get(0)),
 		actionUrl = $(self).attr('action');
 		console.log(formData.get("proxy"));
+		formData.append('vote',JSON.stringify(vote));
 		DP.utils.activateSpinner();
 		var promise = DP.main.formSubmitPromise(actionUrl, formData);
 		promise.then(function(response) {

@@ -82,14 +82,14 @@ class Users extends Controller
 		$vote_master = VoteMaster::where('meeting_uuid', '=', $meeting_uuid)->first();
 		$resolutions = $vote_master->vote_setting;
 		$documents = $vote_master->document;
-
+		
 		return view('user.meeting')->with([
 			'meeting_master' => $MeetingMaster,
 			'voterinfo'	=> $voterInfo,
 			'addresses' => $addresses,
 			'role' => $role,
-			'resolutions' => $resolutions,
-			'documents' => $documents
+			'resolutions' => collect(json_decode($resolutions)),
+			'resolution_string' => $resolutions
 		]);
 	}
 

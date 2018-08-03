@@ -2,7 +2,8 @@
 
 @section('mainpanel')
 <div class="msf-container">
-	<input type="hidden" id="resolution" value="{{ json_encode($resolutions,TRUE) }}">
+	<input type="hidden" id="resolution" value="{{ $resolution_string }}">
+	<input type="hidden" id="role" name="role" value="{{ $role }}">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-12 msf-form">
@@ -168,7 +169,7 @@
 										@foreach ($resolutions as $index => $resolution)
 										<div class="resoultionQuestionWrapper mx-3">
 											<p class="p-3 bg-dark text-white ">
-												{{ $resolution }}
+												{{ $resolution->question }}
 											</p>
 											<div class="mb-2 resoultionRadioWrapper">
 												<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline">
@@ -193,7 +194,7 @@
 										@endforeach
 										@else
 										
-										{{-- <div class="p-3 mb-2 bg-light text-dark">{{ $resolution }}</div> --}}
+										{{-- <div class="p-3 mb-2 bg-light text-dark">{{ $resolution->question }}</div> --}}
 										<div class="p-3 mb-2">
 											<table class="table resolutionForNomineeTable">
 												<thead>
@@ -207,7 +208,7 @@
 												<tbody>
 													@foreach ($resolutions as $index => $resolution)
 													<tr class="nomineeResolutionWrapper resolutionRadioContainer">
-														<th scope="row">{{ $resolution }}</th>
+														<th scope="row">{{ $resolution->question }}</th>
 														<td>															
 
 															<input class="resolutionChoiceInput" type="checkbox" name="shareForCheckbox_{{ $index }}" value="for" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
@@ -325,7 +326,7 @@
 										@foreach ($resolutions as $index => $resolution)
 										<div class="border-bottom">
 											<p class="p-3 mb-2 text-white text-left bg-dark">
-												{{ $resolution }}
+												{{ $resolution->question }}
 											</p>
 											<p class="p-3 mb-2 text-black text-left">
 												Answer: 
@@ -347,7 +348,7 @@
 										@foreach ($resolutions as $index => $resolution)
 										<div class="border-bottom">
 											<p class="p-3 mb-2 text-white text-left bg-dark">
-												{{ $resolution }}
+												{{ $resolution->question }}
 											</p>
 											<p class="p-3 mb-2 text-black text-left">
 												Answer: 
@@ -460,7 +461,8 @@
 
 		// Initial resolutionChoiceInput to OpenVote.
 		$('.resolutionChoiceInput').trigger('change');
-
+		
+		// console.log('{!!json_encode($resolutions)!!}');
 		});
 	</script>
 	@endsection
