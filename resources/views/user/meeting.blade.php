@@ -208,7 +208,7 @@
 												<tbody>
 													@foreach ($resolutions as $index => $resolution)
 													<tr class="nomineeResolutionWrapper resolutionRadioContainer">
-														<th scope="row">{{ $resolution->question }}</th>
+														<th scope="row">{{  $resolution->question }}</th>
 														<td>															
 
 															<input class="resolutionChoiceInput" type="checkbox" name="shareForCheckbox_{{ $index }}" value="for" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
