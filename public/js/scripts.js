@@ -388,7 +388,7 @@
 			var overallVote = $('.resolutionRadioContainer .resolutionChoiceInput:checked');
 			
 			for ( var i = 0; i<resolution.length; i++ ){	
-				vote[resolution[i].question] = overallVote[i].value;
+				vote[resolution[i].uuid] = overallVote[i].value;
 			}
 			// $('#vote').val(JSON.stringify(vote));
 		} else {
@@ -497,7 +497,10 @@
 
 
 	func.appendDocumentToUserUI = function() {
-		var docArray = $('#documentHiddenInput').val(),
+		// console.log($('#documentHiddenInput').val());
+		var docArray = $('#documentHiddenInput').val();
+		if($.trim(docArray) != "")
+		{
 			docArray = JSON.parse(docArray);
 		for(var i=0; i<docArray.length; i++) {
 			var documentName = docArray[i].split('/').pop().split('#')[0].split('?')[0];
@@ -510,6 +513,8 @@
 				</li>`
 			);
 		}
+		}
+			
 	}
 
 	func.removeLabelStatic = function(){
