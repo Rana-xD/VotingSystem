@@ -88,61 +88,8 @@ class Admin extends Controller
 	public function showVoterForm(Request $request)
 	{
 
-		// function getNonExistingUsername(String $username) {
-		// 	// $username = $validated_data['username'];
-		// 	$existed = User::where('username', '=', $username);
-		// 	if(!$existed) {
-		// 		return $username;
-		// 	}
-		// 	// } else {
-		// 	// 	return view('admin.meeting.create');
-		// 	// }
-		// }
-
-		// function pinExisted() {
-		// 	$pin = random_int(100000, 999999);
-		// 	$existed = MeetingUser::where('pin', '=', '$pin');
-		// 	if(!$existed) {
-		// 		return "$pin";
-		// 	} else {
-		// 		return pinExisted();
-		// 	}
-		// }
-		
-		// $user = new User;
-		// $username = "$request->username";
-		// $user->username = $username;
-		// $user->role =  $request->role;
-		// $user->save();
-
-		// $meeting_user = new MeetingUser;
-		// $pin = random_int(100000, 999999);
-		// $meeting_user->pin = "$pin";
-		// $meeting_user->meeting_uuid = "$request->meeting_uuid";
-		// $meeting_user->username = "$username";
-		// $meeting_user->save();
-
-		// $voterinfo = new VoterInfo;
-		// $voterinfo->username = "$username";
-		// $address = [
-		// 	$request->address1,
-		// 	$request->address2
-		// ];
-		// $voterinfo->address = json_encode($address);
-		// $voterinfo->number_of_share = $request->security;
-		// $voterinfo->postal_code = "$request->postal_code";
-		// $voterinfo->save();
-
 		return back();
 	}
-
-	// public function showVoterLists(Request $request) {
-	// 	$voter = User::orderBy('created_at', 'asc')
-	// 							->paginate($this->paginate_num);
-	// 	return view('admin.voter.list_entries')->with([
-	// 		'voter' => $voter,
-	// 	]);
-	// }
 
 	public function addResolution(Request $request)
 	{
@@ -230,43 +177,99 @@ class Admin extends Controller
 		/* Get vote result */
 		$voteMaster = VoteMaster::where('meeting_uuid', '=', $uuid)->first();
 		$voteMasterId = $voteMaster->id;
-		$votes = Vote::find($voteMasterId)->all();
-		$resolutions = $voteMaster->vote_setting;
+
+		$votes = Vote::where('vote_master_id', '=', $voteMasterId )->get();
+		// dd($votes);
+		$resolutions = json_decode($voteMaster->vote_setting, true);
+		// dd($resolutions);
 		
 		$answer = [];
+		$nominee = [];
+		$arr = [];
 		for ($i=0; $i < count($resolutions) ; $i++) { 
 			
-			// $for; $abstain; $against; $openvote;
-			// $for = $abstain = $against = $openvote = 0;
+			$user_type;
 			$for = $abstain = $against = $openvote = 0;
 
-			for ($j=0; $j< count($votes) ; $j++) { 
+			for ($j=0; $j< count($votes) ; $j++) {
 
 				$arr = json_decode($votes[$j]->vote, true);
 
-				if(strtolower($arr[$resolutions[$i]]) === "for"){
-					$for++;
-				}
-				if(strtolower($arr[$resolutions[$i]]) === "abstain"){
-					$abstain++;
-				}
-				if(strtolower($arr[$resolutions[$i]]) === "against"){
-					$against++;
-				}
-				if(strtolower($arr[$resolutions[$i]]) === "openvote"){
-					$openvote++;
-				}
-			}
-			
-			$answer[$resolutions[$i]] = [
-					"for" => $for,
-					"abstain" => $abstain,
-					"against" => $against,
-					"openvote" => $openvote,
-				];
+				$user_type = $arr['user_type'];
+				
+				if ($user_type == 'SHARE_HOLDER'){
+					
+					$ans = $arr['answers'][$resolutions[$i]["uuid"]];
 
-			// array_push($answer, );
+					if($ans == "for") {
+						// dd("Hwl");
+						$for++;
+						continue;
+					}
+					if($ans == "against"){ 
+						$against++; 
+						continue;
+					}
+					if($ans == "abstain"){
+						$abstain++;
+						continue;
+					}
+					if($ans == "openvote"){
+						$openvote++;
+						continue;
+					}
+				}
+
+				$answer[$resolutions[$i]["question"]]["shareholder"] = [
+					"for" => $for,
+					"against" => $against,
+					"abstain" => $abstain,
+					"openvote" => $openvote
+				];
+			}
+
+			$amountfor = $amountabstain = $amountagainst = 0;
+			// $resolution_answer = ["for", "against", "abstain"];
+			for ($j=0; $j< count($votes) ; $j++) {
+
+				$arr = json_decode($votes[$j]->vote, true);
+
+				$user_type = $arr['user_type'];
+
+				if($user_type == 'NOMINEE'){
+					// dd($resolutions[$i]["uuid"]);
+					if( array_key_exists($resolutions[$i]["uuid"] , $arr['answers'])){
+					
+						$ans = $arr['answers'][$resolutions[$i]["uuid"]];						
+						$key = array_keys($ans);
+
+						for ($k=0; $k < count($key); $k++) {
+							
+							if( $key[$k] == "for"){
+								$amountfor += (int)$ans['for'];
+								continue;
+							}
+							if( $key[$k] == "against"){
+								$amountagainst += (int)$ans['against'];
+								continue;
+							}
+							if( $key[$k] == "abstain"){
+								$amountabstain += (int)$ans['abstain'];
+								continue;
+							}
+						}
+						
+					}
+				}
+
+				$answer[$resolutions[$i]["question"]]["nominee"] = [
+					"for" => $amountfor,
+					"against" => $amountagainst,
+					"abstain" => $amountabstain,
+				];
+			}
 		}
+
 		// dd($answer);
 
 		return view('admin.reporting')->with([
@@ -276,3 +279,30 @@ class Admin extends Controller
 		]);
 	}
 }
+
+// array:4 [▼ $arr
+//   "a8467d65-d4a7-4b13-9fb7-90ed5781a402" => "for"
+//   "8a06a647-8b67-4b59-a79b-9b100ea51281" => "against"
+//   "dec94f0f-018a-4a26-852f-3a7e1ebdd62c" => "against"
+//   "d550cc5c-9526-4da5-9918-e3b2cc77fb98" => "abstain"
+// ]
+
+
+// array:4 [▼
+//   0 => array:2 [▼
+//     "uuid" => "a8467d65-d4a7-4b13-9fb7-90ed5781a402"
+//     "question" => "questtion resolution 1"
+//   ]
+//   1 => array:2 [▼
+//     "uuid" => "8a06a647-8b67-4b59-a79b-9b100ea51281"
+//     "question" => "questtion resolution 2"
+//   ]
+//   2 => array:2 [▼
+//     "uuid" => "dec94f0f-018a-4a26-852f-3a7e1ebdd62c"
+//     "question" => "questtion resolution 3"
+//   ]
+//   3 => array:2 [▼
+//     "uuid" => "d550cc5c-9526-4da5-9918-e3b2cc77fb98"
+//     "question" => "questtion resolution 4"
+//   ]
+// ]

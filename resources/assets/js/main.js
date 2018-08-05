@@ -379,20 +379,34 @@
 		e.preventDefault();
 		var resolution = JSON.parse($('#resolution').val());
 		
-		var vote = {};
-		
+		var vote = {
+			user_type: null,
+			answers: {}
+		};
 
 		var self = e.target;
 		var roleType = $(self).attr('data-role');
 		if(roleType == 'SHARE_HOLDER') {
 			var overallVote = $('.resolutionRadioContainer .resolutionChoiceInput:checked');
-			
+			vote['user_type'] = "SHARE_HOLDER";
 			for ( var i = 0; i<resolution.length; i++ ){	
-				vote[resolution[i].uuid] = overallVote[i].value;
+				vote['answers'][resolution[i].uuid] = overallVote[i].value;
 			}
-			// $('#vote').val(JSON.stringify(vote));
-		} else {
-
+		} else if(roleType == 'NOMINEE') {
+			var overallVote = $('.resoultionRadioWrapper');
+			vote['user_type'] = "NOMINEE";
+			for ( var i = 0; i<resolution.length; i++ ){
+				var checkedItems = $(overallVote[i]).find('.resolutionChoiceInput:checked');
+				for(var j=0; j<checkedItems.length; j++) {
+					var key = $(checkedItems[j]).val(),
+						numShare = $(checkedItems[j]).next('.numShareInput').val();
+					if(!vote['answers'].hasOwnProperty(resolution[i].uuid)) {
+						vote['answers'][resolution[i].uuid] = {};
+					} 
+					vote['answers'][resolution[i].uuid][key] = $.trim(numShare) != '' && parseInt(numShare) != NaN ? numShare : null;
+				}
+				
+			}
 		}
 		console.log(vote);
 		var formData = new FormData($(self).get(0)),

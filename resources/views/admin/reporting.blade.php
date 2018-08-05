@@ -70,7 +70,7 @@
 
 					<div class="card-body">
 						<div class="table-responsive">
-
+							@if(isset($answers))
 							@foreach($answers as $resolution => $votes)
 							<table class="table table-striped mt-5">
 								<thead>
@@ -79,26 +79,23 @@
 									</tr>
 									<tr class="">
 										<th scope="col"></th>
-										<th scope="col">FOR</th>
-										<th scope="col">AGANIST</th>
-										<th scope="col">ABSTAINED</th>
-										<th scope="col">OPENVOTE</th>
-										<th scope="col">EXCLUDED</th>
+										<th scope="col" class="text-center">FOR</th>
+										<th scope="col" class="text-center">AGANIST</th>
+										<th scope="col" class="text-center">ABSTAINED</th>
+										<th scope="col" class="text-center">OPENVOTE</th>
+										<th scope="col" class="text-center">EXCLUDED</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<th scope="row">Number of shares</th>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<th scope="row">Number of shares</th>									@foreach($votes['nominee'] as $answer => $count)
+										<td class="text-center">{{ $count }}</td>
+										@endforeach
 									</tr>
 									<tr>
 										<th scope="row">Number of Holders</th>
-										@foreach($votes as $answer => $count)
-										<td>{{ $count }}</td>
+										@foreach($votes['shareholder'] as $answer => $count)
+										<td class="text-center">{{ $count }}</td>
 										@endforeach
 									</tr>
 									<tr>
@@ -112,6 +109,7 @@
 								</tbody>
 							</table>
 							@endforeach
+							@endif
 						</div>
 					</div>
 				</div>

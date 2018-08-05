@@ -186,7 +186,7 @@
 													<label class="custom-control-label pl-4" for="resolutionId3_{{ $index }}">Abstain</label>
 												</div>
 												<div class="resolutionRadioContainer custom-control custom-radio custom-control-inline" hidden>
-													<input type="radio" id="resolutionId4_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionOpenVote resolutionChoiceInput" value="OpenVote" data-answer-selector="#resolutionAnswerTerm{{ $index }}" checked>
+													<input type="radio" id="resolutionId4_{{ $index }}" name="resolutionRadio_{{ $index }}" class="custom-control-input resolutionOpenVote resolutionChoiceInput" value="openvote" data-answer-selector="#resolutionAnswerTerm{{ $index }}" checked>
 													<label class="custom-control-label pl-4" for="resolutionId4_{{ $index }}">OpenVote</label>
 												</div>
 											</div>
@@ -207,21 +207,21 @@
 												</thead>
 												<tbody>
 													@foreach ($resolutions as $index => $resolution)
-													<tr class="nomineeResolutionWrapper resolutionRadioContainer">
+													<tr class="nomineeResolutionWrapper resoultionRadioWrapper" data-uuid="{{  $resolution->uuid }}">
 														<th scope="row">{{  $resolution->question }}</th>
 														<td>															
 
-															<input class="resolutionChoiceInput" type="checkbox" name="shareForCheckbox_{{ $index }}" value="for" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
-															<input data-resolution-type="for" type="text" class="numShareInput" name="shareForInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input data-uuid="{{  $resolution->uuid }}" class="resolutionChoiceInput" type="checkbox" name="shareForCheckbox_{{ $index }}" value="for" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input data-resolution-type="for" type="text" class="numShareInput" name="shareForInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}" pattern="[0-9]">
 
 														</td>
 														<td>
-															<input class="resolutionChoiceInput" type="checkbox" name="shareAgaintCheckbox_{{ $index }}" value="against" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
-															<input data-resolution-type="against" type="text" class="numShareInput" name="shareAgainstInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input data-uuid="{{  $resolution->uuid }}" class="resolutionChoiceInput" type="checkbox" name="shareAgaintCheckbox_{{ $index }}" value="against" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input data-resolution-type="against" type="text" class="numShareInput" name="shareAgainstInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}" pattern="[0-9]">
 														</td>
 														<td>
-															<input class="resolutionChoiceInput" type="checkbox" name="shareAbstainCheckbox_{{ $index }}" value="abstain" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
-															<input data-resolution-type="abstain" type="text" class="numShareInput" name="shareAbstainInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input data-uuid="{{  $resolution->uuid }}" class="resolutionChoiceInput" type="checkbox" name="shareAbstainCheckbox_{{ $index }}" value="abstain" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
+															<input data-resolution-type="abstain" type="text" class="numShareInput" name="shareAbstainInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}" pattern="[0-9]">
 														</td>
 													</tr>
 													@endforeach
@@ -340,6 +340,9 @@
 													<div class="resolutionAnswerTerm_abstain">
 														<span class="resolutionAnswerTerm"></span>
 													</div>
+													<div class="resolutionAnswerTerm_openvote">
+														<span class="resolutionAnswerTerm"></span>
+													</div>
 												</div>
 											</p>
 										</div>
@@ -362,6 +365,10 @@
 														<span class="resolutionShareAmountAnswer"></span>
 													</div>
 													<div class="resolutionAnswerTerm_abstain">
+														<span class="resolutionAnswerTerm"></span>
+														<span class="resolutionShareAmountAnswer"></span>
+													</div>
+													<div class="resolutionAnswerTerm_openvote">
 														<span class="resolutionAnswerTerm"></span>
 														<span class="resolutionShareAmountAnswer"></span>
 													</div>
