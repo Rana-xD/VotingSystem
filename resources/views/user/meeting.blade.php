@@ -212,16 +212,16 @@
 														<td>															
 
 															<input data-uuid="{{  $resolution->uuid }}" class="resolutionChoiceInput" type="checkbox" name="shareForCheckbox_{{ $index }}" value="for" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
-															<input data-resolution-type="for" type="text" class="numShareInput" name="shareForInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}" pattern="[0-9]">
+															<input data-resolution-type="for" type="text" class="numShareInput" name="shareForInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 
 														</td>
 														<td>
 															<input data-uuid="{{  $resolution->uuid }}" class="resolutionChoiceInput" type="checkbox" name="shareAgaintCheckbox_{{ $index }}" value="against" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
-															<input data-resolution-type="against" type="text" class="numShareInput" name="shareAgainstInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}" pattern="[0-9]">
+															<input data-resolution-type="against" type="text" class="numShareInput" name="shareAgainstInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 														</td>
 														<td>
 															<input data-uuid="{{  $resolution->uuid }}" class="resolutionChoiceInput" type="checkbox" name="shareAbstainCheckbox_{{ $index }}" value="abstain" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
-															<input data-resolution-type="abstain" type="text" class="numShareInput" name="shareAbstainInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}" pattern="[0-9]">
+															<input data-resolution-type="abstain" type="text" class="numShareInput" name="shareAbstainInput_{{ $index }}" data-answer-selector="#resolutionAnswerTerm{{ $index }}">
 														</td>
 													</tr>
 													@endforeach
@@ -454,7 +454,7 @@
 		 */
 		 DP.main.appendDocumentToUserUI();
 
-		$('.resolutionChoiceInput[type="radio"]').uncheckableRadio();
+		// $('.resolutionChoiceInput[type="radio"]').uncheckableRadio();
 
 		/**
 		 * Bind on change event on resolution choice input

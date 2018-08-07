@@ -163,7 +163,8 @@ class Admin extends Controller
 		/* Check if uuid is existed */
 
 		/* Get Users's info belong to meeting */
-		$meeting_user = MeetingUser::where('meeting_uuid', '=', $uuid)->get();
+		$meetingMasterId = MeetingMaster::where('meeting_uuid', '=', $uuid)->first()->id;
+		$meeting_user = Vote::where('vote_master_id','=', $meetingMasterId)->get();
 		
 		// build array for fetching user
 		$username = array();
@@ -179,17 +180,19 @@ class Admin extends Controller
 		$voteMasterId = $voteMaster->id;
 
 		$votes = Vote::where('vote_master_id', '=', $voteMasterId )->get();
-		// dd($votes);
+		
 		$resolutions = json_decode($voteMaster->vote_setting, true);
-		// dd($resolutions);
 		
 		$answer = [];
-		$nominee = [];
 		$arr = [];
+		$proxy = [];
+
 		for ($i=0; $i < count($resolutions) ; $i++) { 
 			
 			$user_type;
 			$for = $abstain = $against = $openvote = 0;
+			$amountfor = $amountabstain = $amountagainst = 0;
+			$proxyFor = $proxyAbstain = $proxyAgainst = 0;
 
 			for ($j=0; $j< count($votes) ; $j++) {
 
@@ -197,50 +200,36 @@ class Admin extends Controller
 
 				$user_type = $arr['user_type'];
 				
-				if ($user_type == 'SHARE_HOLDER'){
+				if ($user_type == "SHARE_HOLDER"){
 					
 					$ans = $arr['answers'][$resolutions[$i]["uuid"]];
 
 					if($ans == "for") {
-						// dd("Hwl");
 						$for++;
-						continue;
 					}
 					if($ans == "against"){ 
 						$against++; 
-						continue;
 					}
 					if($ans == "abstain"){
 						$abstain++;
-						continue;
 					}
 					if($ans == "openvote"){
 						$openvote++;
-						continue;
 					}
+
+					$answer[$resolutions[$i]["question"]]["shareholder"] = [
+						"for" => $for,
+						"against" => $against,
+						"abstain" => $abstain,
+						"openvote" => $openvote,
+					];
 				}
 
-				$answer[$resolutions[$i]["question"]]["shareholder"] = [
-					"for" => $for,
-					"against" => $against,
-					"abstain" => $abstain,
-					"openvote" => $openvote
-				];
-			}
-
-			$amountfor = $amountabstain = $amountagainst = 0;
-			// $resolution_answer = ["for", "against", "abstain"];
-			for ($j=0; $j< count($votes) ; $j++) {
-
-				$arr = json_decode($votes[$j]->vote, true);
-
-				$user_type = $arr['user_type'];
-
 				if($user_type == 'NOMINEE'){
-					// dd($resolutions[$i]["uuid"]);
+
 					if( array_key_exists($resolutions[$i]["uuid"] , $arr['answers'])){
 					
-						$ans = $arr['answers'][$resolutions[$i]["uuid"]];						
+						$ans = $arr['answers'][$resolutions[$i]["uuid"]];					
 						$key = array_keys($ans);
 
 						for ($k=0; $k < count($key); $k++) {
@@ -258,51 +247,53 @@ class Admin extends Controller
 								continue;
 							}
 						}
-						
+						$answer[$resolutions[$i]["question"]]["nominee"] = [
+							"for" => $amountfor,
+							"against" => $amountagainst,
+							"abstain" => $amountabstain,
+						];
+					}
+
+					/* Calculating shares for each proxy */
+					if( array_key_exists($resolutions[$i]["uuid"] , $arr['answers'])){
+						if($votes[$i]->isAppointed){
+							$appointPerson = 'Chairman';
+							$proxy[$resolutions[$i]["question"]]["proxy"] = $appointPerson;
+
+							$ans = $arr['answers'][$resolutions[$i]["uuid"]];
+							$keys = array_keys($ans);
+
+							for ($k=0; $k < count($keys); $k++) {
+
+								if( $keys[$k] == "for"){
+									$proxyFor += (int)$ans['for'];
+									continue;
+								}
+								if( $keys[$k] == "against"){
+									$proxyAgainst += (int)$ans['against'];
+									continue;
+								}
+								if( $keys[$k] == "abstain"){
+									$proxyAbstain += (int)$ans['abstain'];
+									continue;
+								}
+							}
+							
+						}
 					}
 				}
-
-				$answer[$resolutions[$i]["question"]]["nominee"] = [
-					"for" => $amountfor,
-					"against" => $amountagainst,
-					"abstain" => $amountabstain,
+				$proxy[$resolutions[$i]["question"]]['answers'] = [
+					"for" => $proxyFor,
+					"against" => $proxyAgainst,
+					"abstain" => $proxyAbstain,
 				];
 			}
 		}
-
-		// dd($answer);
-
+		
 		return view('admin.reporting')->with([
 			'users' => $users,
 			'answers' => $answer,
-			// 'resolutions' => $resolutions,
+			'proxy' => $proxy,
 		]);
 	}
 }
-
-// array:4 [▼ $arr
-//   "a8467d65-d4a7-4b13-9fb7-90ed5781a402" => "for"
-//   "8a06a647-8b67-4b59-a79b-9b100ea51281" => "against"
-//   "dec94f0f-018a-4a26-852f-3a7e1ebdd62c" => "against"
-//   "d550cc5c-9526-4da5-9918-e3b2cc77fb98" => "abstain"
-// ]
-
-
-// array:4 [▼
-//   0 => array:2 [▼
-//     "uuid" => "a8467d65-d4a7-4b13-9fb7-90ed5781a402"
-//     "question" => "questtion resolution 1"
-//   ]
-//   1 => array:2 [▼
-//     "uuid" => "8a06a647-8b67-4b59-a79b-9b100ea51281"
-//     "question" => "questtion resolution 2"
-//   ]
-//   2 => array:2 [▼
-//     "uuid" => "dec94f0f-018a-4a26-852f-3a7e1ebdd62c"
-//     "question" => "questtion resolution 3"
-//   ]
-//   3 => array:2 [▼
-//     "uuid" => "d550cc5c-9526-4da5-9918-e3b2cc77fb98"
-//     "question" => "questtion resolution 4"
-//   ]
-// ]

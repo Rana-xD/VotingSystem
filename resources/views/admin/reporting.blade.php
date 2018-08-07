@@ -64,6 +64,52 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header card-header-primary">
+						<h4 class="card-title ">Proxy Appointed</h4>
+						<p class="card-category">Proxy Appointed Listing and votes</p>
+					</div>
+
+					<div class="card-body">
+						<div class="table-responsive">
+							@if(isset($proxy))
+							@foreach($proxy as $resolution => $votes)
+							<table class="table table-striped mt-5">
+								<thead>
+									<tr class="table-secondary border-bottom">
+										<th scope="col" class="text-dark">{{ $resolution }}</th>
+									</tr>
+									<tr class="">
+										<th scope="col"></th>
+										<th scope="col" class="text-center">FOR</th>
+										<th scope="col" class="text-center">AGANIST</th>
+										<th scope="col" class="text-center">ABSTAINED</th>
+										<th scope="col" class="text-center">OPENVOTE</th>
+										<th scope="col" class="text-center">EXCLUDED</th>
+									</tr>
+								</thead>
+								<tbody>
+									
+									<tr>
+										@if(isset($votes['proxy']))
+										<th scope="row">{{ $votes['proxy'] }}</th>	
+										@endif
+										@foreach($votes['answers'] as $answer => $amount)										
+										<td class="text-center">{{ $amount }}</td>
+										@endforeach
+									</tr>
+								</tbody>
+							</table>
+							@endforeach
+							@endif
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row Total__Voted">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-primary">
 						<h4 class="card-title ">Total Voted Result</h4>
 						<p class="card-category">Detailing Voted Result</p>
 					</div>
@@ -88,13 +134,14 @@
 								</thead>
 								<tbody>
 									<tr>
-										<th scope="row">Number of shares</th>									@foreach($votes['nominee'] as $answer => $count)
+										<th scope="row">Number of shares</th>	
+										@foreach($votes["nominee"] as $answer => $count)
 										<td class="text-center">{{ $count }}</td>
 										@endforeach
 									</tr>
 									<tr>
 										<th scope="row">Number of Holders</th>
-										@foreach($votes['shareholder'] as $answer => $count)
+										@foreach($votes["shareholder"] as $answer => $count)
 										<td class="text-center">{{ $count }}</td>
 										@endforeach
 									</tr>
@@ -115,6 +162,8 @@
 				</div>
 			</div>
 		</div>
+
+		
 
 	</div>
 </div>

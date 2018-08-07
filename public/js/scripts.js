@@ -376,6 +376,7 @@
 	}
 
 	func.meetingFormSubmitHandler = function(e){
+		console.log("function called");
 		e.preventDefault();
 		var resolution = JSON.parse($('#resolution').val());
 		
@@ -393,6 +394,7 @@
 				vote['answers'][resolution[i].uuid] = overallVote[i].value;
 			}
 		} else if(roleType == 'NOMINEE') {
+			console.log("NOMINEE");
 			var overallVote = $('.resoultionRadioWrapper');
 			vote['user_type'] = "NOMINEE";
 			for ( var i = 0; i<resolution.length; i++ ){
