@@ -103,7 +103,7 @@ class Users extends Controller
 				$exitVote->vote_master_id =  $vote_master->id; 
 				$exitVote->username = $request->username ;
 
-		if($request->proxy == "isAppointed"){
+		if($request->proxy){
 			$exitVote->isAppointed = 1;
 		}else{
 			$exitVote->proxy = $request->proxyName;
@@ -140,7 +140,7 @@ class Users extends Controller
 		$vote->vote_master_id =  $vote_master->id; 
 		$vote->username = $request->username ;
 
-		if($request->proxy == "isAppointed"){
+		if($request->proxy){
 			$vote->isAppointed = 1;
 		}else{
 			$vote->proxy = $request->proxyName;
