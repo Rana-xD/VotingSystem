@@ -164,17 +164,17 @@ class Admin extends Controller
 
 		/* Get Users's info belong to meeting */
 		$meetingMasterId = MeetingMaster::where('meeting_uuid', '=', $uuid)->first()->id;
-		$meeting_user = Vote::where('vote_master_id','=', $meetingMasterId)->get();
+		$meeting_user = MeetingUser::where('meeting_uuid','=', $uuid)->get();
 		
 		// build array for fetching user
 		$username = array();
 		for ($i=0; $i < $meeting_user->count() ; $i++) {
-			array_push($username, (int)($meeting_user[$i]->username));
+			array_push($username, ($meeting_user[$i]->username));
 		}
-
+		
 		$users = new VoterInfo;
 		$users = $users->whereIn('username', $username)->get();	
-
+		
 		/* Get vote result */
 		$voteMaster = VoteMaster::where('meeting_uuid', '=', $uuid)->first();
 		$voteMasterId = $voteMaster->id;
@@ -301,12 +301,12 @@ class Admin extends Controller
 	public function pdfDownload($uuid)
 	{
 		$meetingMasterId = MeetingMaster::where('meeting_uuid', '=', $uuid)->first()->id;
-		$meeting_user = Vote::where('vote_master_id','=', $meetingMasterId)->get();
+		$meeting_user = MeetingUser::where('meeting_uuid','=', $uuid)->get();
 		
 		// build array for fetching user
 		$username = array();
 		for ($i=0; $i < $meeting_user->count() ; $i++) {
-			array_push($username, (int)($meeting_user[$i]->username));
+			array_push($username, ($meeting_user[$i]->username));
 		}
 
 		$users = new VoterInfo;
