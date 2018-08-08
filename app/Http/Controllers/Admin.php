@@ -14,6 +14,9 @@ use App\Vote;
 use Auth;
 use Session;
 use PDF;
+use App\Exports\MeetingReport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class Admin extends Controller
 {
 
@@ -439,5 +442,12 @@ class Admin extends Controller
 			'proxy' => $proxy,
 			"meeting_uuid" => $uuid
 		]);
+	}
+
+	public function exportReport($uuid)
+	{
+		// return $uuid;
+		return (new MeetingReport($uuid))->download('report.xlsx');
+
 	}
 }

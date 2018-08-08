@@ -169,8 +169,8 @@
 		</div>
 
 		@if(isset($meeting_uuid))
-		<a class="btn btn-outline-primary pull-right" href="/admin/report/pdf/{{ $meeting_uuid }}">
-								Download PDF</a>
+		<a class="btn btn-outline-primary pull-right" href="/admin/export/{{ $meeting_uuid }}">
+								Export</a>
 		@endif
 	</div>
 </div>
