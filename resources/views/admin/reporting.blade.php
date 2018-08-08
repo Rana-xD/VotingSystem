@@ -147,11 +147,9 @@
 									</tr>
 									<tr>
 										<th scope="row">Percentage</th>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+										@foreach($votes["percentage"] as $answer => $count)
+										<td class="text-center">{{ $count }}</td>
+										@endforeach
 									</tr>
 								</tbody>
 							</table>

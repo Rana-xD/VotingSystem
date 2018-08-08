@@ -186,6 +186,8 @@ class Admin extends Controller
 		$answer = [];
 		$arr = [];
 		$proxy = [];
+		$voteBehavior = [];
+		$temp = [];
 
 		for ($i=0; $i < count($resolutions) ; $i++) { 
 			
@@ -193,29 +195,20 @@ class Admin extends Controller
 			$for = $abstain = $against = $openvote = 0;
 			$amountfor = $amountabstain = $amountagainst = 0;
 			$proxyFor = $proxyAbstain = $proxyAgainst = 0;
+			$appointPerson;
 
 			for ($j=0; $j< count($votes) ; $j++) {
 
 				$arr = json_decode($votes[$j]->vote, true);
-
 				$user_type = $arr['user_type'];
 				
 				if ($user_type == "SHARE_HOLDER"){
-					
 					$ans = $arr['answers'][$resolutions[$i]["uuid"]];
 
-					if($ans == "for") {
-						$for++;
-					}
-					if($ans == "against"){ 
-						$against++; 
-					}
-					if($ans == "abstain"){
-						$abstain++;
-					}
-					if($ans == "openvote"){
-						$openvote++;
-					}
+					if($ans == "for") 		$for++;
+					if($ans == "against")	$against++; 
+					if($ans == "abstain")	$abstain++;
+					if($ans == "openvote")	$openvote++;
 
 					$answer[$resolutions[$i]["question"]]["shareholder"] = [
 						"for" => $for,
@@ -223,10 +216,38 @@ class Admin extends Controller
 						"abstain" => $abstain,
 						"openvote" => $openvote,
 					];
+
+					$hin = $votes[$j]->username;
+					$name = VoterInfo::where('username', '=', $hin)->first()->name;
+					$voteBehavior = [
+						$name => [
+							'proxy' => $appointPerson,
+							'answers' => [
+								$resolutions[$i]['question'] => [
+									"for" => $for,
+									"against" => $against,
+									"abstain" => $abstain,
+									"openvote" => $openvote,
+								],
+							],
+						]
+					];
+
+					/* Calculating how holder votes */
+					// for ($l=0; $l < count($resolutions) ; $l++) {
+					// }
+
+					/* Calculating percentage base on holder voted */
+					$numOfHolder = count($users);
+					$answer[$resolutions[$i]['question']]['percentage'] = [
+						"for" => ($for * 100 ) / $numOfHolder,
+						"against" => ($against * 100) / $numOfHolder,
+						"abstain" => ($abstain * 100) / $numOfHolder,
+						"openvote" => ($openvote * 100) / $numOfHolder,
+					];
 				}
 
 				if($user_type == 'NOMINEE'){
-
 					if( array_key_exists($resolutions[$i]["uuid"] , $arr['answers'])){
 					
 						$ans = $arr['answers'][$resolutions[$i]["uuid"]];					
@@ -289,6 +310,8 @@ class Admin extends Controller
 				];
 			}
 		}
+
+		dd($voteBehavior);
 		
 		return view('admin.reporting')->with([
 			'users' => $users,
