@@ -143,7 +143,7 @@
 									</tr>
 									<tr>
 										<th scope="row">Number of Holders</th>
-										@if(isset($vote["shareholder"]))
+										@if(isset($votes["shareholder"]))
 										@foreach($votes["shareholder"] as $answer => $count)
 										<td class="text-center">{{ $count }}</td>
 										@endforeach

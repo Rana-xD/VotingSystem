@@ -167,7 +167,7 @@ class Admin extends Controller
 
 		/* Get Users's info belong to meeting */
 		$meetingMasterId = MeetingMaster::where('meeting_uuid', '=', $uuid)->first()->id;
-		$meeting_user = MeetingUser::where('meeting_uuid','=', $uuid)->get();
+		$meeting_user = Vote::where('vote_master_id','=', $meetingMasterId)->get();
 		
 		// build array for fetching user
 		$username = array();
@@ -177,7 +177,7 @@ class Admin extends Controller
 		
 		$users = new VoterInfo;
 		$users = $users->whereIn('username', $username)->get();	
-		
+		// dd($users);
 		/* Get vote result */
 		$voteMaster = VoteMaster::where('meeting_uuid', '=', $uuid)->first();
 		$voteMasterId = $voteMaster->id;
@@ -220,25 +220,27 @@ class Admin extends Controller
 						"openvote" => $openvote,
 					];
 
-					$hin = $votes[$j]->username;
-					$name = VoterInfo::where('username', '=', $hin)->first()->name;
-					$voteBehavior = [
-						$name => [
-							'proxy' => $appointPerson,
-							'answers' => [
-								$resolutions[$i]['question'] => [
-									"for" => $for,
-									"against" => $against,
-									"abstain" => $abstain,
-									"openvote" => $openvote,
-								],
-							],
-						]
-					];
-
-					/* Calculating how holder votes */
-					// for ($l=0; $l < count($resolutions) ; $l++) {
+					// if($votes[$i]->isAppointed){
+					// 	$appointPerson = 'Chairman';
+					// }else{
+					// 	$appointPerson = $votes[$i]->proxy;
 					// }
+
+					// $hin = $votes[$j]->username;
+					// $name = VoterInfo::where('username', '=', $hin)->first()->name;
+					// $voteBehavior = [
+					// 	$name => [
+					// 		'proxy' => $appointPerson,
+					// 		'answers' => [
+					// 			$resolutions[$i]['question'] => [
+					// 				"for" => $for,
+					// 				"against" => $against,
+					// 				"abstain" => $abstain,
+					// 				"openvote" => $openvote,
+					// 			],
+					// 		],
+					// 	]
+					// ];
 
 					/* Calculating percentage base on holder voted */
 					$numOfHolder = count($users);
@@ -280,30 +282,24 @@ class Admin extends Controller
 
 					/* Calculating shares for each proxy */
 					if( array_key_exists($resolutions[$i]["uuid"] , $arr['answers'])){
-						if($votes[$i]->isAppointed){
-							$appointPerson = 'Chairman';
-							$proxy[$resolutions[$i]["question"]]["proxy"] = $appointPerson;
+						$ans = $arr['answers'][$resolutions[$i]["uuid"]];
+						$keys = array_keys($ans);
 
-							$ans = $arr['answers'][$resolutions[$i]["uuid"]];
-							$keys = array_keys($ans);
+						for ($k=0; $k < count($keys); $k++) {
 
-							for ($k=0; $k < count($keys); $k++) {
-
-								if( $keys[$k] == "for"){
-									$proxyFor += (int)$ans['for'];
-									continue;
-								}
-								if( $keys[$k] == "against"){
-									$proxyAgainst += (int)$ans['against'];
-									continue;
-								}
-								if( $keys[$k] == "abstain"){
-									$proxyAbstain += (int)$ans['abstain'];
-									continue;
-								}
+							if( $keys[$k] == "for"){
+								$proxyFor += (int)$ans['for'];
+								continue;
 							}
-							
-						}
+							if( $keys[$k] == "against"){
+								$proxyAgainst += (int)$ans['against'];
+								continue;
+							}
+							if( $keys[$k] == "abstain"){
+								$proxyAbstain += (int)$ans['abstain'];
+								continue;
+							}
+						}							
 					}
 				}
 				$proxy[$resolutions[$i]["question"]]['answers'] = [
@@ -315,7 +311,7 @@ class Admin extends Controller
 			}
 		}
 
-		dd($voteBehavior);
+		// dd($answer);
 		
 		return view('admin.reporting')->with([
 			'users' => $users,
