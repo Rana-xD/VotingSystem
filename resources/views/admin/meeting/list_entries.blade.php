@@ -36,6 +36,9 @@
 									<th class="MeetingEntry__th">
 										Status
 									</th>
+									<th>
+										
+									</th>
 								</thead>
 								<tbody class="MeetingEntry__tbody">
 								@if(isset($meetings) && $meetings->count() > 0)
@@ -59,10 +62,12 @@
 										<td class="MeetingEntry__td">
 											{{ $meeting->isExpired ? __('Closed') : __('On Going') }}
 										</td>
+										<td class="MeetingEntry__td report-btn">
+											<a href="/admin/reporting/{{ $meeting->meeting_uuid }}">
+												<button type="button" class="btn btn-primary btn-sm">Report</button>
+											</a>
+										</td>
 									</tr>
-										<a href="/admin/reporting/{{ $meeting->meeting_uuid }}">
-											<button type="button" class="btn btn-primary btn-sm">Report</button>
-										</a>
 									@endforeach
 								@endif
 								</tbody>
@@ -79,6 +84,7 @@
 <script type="text/javascript">
 	jQuery(document).ready(function($){
 		// meeting row clicked, then go to details page
+		$('.MeetingEntry__tr .report-btn').on('click', DP.main.ignoreClickInTableRow);
 		$('.MeetingEntry__tr').on('click', DP.main.meetingListClickedHandler);
 	});
 </script>

@@ -1,7 +1,6 @@
-@extends('admin.layouts.app')
+@extends('admin/layouts/download_pdf')
 
 @section('mainpanel')
-
 <div class="content MeetingEntry">
 	<div class="container-fluid">
 		
@@ -168,11 +167,7 @@
 			</div>
 		</div>
 
-		@if(isset($meeting_uuid))
-		<a class="btn btn-outline-primary pull-right" href="/admin/report/pdf/{{ $meeting_uuid }}">
-								Download PDF</a>
-		@endif
 	</div>
 </div>
-
 @endsection
+
