@@ -13,6 +13,9 @@ use App\VoteMaster;
 use App\Vote;
 use Auth;
 use Session;
+use PDF;
+use App\Exports\MeetingReport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Admin extends Controller
 {
@@ -164,17 +167,17 @@ class Admin extends Controller
 
 		/* Get Users's info belong to meeting */
 		$meetingMasterId = MeetingMaster::where('meeting_uuid', '=', $uuid)->first()->id;
-		$meeting_user = Vote::where('vote_master_id','=', $meetingMasterId)->get();
+		$meeting_user = MeetingUser::where('meeting_uuid','=', $uuid)->get();
 		
 		// build array for fetching user
 		$username = array();
 		for ($i=0; $i < $meeting_user->count() ; $i++) {
-			array_push($username, (int)($meeting_user[$i]->username));
+			array_push($username, ($meeting_user[$i]->username));
 		}
-
+		
 		$users = new VoterInfo;
 		$users = $users->whereIn('username', $username)->get();	
-
+		
 		/* Get vote result */
 		$voteMaster = VoteMaster::where('meeting_uuid', '=', $uuid)->first();
 		$voteMasterId = $voteMaster->id;
@@ -307,6 +310,7 @@ class Admin extends Controller
 					"for" => $proxyFor,
 					"against" => $proxyAgainst,
 					"abstain" => $proxyAbstain,
+					
 				];
 			}
 		}
@@ -317,6 +321,156 @@ class Admin extends Controller
 			'users' => $users,
 			'answers' => $answer,
 			'proxy' => $proxy,
+			"meeting_uuid" => $uuid
 		]);
+	}
+	public function pdfDownload($uuid)
+	{
+		$meetingMasterId = MeetingMaster::where('meeting_uuid', '=', $uuid)->first()->id;
+		$meeting_user = MeetingUser::where('meeting_uuid','=', $uuid)->get();
+		
+		// build array for fetching user
+		$username = array();
+		for ($i=0; $i < $meeting_user->count() ; $i++) {
+			array_push($username, ($meeting_user[$i]->username));
+		}
+
+		$users = new VoterInfo;
+		$users = $users->whereIn('username', $username)->get();	
+
+		/* Get vote result */
+		$voteMaster = VoteMaster::where('meeting_uuid', '=', $uuid)->first();
+		$voteMasterId = $voteMaster->id;
+
+		$votes = Vote::where('vote_master_id', '=', $voteMasterId )->get();
+		
+		$resolutions = json_decode($voteMaster->vote_setting, true);
+		
+		$answer = [];
+		$arr = [];
+		$proxy = [];
+
+		for ($i=0; $i < count($resolutions) ; $i++) { 
+			
+			$user_type;
+			$for = $abstain = $against = $openvote = 0;
+			$amountfor = $amountabstain = $amountagainst = 0;
+			$proxyFor = $proxyAbstain = $proxyAgainst = 0;
+
+			for ($j=0; $j< count($votes) ; $j++) {
+
+				$arr = json_decode($votes[$j]->vote, true);
+
+				$user_type = $arr['user_type'];
+				
+				if ($user_type == "SHARE_HOLDER"){
+					
+					$ans = $arr['answers'][$resolutions[$i]["uuid"]];
+
+					if($ans == "for") {
+						$for++;
+					}
+					if($ans == "against"){ 
+						$against++; 
+					}
+					if($ans == "abstain"){
+						$abstain++;
+					}
+					if($ans == "openvote"){
+						$openvote++;
+					}
+
+					$answer[$resolutions[$i]["question"]]["shareholder"] = [
+						"for" => $for,
+						"against" => $against,
+						"abstain" => $abstain,
+						"openvote" => $openvote,
+					];
+				}
+
+				if($user_type == 'NOMINEE'){
+
+					if( array_key_exists($resolutions[$i]["uuid"] , $arr['answers'])){
+					
+						$ans = $arr['answers'][$resolutions[$i]["uuid"]];					
+						$key = array_keys($ans);
+
+						for ($k=0; $k < count($key); $k++) {
+							
+							if( $key[$k] == "for"){
+								$amountfor += (int)$ans['for'];
+								continue;
+							}
+							if( $key[$k] == "against"){
+								$amountagainst += (int)$ans['against'];
+								continue;
+							}
+							if( $key[$k] == "abstain"){
+								$amountabstain += (int)$ans['abstain'];
+								continue;
+							}
+						}
+						$answer[$resolutions[$i]["question"]]["nominee"] = [
+							"for" => $amountfor,
+							"against" => $amountagainst,
+							"abstain" => $amountabstain,
+						];
+					}
+
+					/* Calculating shares for each proxy */
+					if( array_key_exists($resolutions[$i]["uuid"] , $arr['answers'])){
+						if($votes[$i]->isAppointed){
+							$appointPerson = 'Chairman';
+							$proxy[$resolutions[$i]["question"]]["proxy"] = $appointPerson;
+
+							$ans = $arr['answers'][$resolutions[$i]["uuid"]];
+							$keys = array_keys($ans);
+
+							for ($k=0; $k < count($keys); $k++) {
+
+								if( $keys[$k] == "for"){
+									$proxyFor += (int)$ans['for'];
+									continue;
+								}
+								if( $keys[$k] == "against"){
+									$proxyAgainst += (int)$ans['against'];
+									continue;
+								}
+								if( $keys[$k] == "abstain"){
+									$proxyAbstain += (int)$ans['abstain'];
+									continue;
+								}
+							}
+							
+						}
+					}
+				}
+				$proxy[$resolutions[$i]["question"]]['answers'] = [
+					"for" => $proxyFor,
+					"against" => $proxyAgainst,
+					"abstain" => $proxyAbstain,
+					"meeting_uuid" => $uuid
+				];
+			}
+		}
+	
+		$data = compact('users','answers','proxy');
+		$pdf = PDF::loadView('admin.pdf', $data);
+
+
+		// return $pdf->download('download.pdf');
+		return view ('admin.pdf')->with([
+			'users' => $users,
+			'answers' => $answer,
+			'proxy' => $proxy,
+			"meeting_uuid" => $uuid
+		]);
+	}
+
+	public function exportReport($uuid)
+	{
+		// return $uuid;
+		return (new MeetingReport($uuid))->download('report.xlsx');
+
 	}
 }

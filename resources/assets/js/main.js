@@ -553,6 +553,10 @@
 
 	}
 
+	func.ignoreClickInTableRow = function(e) {
+		e.stopPropagation();
+	}
+
 })(jQuery);
 
 jQuery(document).ready(function($) {

@@ -51,7 +51,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 
 	Route::get('meeting/pdf/{uuid}','Admin\MeetingController@pdfDownload')->name('meeting.pdfDownload');
 
-
+	Route::get('report/pdf/{uuid}','Admin@pdfDownload')->name('meeting.pdfDownload');
+	Route::get('export/{uuid}','Admin@exportReport');
 	Route::post('meeting/details/resolution/add', 'Admin@addResolution')->name('resolution.add');
 
 	Route::get('meeting/detailsmeeting', 'Admin\MeetingController@gotoDetailMeeting')->name('meetings.inDetail');

@@ -1,7 +1,6 @@
-@extends('admin.layouts.app')
+@extends('admin/layouts/download_pdf')
 
 @section('mainpanel')
-
 <div class="content MeetingEntry">
 	<div class="container-fluid">
 		
@@ -151,9 +150,11 @@
 									</tr>
 									<tr>
 										<th scope="row">Percentage</th>
-										@foreach($votes["percentage"] as $answer => $count)
-										<td class="text-center">{{ $count }}</td>
-										@endforeach
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
 									</tr>
 								</tbody>
 							</table>
@@ -166,11 +167,7 @@
 			</div>
 		</div>
 
-		@if(isset($meeting_uuid))
-		<a class="btn btn-outline-primary pull-right" href="/admin/export/{{ $meeting_uuid }}">
-								Export</a>
-		@endif
 	</div>
 </div>
-
 @endsection
+
