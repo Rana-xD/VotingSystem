@@ -183,7 +183,6 @@ class Admin extends Controller
 		$voteMasterId = $voteMaster->id;
 
 		$votes = Vote::where('vote_master_id', '=', $voteMasterId )->get();
-		
 		$resolutions = json_decode($voteMaster->vote_setting, true);
 		
 		$answer = [];
@@ -191,6 +190,7 @@ class Admin extends Controller
 		$proxy = [];
 		$voteBehavior = [];
 		$temp = [];
+		$appointPerson;
 
 		for ($i=0; $i < count($resolutions) ; $i++) { 
 			
@@ -198,20 +198,26 @@ class Admin extends Controller
 			$for = $abstain = $against = $openvote = 0;
 			$amountfor = $amountabstain = $amountagainst = 0;
 			$proxyFor = $proxyAbstain = $proxyAgainst = 0;
-			$appointPerson;
 
 			for ($j=0; $j< count($votes) ; $j++) {
-
 				$arr = json_decode($votes[$j]->vote, true);
 				$user_type = $arr['user_type'];
-				
 				if ($user_type == "SHARE_HOLDER"){
+					
 					$ans = $arr['answers'][$resolutions[$i]["uuid"]];
 
-					if($ans == "for") 		$for++;
-					if($ans == "against")	$against++; 
-					if($ans == "abstain")	$abstain++;
-					if($ans == "openvote")	$openvote++;
+					if($ans == "for"){
+						$for++;
+					}
+					if($ans == "against"){	
+						$against++; 
+					}
+					if($ans == "abstain"){
+						$abstain++;
+					}
+					if($ans == "openvote"){
+						$openvote++;
+					}
 
 					$answer[$resolutions[$i]["question"]]["shareholder"] = [
 						"for" => $for,
@@ -219,28 +225,6 @@ class Admin extends Controller
 						"abstain" => $abstain,
 						"openvote" => $openvote,
 					];
-
-					// if($votes[$i]->isAppointed){
-					// 	$appointPerson = 'Chairman';
-					// }else{
-					// 	$appointPerson = $votes[$i]->proxy;
-					// }
-
-					// $hin = $votes[$j]->username;
-					// $name = VoterInfo::where('username', '=', $hin)->first()->name;
-					// $voteBehavior = [
-					// 	$name => [
-					// 		'proxy' => $appointPerson,
-					// 		'answers' => [
-					// 			$resolutions[$i]['question'] => [
-					// 				"for" => $for,
-					// 				"against" => $against,
-					// 				"abstain" => $abstain,
-					// 				"openvote" => $openvote,
-					// 			],
-					// 		],
-					// 	]
-					// ];
 
 					/* Calculating percentage base on holder voted */
 					$numOfHolder = count($users);
@@ -301,23 +285,64 @@ class Admin extends Controller
 							}
 						}							
 					}
+					if($votes[$j]->isAppointed)	$appointPerson = 'Chairman';
+					else $appointPerson = $votes[$j]->proxy;
+
+					$proxy[$resolutions[$i]["question"]]['proxy'] = $appointPerson;
+					$proxy[$resolutions[$i]["question"]]['answers'] = [
+						"for" => $proxyFor,
+						"against" => $proxyAgainst,
+						"abstain" => $proxyAbstain,
+						
+					];
 				}
-				$proxy[$resolutions[$i]["question"]]['answers'] = [
-					"for" => $proxyFor,
-					"against" => $proxyAgainst,
-					"abstain" => $proxyAbstain,
-					
-				];
 			}
 		}
 
-		// dd($answer);
-		
+		for ($i=0; $i < count($votes); $i++) {
+
+			if($votes[$i]->isAppointed)	$appointPerson = 'Chairman';
+			else $appointPerson = $votes[$i]->proxy;
+
+			$hin = $votes[$i]->username;
+			$name = ucwords(VoterInfo::where('username', '=', $hin)->first()->name);
+
+			$voteBehavior[$name] = [];
+			$voteBehavior[$name]['proxy'] = $appointPerson;
+			$resAnswer = [];
+
+			for ($j=0; $j < count($resolutions); $j++) {
+
+				$arr = json_decode($votes[$i]->vote, true);
+				$user_type = $arr['user_type'];
+				$for = $against = $abstain = $abstain = 0;
+				
+				if ($user_type == "SHARE_HOLDER"){
+					$ans = $arr['answers'][$resolutions[$j]["uuid"]];
+					$resAnswer[$resolutions[$j]["question"]] = [];
+
+					if($ans == "for")	$for++;
+					if($ans == "against")	$against++; 
+					if($ans == "abstain")	$abstain++;
+					if($ans == "openvote")	$openvote++;
+					
+					$resAnswer[$resolutions[$j]["question"]] = [
+						"for"=> $for,
+						"against"=> $against,
+						"abstain"=> $abstain,
+						"openvote" => $openvote,
+					];
+				}
+			}
+			$voteBehavior[$name]['answers'] = $resAnswer;
+		}
+		// dd($proxy);
 		return view('admin.reporting')->with([
 			'users' => $users,
 			'answers' => $answer,
 			'proxy' => $proxy,
-			"meeting_uuid" => $uuid
+			"meeting_uuid" => $uuid,
+			'voteBehavior' => $voteBehavior,
 		]);
 	}
 	public function pdfDownload($uuid)

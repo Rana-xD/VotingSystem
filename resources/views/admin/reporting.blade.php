@@ -166,6 +166,56 @@
 			</div>
 		</div>
 
+		<div class="row HowHolder__Voted">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header card-header-primary">
+						<h4 class="card-title ">Holder Voted Behavior</h4>
+						<p class="card-category">How holders votes on each resolution</p>
+					</div>
+
+					<div class="card-body">
+						<div class="table-responsive">
+							@if(isset($voteBehavior))
+							@foreach($voteBehavior as $name => $votes)
+							<table class="table table-striped mt-5">
+								<thead>
+									<tr class="table-secondary border-bottom">
+										@if($votes['proxy'] == 'Chairman')
+										<th scope="col" class="text-dark">{{ $name }} nominated to Chairman</th>
+										@else
+										<th scope="col" class="text-dark">{{ $name }} nominated to proxy {{ $votes['proxy'] }}</th>
+										@endif
+									</tr>
+									<tr class="">
+										<th scope="col">{{ $name }}</th>
+										<th scope="col" class="text-center">FOR</th>
+										<th scope="col" class="text-center">AGANIST</th>
+										<th scope="col" class="text-center">ABSTAINED</th>
+										<th scope="col" class="text-center">OPENVOTE</th>
+										<th scope="col" class="text-center">EXCLUDED</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($votes['answers'] as $resolution => $answer)
+									<tr>
+										<th scope="col">{{ $resolution }}</th>
+										@foreach($answer as $check => $count)
+										<td class="text-center" colspan="" rowspan="" headers="">{{ $count }}</td>
+										@endforeach
+									</tr>
+									@endforeach
+								</tbody>
+							</table>
+							@endforeach
+							@endif
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
 		@if(isset($meeting_uuid))
 		<a class="btn btn-outline-primary pull-right" href="/admin/export/{{ $meeting_uuid }}">
 								Export</a>
