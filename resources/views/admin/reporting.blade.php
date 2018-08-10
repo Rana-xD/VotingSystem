@@ -69,7 +69,7 @@
 					</div>
 
 					<div class="card-body">
-						<div class="table-responsive">
+						<div class="table-responsive Proxy__Appointed">
 							@if(isset($proxy))
 							@foreach($proxy as $resolution => $votes)
 							<table class="table table-striped mt-5">
@@ -115,7 +115,7 @@
 					</div>
 
 					<div class="card-body">
-						<div class="table-responsive">
+						<div class="table-responsive Total__Voted__Result">
 							@if(isset($answers))
 							@foreach($answers as $resolution => $votes)
 							<table class="table table-striped mt-5">
@@ -175,7 +175,7 @@
 					</div>
 
 					<div class="card-body">
-						<div class="table-responsive">
+						<div class="table-responsive Holder__Voted__Behavior">
 							@if(isset($voteBehavior))
 							@foreach($voteBehavior as $name => $votes)
 							<table class="table table-striped mt-5">
@@ -223,4 +223,14 @@
 	</div>
 </div>
 
+@endsection
+@section('execute_script')
+<script>
+jQuery(document).ready(function($){
+
+	var uuid = "<?php echo $meeting_uuid?>";
+	DP.main.listenToNewVote(uuid);
+	
+});
+</script>
 @endsection

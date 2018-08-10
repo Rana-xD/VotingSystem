@@ -58,6 +58,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
 	Route::get('meeting/detailsmeeting', 'Admin\MeetingController@gotoDetailMeeting')->name('meetings.inDetail');
 
 	Route::get('reporting/{uuid}', 'Admin@getMeetingReport');
+	Route::post('ajax/reporting','Admin@getMeetingReportThroughAjax');	
 });
 
 // ********************** User Route **********************

@@ -557,6 +557,224 @@
 		e.stopPropagation();
 	}
 
+	func.listenToNewVote = function(uuid){
+		Echo.private('meeting-'+uuid)
+		.listen('NewVote',(meeting_uuid)=>{
+			console.log(meeting_uuid);
+			$.ajax({
+	 			url: '/admin/ajax/reporting',
+	 			type: 'POST',
+	 			dataType: 'json',
+	 			data: {
+					 meeting_uuid : meeting_uuid
+				 },
+	 			success: function(response) {
+					 /**
+					  * append to user
+					  */
+					 $('.MeetingEntry__table tbody').empty();
+					 for(var i=0;i<response.users.length;i++)
+					 {
+						$(".MeetingEntry__table tbody").append("<tr class='MeetingEntry__record MeetingEntry__tr ObjectRecord'>"+									
+						"<td class='MeetingEntry__td'>"+
+							response.users[i].username+
+						"</td>"+
+						"<td class='MeetingEntry__td'>"+
+						response.users[i].name+
+						"</td>"+
+						"<td class='MeetingEntry__td'>"+
+						response.users[i].address+
+						"</td>"+
+						"<td class='MeetingEntry__td'>"+
+						response.users[i].number_of_share+
+						"</td>"+
+					"</tr>");
+					 }
+					
+					 /**
+					  * append to Proxy Appointed
+					  */
+					 if(response.proxy)
+					 {
+						$('.Proxy__Appointed table').remove();
+					 for(resolution in response.proxy)
+					 {
+						var answerString = "";
+						for(amount in response.proxy[resolution].answers)
+						{
+							answerString += "<td class='text-center'>"+response.proxy[resolution].answers[amount]+"</td>\n"; 
+						}
+						 $('.Proxy__Appointed').append(
+							"<table class='table table-striped mt-5'>"+
+								"<thead>"+
+									"<tr class='table-secondary border-bottom'>"+
+										"<th scope='col' class='text-dark'>"+resolution+"</th>"+
+									"</tr>"+
+									"<tr class=''>"+
+										"<th scope='col'></th>"+
+										"<th scope='col' class='text-center'>FOR</th>"+
+										"<th scope='col' class='text-center'>AGANIST</th>"+
+										"<th scope='col' class='text-center'>ABSTAINED</th>"+
+										"<th scope='col' class='text-center'>OPENVOTE</th>"+
+										"<th scope='col' class='text-center'>EXCLUDED</th>"+
+									"</tr>"+
+								"</thead>"+
+								"<tbody>"+
+									"<tr>"+
+										"<th scope='row'>"+response.proxy[resolution].proxy+"</th>	"+
+										answerString+
+									"</tr>"+
+								"</tbody>"+
+							"</table>"
+						 );
+						 
+						 
+					 }
+					 }
+					 /**
+					  * append for total vote result
+					  */
+					 if(response.answers)
+					 {
+						$('.Total__Voted__Result table').remove();
+						
+						for(resolution in response.answers)
+						{
+							var nominee = "",
+								shareholder = "",
+								percentage = "";
+							if(response.answers[resolution].nominee)
+							{
+								for(count in response.answers[resolution].nominee)
+								{
+									nominee += "<td class='text-center'>"+response.answers[resolution].nominee[count]+"</td>\n";
+								}
+							}
+							if(response.answers[resolution].shareholder)
+							{
+								for(count in response.answers[resolution].shareholder)
+								{
+									shareholder += "<td class='text-center'>"+response.answers[resolution].shareholder[count]+"</td>\n";
+								}
+							}
+
+							for(count in response.answers[resolution].percentage)
+							{
+								percentage += "<td class='text-center'>"+response.answers[resolution].percentage[count]+"</td>\n"
+							}
+
+							$('.Total__Voted__Result').append(
+								"<table class='table table-striped mt-5'>"+
+								"<thead>"+
+									"<tr class='table-secondary border-bottom'>"+
+										"<th scope='col' class='text-dark'>"+ resolution +"</th>"+
+									"</tr>"+
+									"<tr class=''>"+
+										"<th scope='col'></th>"+
+										"<th scope='col' class='text-center'>FOR</th>"+
+										"<th scope='col' class='text-center'>AGANIST</th>"+
+										"<th scope='col' class='text-center'>ABSTAINED</th>"+
+										"<th scope='col' class='text-center'>OPENVOTE</th>"+
+										"<th scope='col' class='text-center'>EXCLUDED</th>"+
+									"</tr>"+
+								"</thead>"+
+								"<tbody>"+
+									"<tr>"+
+										"<th scope='row'>Number of shares</th>"+	
+										// @if(isset($votes["nominee"]))
+										// @foreach($votes["nominee"] as $answer => $count)
+										// <td class="text-center">{{ $count }}</td>
+										// @endforeach
+										// @endif
+										nominee+
+									"</tr>"+
+									"<tr>"+
+										"<th scope='row'>Number of Holders</th>"+
+										// @if(isset($votes["shareholder"]))
+										// @foreach($votes["shareholder"] as $answer => $count)
+										// <td class="text-center">{{ $count }}</td>
+										// @endforeach
+										// @endif
+										shareholder+
+									"</tr>"+
+									"<tr>"+
+										"<th scope='row'>Percentage</th>"+
+										// @foreach($votes["percentage"] as $answer => $count)
+										// <td class="text-center">{{ $count }}</td>
+										// @endforeach
+										percentage+
+									"</tr>"+
+								"</tbody>"+
+							"</table>"
+							);
+						}
+					 }
+					 /**
+					  * append user behavior
+					  */
+					 if(response.voteBehavior)
+					 {
+						$('.Holder__Voted__Behavior table').remove();
+						for(name in response.voteBehavior)
+						{
+							var roleNmae = response.voteBehavior[name].proxy == 'Chairman' ?
+							`<th scope='col' class='text-dark'> ${name} nominated to Chairman</th>` : 
+							`<th scope="col" class="text-dark">${name} nominated to proxy ${response.voteBehavior[name].proxy}</th>`;
+
+							var tbodyChile= "";
+							
+							for(resolution in response.voteBehavior[name].answers)
+							{
+								tbodyChile += "<tr>\n"+
+										 "<th scope='col'>"+resolution+"</th>\n";
+										 for(count in response.voteBehavior[name].answers[resolution])
+										 {
+
+											tbodyChile +="<td class='text-center' colspan='' rowspan='' headers=''>"+response.voteBehavior[name].answers[resolution][count]+"</td>\n";
+										 }
+								tbodyChile +="</tr>\n"	 
+							}
+
+							$('.Holder__Voted__Behavior').append(
+								"<table class='table table-striped mt-5'>"+
+								"<thead>"+
+									"<tr class='table-secondary border-bottom'>"+
+										roleNmae +
+									"</tr>"+
+									"<tr class=''>"+
+										"<th scope='col'>"+name+"</th>"+
+										"<th scope='col' class='text-center'>FOR</th>"+
+										"<th scope='col' class='text-center'>AGANIST</th>"+
+										"<th scope='col' class='text-center'>ABSTAINED</th>"+
+										"<th scope='col' class='text-center'>OPENVOTE</th>"+
+										"<th scope='col' class='text-center'>EXCLUDED</th>"+
+									"</tr>"+
+								"</thead>"+
+								"<tbody>"+
+									// @foreach($votes['answers'] as $resolution => $answer)
+									// <tr>
+									// 	<th scope="col">{{ $resolution }}</th>
+									// 	@foreach($answer as $check => $count)
+									// 	<td class="text-center" colspan="" rowspan="" headers="">{{ $count }}</td>
+									// 	@endforeach
+									// </tr>
+									// @endforeach
+									tbodyChile+
+								"</tbody>"+
+							"</table>"
+							);
+						}
+					 }
+					 
+	 			},
+	 			error: function(error) {
+	 				console.log(error);
+	 				reject(error);
+	 			}
+	 		})
+		});
+	}
+
 })(jQuery);
 
 jQuery(document).ready(function($) {

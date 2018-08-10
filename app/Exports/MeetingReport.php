@@ -40,10 +40,10 @@ class MeetingReport implements FromQuery,WithHeadings,WithTitle
     public function headings(): array
     {
         return [
-            'username',
-            'name',
-            'address',
-            'number_of_share'
+            'HIN/SRN',
+            'NAME',
+            'ADDRESS',
+            'NUMBER OF SHARES'
 
         ];
     }

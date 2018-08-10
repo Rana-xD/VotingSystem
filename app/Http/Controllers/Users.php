@@ -8,7 +8,8 @@ use App\MeetingUser;
 use App\MeetingMaster;
 use App\VoterInfo;
 use App\VoteMaster;
-use \App\Vote;
+use App\Vote;
+use App\Events\NewVote;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Users extends Controller
@@ -117,7 +118,7 @@ class Users extends Controller
 				"message" => "Vote successfully updated."
 			]
 		]; 
-
+		event(new NewVote($request->meeting_uuid));
 		return $request->expectsJson() ? response()->json($responseData) 
 		: redirect()->back()->with($responseData);
 			}
@@ -154,7 +155,7 @@ class Users extends Controller
 				"message" => "Vote successfully submitted."
 			]
 		]; 
-
+		event(new NewVote($request->meeting_uuid));
 		return $request->expectsJson() ? response()->json($responseData) 
 		: redirect()->back()->with($responseData);
 			}

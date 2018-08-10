@@ -162,7 +162,7 @@ class Admin extends Controller
 	}
 
 	public function getMeetingReport($uuid){
-
+		
 		/* Check if uuid is existed */
 
 		/* Get Users's info belong to meeting */
@@ -344,32 +344,40 @@ class Admin extends Controller
 			"meeting_uuid" => $uuid,
 			'voteBehavior' => $voteBehavior,
 		]);
+		
 	}
-	public function pdfDownload($uuid)
+
+	public function getMeetingReportThroughAjax(Request $request)
 	{
+		$uuid = $request->meeting_uuid;
+		/* Check if uuid is existed */
+
+		/* Get Users's info belong to meeting */
 		$meetingMasterId = MeetingMaster::where('meeting_uuid', '=', $uuid)->first()->id;
-		$meeting_user = MeetingUser::where('meeting_uuid','=', $uuid)->get();
+		$meeting_user = Vote::where('vote_master_id','=', $meetingMasterId)->get();
 		
 		// build array for fetching user
 		$username = array();
 		for ($i=0; $i < $meeting_user->count() ; $i++) {
 			array_push($username, ($meeting_user[$i]->username));
 		}
-
+		
 		$users = new VoterInfo;
 		$users = $users->whereIn('username', $username)->get();	
-
+		// dd($users);
 		/* Get vote result */
 		$voteMaster = VoteMaster::where('meeting_uuid', '=', $uuid)->first();
 		$voteMasterId = $voteMaster->id;
 
 		$votes = Vote::where('vote_master_id', '=', $voteMasterId )->get();
-		
 		$resolutions = json_decode($voteMaster->vote_setting, true);
 		
 		$answer = [];
 		$arr = [];
 		$proxy = [];
+		$voteBehavior = [];
+		$temp = [];
+		$appointPerson;
 
 		for ($i=0; $i < count($resolutions) ; $i++) { 
 			
@@ -379,19 +387,16 @@ class Admin extends Controller
 			$proxyFor = $proxyAbstain = $proxyAgainst = 0;
 
 			for ($j=0; $j< count($votes) ; $j++) {
-
 				$arr = json_decode($votes[$j]->vote, true);
-
 				$user_type = $arr['user_type'];
-				
 				if ($user_type == "SHARE_HOLDER"){
 					
 					$ans = $arr['answers'][$resolutions[$i]["uuid"]];
 
-					if($ans == "for") {
+					if($ans == "for"){
 						$for++;
 					}
-					if($ans == "against"){ 
+					if($ans == "against"){	
 						$against++; 
 					}
 					if($ans == "abstain"){
@@ -407,10 +412,18 @@ class Admin extends Controller
 						"abstain" => $abstain,
 						"openvote" => $openvote,
 					];
+
+					/* Calculating percentage base on holder voted */
+					$numOfHolder = count($users);
+					$answer[$resolutions[$i]['question']]['percentage'] = [
+						"for" => ($for * 100 ) / $numOfHolder,
+						"against" => ($against * 100) / $numOfHolder,
+						"abstain" => ($abstain * 100) / $numOfHolder,
+						"openvote" => ($openvote * 100) / $numOfHolder,
+					];
 				}
 
 				if($user_type == 'NOMINEE'){
-
 					if( array_key_exists($resolutions[$i]["uuid"] , $arr['answers'])){
 					
 						$ans = $arr['answers'][$resolutions[$i]["uuid"]];					
@@ -440,58 +453,93 @@ class Admin extends Controller
 
 					/* Calculating shares for each proxy */
 					if( array_key_exists($resolutions[$i]["uuid"] , $arr['answers'])){
-						if($votes[$i]->isAppointed){
-							$appointPerson = 'Chairman';
-							$proxy[$resolutions[$i]["question"]]["proxy"] = $appointPerson;
+						$ans = $arr['answers'][$resolutions[$i]["uuid"]];
+						$keys = array_keys($ans);
 
-							$ans = $arr['answers'][$resolutions[$i]["uuid"]];
-							$keys = array_keys($ans);
+						for ($k=0; $k < count($keys); $k++) {
 
-							for ($k=0; $k < count($keys); $k++) {
-
-								if( $keys[$k] == "for"){
-									$proxyFor += (int)$ans['for'];
-									continue;
-								}
-								if( $keys[$k] == "against"){
-									$proxyAgainst += (int)$ans['against'];
-									continue;
-								}
-								if( $keys[$k] == "abstain"){
-									$proxyAbstain += (int)$ans['abstain'];
-									continue;
-								}
+							if( $keys[$k] == "for"){
+								$proxyFor += (int)$ans['for'];
+								continue;
 							}
-							
-						}
+							if( $keys[$k] == "against"){
+								$proxyAgainst += (int)$ans['against'];
+								continue;
+							}
+							if( $keys[$k] == "abstain"){
+								$proxyAbstain += (int)$ans['abstain'];
+								continue;
+							}
+						}							
 					}
+					if($votes[$j]->isAppointed)	$appointPerson = 'Chairman';
+					else $appointPerson = $votes[$j]->proxy;
+
+					$proxy[$resolutions[$i]["question"]]['proxy'] = $appointPerson;
+					$proxy[$resolutions[$i]["question"]]['answers'] = [
+						"for" => $proxyFor,
+						"against" => $proxyAgainst,
+						"abstain" => $proxyAbstain,
+						
+					];
 				}
-				$proxy[$resolutions[$i]["question"]]['answers'] = [
-					"for" => $proxyFor,
-					"against" => $proxyAgainst,
-					"abstain" => $proxyAbstain,
-					"meeting_uuid" => $uuid
-				];
 			}
 		}
-	
-		$data = compact('users','answers','proxy');
-		$pdf = PDF::loadView('admin.pdf', $data);
 
+		for ($i=0; $i < count($votes); $i++) {
 
-		// return $pdf->download('download.pdf');
-		return view ('admin.pdf')->with([
+			if($votes[$i]->isAppointed)	$appointPerson = 'Chairman';
+			else $appointPerson = $votes[$i]->proxy;
+
+			$hin = $votes[$i]->username;
+			$name = ucwords(VoterInfo::where('username', '=', $hin)->first()->name);
+
+			$voteBehavior[$name] = [];
+			$voteBehavior[$name]['proxy'] = $appointPerson;
+			$resAnswer = [];
+
+			for ($j=0; $j < count($resolutions); $j++) {
+
+				$arr = json_decode($votes[$i]->vote, true);
+				$user_type = $arr['user_type'];
+				$for = $against = $abstain = $abstain = 0;
+				
+				if ($user_type == "SHARE_HOLDER"){
+					$ans = $arr['answers'][$resolutions[$j]["uuid"]];
+					$resAnswer[$resolutions[$j]["question"]] = [];
+
+					if($ans == "for")	$for++;
+					if($ans == "against")	$against++; 
+					if($ans == "abstain")	$abstain++;
+					if($ans == "openvote")	$openvote++;
+					
+					$resAnswer[$resolutions[$j]["question"]] = [
+						"for"=> $for,
+						"against"=> $against,
+						"abstain"=> $abstain,
+						"openvote" => $openvote,
+					];
+				}
+			}
+			$voteBehavior[$name]['answers'] = $resAnswer;
+		}
+		// dd($proxy);
+		
+		$data = [
 			'users' => $users,
 			'answers' => $answer,
 			'proxy' => $proxy,
-			"meeting_uuid" => $uuid
-		]);
+			"meeting_uuid" => $uuid,
+			'voteBehavior' => $voteBehavior,
+		];
+		return response()->json($data);
+
 	}
 
 	public function exportReport($uuid)
 	{
 		// return $uuid;
-		return (new MeetingReport($uuid))->download('report.xlsx');
+		return (new MeetingReport($uuid))->download('meeting-'.$uuid.'.xlsx');
 
 	}
 }
