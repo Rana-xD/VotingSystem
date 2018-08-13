@@ -156,6 +156,8 @@ class Users extends Controller
 			]
 		]; 
 		event(new NewVote($request->meeting_uuid));
+
+		
 		return $request->expectsJson() ? response()->json($responseData) 
 		: redirect()->back()->with($responseData);
 			}
