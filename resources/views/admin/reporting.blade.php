@@ -68,7 +68,7 @@
 						<p class="card-category">Proxy Appointed Listing and votes</p>
 					</div>
 
-					<div class="card-body">
+					<!-- <div class="card-body">
 						<div class="table-responsive Proxy__Appointed">
 							@if(isset($proxy))
 							@foreach($proxy as $resolution => $votes)
@@ -101,7 +101,7 @@
 							@endforeach
 							@endif
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

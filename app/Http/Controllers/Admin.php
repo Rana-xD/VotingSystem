@@ -299,25 +299,29 @@ class Admin extends Controller
 			}
 		}
 
-		for ($i=0; $i < count($votes); $i++) {
-
-			if($votes[$i]->isAppointed)	$appointPerson = 'Chairman';
-			else $appointPerson = $votes[$i]->proxy;
+				for ($i=0; $i < count($votes); $i++) {
 
 			$hin = $votes[$i]->username;
-			$name = ucwords(VoterInfo::where('username', '=', $hin)->first()->name);
+			$role = User::findOrFail($hin)->role;
+			
+			if($role == 'NOMINEE'){
+				continue;
+			}else{
 
-			$voteBehavior[$name] = [];
-			$voteBehavior[$name]['proxy'] = $appointPerson;
-			$resAnswer = [];
+				if($votes[$i]->isAppointed)	$appointPerson = 'Chairman';
+				else $appointPerson = $votes[$i]->proxy;
 
-			for ($j=0; $j < count($resolutions); $j++) {
+				$name = ucwords(VoterInfo::where('username', '=', $hin)->first()->name);
+				$voteBehavior[$name] = [];
+				$voteBehavior[$name]['proxy'] = $appointPerson;
+				$resAnswer = [];
 
-				$arr = json_decode($votes[$i]->vote, true);
-				$user_type = $arr['user_type'];
-				$for = $against = $abstain = $abstain = 0;
-				
-				if ($user_type == "SHARE_HOLDER"){
+				for ($j=0; $j < count($resolutions); $j++) {
+
+					$arr = json_decode($votes[$i]->vote, true);
+					$user_type = $arr['user_type'];
+					$for = $against = $abstain = $abstain = 0;
+					
 					$ans = $arr['answers'][$resolutions[$j]["uuid"]];
 					$resAnswer[$resolutions[$j]["question"]] = [];
 
@@ -336,7 +340,48 @@ class Admin extends Controller
 			}
 			$voteBehavior[$name]['answers'] = $resAnswer;
 		}
-		// dd($proxy);
+
+		/* Calculating shares for each proxy */
+		$toChairman = [];
+		$toProxy = [];
+		$test = [];
+		$toProxy['Chairman'] = [];
+
+		for ($i=0; $i < count($votes); $i++) {
+			$role = User::where('username', '=', $votes[$i]->username)->first()->role;
+			if($role == 'SHARE_HOLDER') continue;
+			if($votes[$i]->isAppointed){
+				array_push($toProxy['Chairman'] ,  $votes[$i]->username);
+			}else{
+				if(!array_key_exists($votes[$i]->proxy, $toProxy)){
+					$toProxy[$votes[$i]->proxy] = [];
+					array_push($toProxy[$votes[$i]->proxy], $votes[$i]->username);
+					continue;
+				}
+				array_push($toProxy[$votes[$i]->proxy], $votes[$i]->username);
+			}
+		}
+
+		$toProxyKeys = array_keys($toProxy);
+		$lastProxy = []; // data to pass to client
+		for ($i=0; $i < count($toProxyKeys) ; $i++) {
+			$lastProxy[$toProxyKeys[$i]] = [];
+			for ($j=0; $j < count($toProxy[$toProxyKeys[$i]]); $j++) {
+				
+				$username = $toProxy[$toProxyKeys[$i]][$j];
+				$votes = json_decode(Vote::where('username', '=', $username)->first()->vote, true);
+
+				$value = [];
+				for ($l=0; $l < count($resolutions); $l++) {
+					/* Calculating shares for each proxy */
+					if( array_key_exists($resolutions[$l]["uuid"] , $votes['answers'])){
+						$value[$resolutions[$l]["question"]] = $votes['answers'][$resolutions[$l]["uuid"]];						
+					}
+				}
+				array_push($lastProxy[$toProxyKeys[$i]], $value);
+			}
+		}
+		// dd($lastProxy);
 		return view('admin.reporting')->with([
 			'users' => $users,
 			'answers' => $answer,
